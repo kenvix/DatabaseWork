@@ -1,0 +1,1 @@
+package com.kenvix.bookmgr.contacts.generic

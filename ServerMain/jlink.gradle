@@ -1,0 +1,31 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.glassfish.jaxb:jaxb-runtime:2.3.2'
+        classpath 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.2'
+    }
+}
+
+dependencies {
+    runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.2'
+    runtime 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.2'
+}
+
+jlink {
+    setMainClassName(System.getProperties().getProperty("project.mainClassName"))
+    options = ['--bind-services', '--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+
+    forceMerge 'jakarta'
+    mergedModule {
+        additive = true
+        uses 'javax.xml.bind.JAXBContextFactory'
+    }
+
+    launcher {
+        name = 'bookmgr'
+        jvmArgs = ['-Dkenvix.moduled=true', '-Dfile.encoding=UTF-8']
+    }
+}
