@@ -30,9 +30,6 @@ object Main : CoroutineScope {
             }.onFailure { showErrorAndExit(it, 2, "WebService initialized failed") }
         }
 
-        // Backend support
-        // Backend.connectAndRetry()
-
         beginReadSystemConsole()
     }
 

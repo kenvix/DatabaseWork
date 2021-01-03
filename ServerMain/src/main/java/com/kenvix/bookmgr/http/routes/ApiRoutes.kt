@@ -29,9 +29,6 @@ class ApiRoutes : KtorModule {
                 controller("/user", UserController)
                 controller("/session", SessionController)
                 controller("/tools", ToolsController)
-                controller("/exam/student", ExamStudentController)
-                controller("/exam/teacher", ExamTeacherController)
-                controller("/exam/ws", WSController)
             }
         }
     }

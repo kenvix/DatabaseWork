@@ -3,7 +3,7 @@ package com.kenvix.bookmgr.http.middleware
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
-import com.kenvix.bookmgr.contacts.generic.Role
+import com.kenvix.bookmgr.contacts.generic.AccessLevel
 import com.kenvix.bookmgr.model.mysql.UserModel
 import com.kenvix.bookmgr.orm.tables.pojos.User
 import com.kenvix.utils.preferences.ServerEnv
@@ -47,7 +47,7 @@ object CheckUserToken : Middleware<User> {
             user.password.substring(passwordBeginIndex, passwordBeginIndex + passwordPrefixLength)
                     .validateValue { it == verify.getClaim("pt").asString() }
 
-            user.role.validateValue { it != Role.Banned && it != Role.Unknown }
+            user.role.validateValue { it != AccessLevel.Banned && it != AccessLevel.Unknown }
 
             return user
         } catch (e: Exception) {

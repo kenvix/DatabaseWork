@@ -2,19 +2,12 @@
 
 package com.kenvix.bookmgr.http.utils
 
-import com.kenvix.bookmgr.contacts.generic.Role
+import com.kenvix.bookmgr.contacts.generic.AccessLevel
 import com.kenvix.bookmgr.contacts.generic.UserDTO
 import com.kenvix.bookmgr.contacts.generic.UserId
-import com.kenvix.bookmgr.contacts.server.PersonPO
-import com.kenvix.bookmgr.model.mongo.PersonDocument
-import com.kenvix.bookmgr.model.mysql.UserModel
 import com.kenvix.bookmgr.orm.tables.pojos.User
 import com.kenvix.web.utils.validateValue
-import io.ktor.locations.KtorExperimentalLocationsAPI
-import io.ktor.locations.Location
-import org.bson.types.ObjectId
-import org.litote.kmongo.Id
-import org.litote.kmongo.id.toId
+import io.ktor.locations.*
 import org.mindrot.jbcrypt.BCrypt
 import java.util.regex.Pattern
 
@@ -25,15 +18,13 @@ class UserIDLocation(val id: UserId)
 fun User.toUserDTO(token: String? = null): UserDTO {
     return UserDTO(
             uid = this.uid,
-            name = this.name,
+            serialId = this.serialId,
+            realName = this.realName,
             email = this.email ?: "",
-            createTime = this.createTime.time,
-            phone = this.phone,
-            createIp = this.createIp,
-            loginTime = this.loginTime.time,
-            loginIp = this.loginIp,
-            role = this.role,
-            personId = this.mongoKey,
+            createdAt = this.createdAt.time,
+            accessLevel = this.accessLevel,
+            ipCreation = this.ipCreation,
+            ipLogin = this.ipLogin,
             token = token
     )
 }
@@ -41,39 +32,27 @@ fun User.toUserDTO(token: String? = null): UserDTO {
 fun User.toBasicUserDTO(): UserDTO {
     return UserDTO(
             uid = this.uid,
-            name = this.name,
-            createTime = this.createTime.time,
-            loginTime = this.loginTime.time,
-            role = this.role,
-            personId = this.mongoKey
+            serialId = this.serialId,
+            realName = this.realName,
+            accessLevel = this.accessLevel,
     )
 }
 
 fun UserDTO.toUser(): User {
     return User().apply {
         uid = this.uid
-        name = this.name
+        serialId = this.serialId
         email = if(this.email.isBlank()) null else email
-        createTime = this.createTime
-        loginTime = this.loginTime
-        createIp = this.createIp
-        loginIp = this.loginIp
-        role = this.role
+        createdAt = this.createdAt
+        ipCreation = this.ipCreation
+        realName = this.realName
+        ipLogin = this.ipLogin
+        accessLevel = this.accessLevel
     }
 }
 
-fun getUserIdToMongoKeyListFromUserIdsString(uidList: List<String>?): Map<UserId, Id<PersonPO>> {
-    return uidList?.mapNotNull {
-        val uid = it.toLong()
-        val key = UserModel.fetchOneBasicInformationByUid(uid)?.mongoKey
-        if (key != null) uid to ObjectId(key).toId<PersonPO>() else null
-    }?.toMap() ?: emptyMap()
-}
-
-suspend fun User.getPerson() = PersonDocument.findOneByMongoKey(mongoKey)
-
-val User.isAdmin
-    get() = this.role == Role.Admin
+val User.isSuperAdmin
+    get() = this.accessLevel == AccessLevel.SuperAdmin
 
 private const val emailValidateRule = "^\\w+((-\\w+)|(\\.\\w+))*@\\w+(\\.\\w{2,3}){1,3}$"
 private val emailValidatePattern = Pattern.compile(emailValidateRule)

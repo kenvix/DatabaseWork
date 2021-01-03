@@ -1,9 +1,9 @@
 package com.kenvix.bookmgr.http.controller.api
 
 import com.kenvix.bookmgr.contacts.generic.IDResultDTO
-import com.kenvix.bookmgr.contacts.generic.Role
+import com.kenvix.bookmgr.contacts.generic.AccessLevel
 import com.kenvix.bookmgr.contacts.server.PersonPO
-import com.kenvix.bookmgr.http.middleware.CheckAdminToken
+import com.kenvix.bookmgr.http.middleware.CheckSuperAdminToken
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
 import com.kenvix.bookmgr.http.utils.*
 import com.kenvix.bookmgr.model.mongo.PersonDocument
@@ -54,7 +54,7 @@ internal object UserController : ApiBaseController() {
             password = postParameters.getOrFail<String>("password").toPasswordHash()
             email = postParameters["email"]?.validateEmail()
             phone = postParameters.getOrFail<String>("phone").validatePhoneNumber()
-            role = Role.User
+            role = AccessLevel.User
             createTime = timeNow
             loginTime = timeNow
             createIp = call.request.origin.remoteHost
@@ -81,7 +81,7 @@ internal object UserController : ApiBaseController() {
      * Delete user
      */
     private suspend fun PipelineContext<Unit, ApplicationCall>.deleteUser(userLocation: UserIDLocation) {
-        val callerUser = middleware(CheckAdminToken)
+        val callerUser = middleware(CheckSuperAdminToken)
         UserModel.deleteById(userLocation.id)
         respondJson(IDResultDTO(callerUser.uid))
     }
@@ -111,7 +111,7 @@ internal object UserController : ApiBaseController() {
 
         val callerUser = middleware(CheckUserToken)
         if (userLocation.id != callerUser.uid)
-            middleware(CheckAdminToken)
+            middleware(CheckSuperAdminToken)
 
         val user = callerUser.apply {
             uid = userLocation.id
