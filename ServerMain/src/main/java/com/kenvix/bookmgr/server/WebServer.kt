@@ -4,12 +4,8 @@ import com.kenvix.bookmgr.BuildConfig
 import com.kenvix.utils.preferences.ServerEnv
 import com.kenvix.web.server.CachedClasses
 import com.kenvix.web.server.KtorModule
-import com.mongodb.ConnectionString
-import com.mongodb.MongoClientSettings
-import com.mongodb.MongoCredential
-import com.mongodb.ServerAddress
-import io.ktor.application.Application
-import io.ktor.util.KtorExperimentalAPI
+import io.ktor.application.*
+import io.ktor.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,10 +18,6 @@ import org.jooq.conf.RenderMapping
 import org.jooq.conf.Settings
 import org.jooq.impl.DSL
 import org.jooq.impl.DefaultConfiguration
-import org.litote.kmongo.coroutine.CoroutineClient
-import org.litote.kmongo.coroutine.CoroutineDatabase
-import org.litote.kmongo.coroutine.coroutine
-import org.litote.kmongo.reactivestreams.KMongo
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.slf4j.LoggerFactory
@@ -67,13 +59,6 @@ object WebServer {
     lateinit var dataSource: BasicDataSource
         private set
 
-    lateinit var mongoClient: CoroutineClient
-        private set
-
-    lateinit var mongoDatabase: CoroutineDatabase
-        private set
-
-
     init {
         if(System.getProperty("hotReloadSupported")?.toBoolean() == true)
             println("CREATED WEB SERVER INTANCE " + hashCode() + " / LOADER " + javaClass.classLoader)
@@ -84,11 +69,10 @@ object WebServer {
         preload()
 
         logger.info("Starting database pool")
-        val mysql = launch { startMongoDatabasePool() }
-        val mongo = launch { startMySQLDatabasePool() }
+        val mysql = launch { startMySQLDatabasePool() }
         logger.debug("Waiting database online ...")
         mysql.join()
-        mongo.join()
+        testMySQLConnection()
 
         logger.info("Starting HTTP Server")
         startHttpServer()
@@ -129,42 +113,13 @@ object WebServer {
                 .withRenderSchema(false)
 
             realJooqConfiguration = DefaultConfiguration().set(settings).set(dataSource).set(SQLDialect.MYSQL)
-
-            val version = dslContext.resultQuery("SHOW VARIABLES LIKE \"version\";")
-                    .also { it.execute() }.result[0].valuesRow()
-            logger.info("Mysql Database connection test pass! $version")
         }
     }
 
-    internal suspend fun startMongoDatabasePool() = withContext(Dispatchers.IO) {
-        if (!this@WebServer::mongoClient.isInitialized && ServerEnv.MongoEnabled) {
-            val address = ServerAddress(ServerEnv.MongoHost, ServerEnv.MongoPort)
-            val conn = ConnectionString("mongodb://${address.host}:" +
-                    "${address.port}/${ServerEnv.MongoDatabaseName}?w=majority")
-
-            logger.info("Loading Mongo Database: $conn")
-
-
-            val options = MongoClientSettings.builder().apply {
-                applicationName(ServerEnv.AppName)
-
-                if (ServerEnv.MongoAuthEnabled) {
-                    val credential = MongoCredential.createCredential(ServerEnv.MongoUser,
-                            ServerEnv.MongoAuthSource, ServerEnv.MongoPassword.toCharArray())
-                    credential(credential)
-                }
-
-                applyConnectionString(conn)
-            }.build()
-
-            mongoClient = KMongo.createClient(options).coroutine
-            mongoDatabase = mongoClient.getDatabase(ServerEnv.MongoDatabaseName)
-
-            logger.info("Mongo Database connection test pass!" +
-                    " ${mongoDatabase.listCollectionNames().size} collections present")
-        } else {
-            logger.info("MongoDB is disabled. Skip!")
-        }
+    internal suspend fun testMySQLConnection() = withContext(Dispatchers.IO) {
+        val version = dslContext.resultQuery("SHOW VARIABLES LIKE \"version\";")
+            .also { it.execute() }.result[0].valuesRow()
+        logger.info("Mysql Database connection test pass! $version")
     }
 
     /**

@@ -7,7 +7,6 @@ import com.kenvix.utils.preferences.ServerEnv
 import org.apache.commons.dbcp2.BasicDataSource
 import org.jooq.Configuration
 import org.jooq.DSLContext
-import org.litote.kmongo.coroutine.CoroutineDatabase
 import java.io.File
 import java.sql.Connection
 
@@ -24,9 +23,6 @@ object AppConstants {
     var jooqConfigurationOrNull: Configuration?
         get() = WebServer.currentThreadJooqConfigurationOrNull
         set(value) { WebServer.currentThreadJooqConfigurationOrNull = value }
-
-    val mongoDatabase: CoroutineDatabase
-        get() = WebServer.mongoDatabase
 
     init {
         if(System.getProperty("hotReloadSupported")?.toBoolean() == true)

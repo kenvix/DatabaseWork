@@ -31,7 +31,6 @@ import io.ktor.routing.routing
 import io.ktor.util.date.GMTDate
 import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
-import org.apache.http.auth.AuthenticationException
 import org.jooq.exception.DataAccessException
 import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
@@ -163,7 +162,6 @@ fun Application.module() {
         exception<NumberFormatException> { respondError(HttpStatusCode.BadRequest, it) }
         exception<com.kenvix.utils.exception.BadRequestException> { respondError(HttpStatusCode.BadRequest, it) }
 
-        exception<AuthenticationException> { respondError(HttpStatusCode.Unauthorized, it) }
         exception<InvalidAuthorizationException> { respondError(HttpStatusCode.Unauthorized, it) }
 
         exception<ForbiddenOperationException> { respondError(HttpStatusCode.Forbidden, it) }

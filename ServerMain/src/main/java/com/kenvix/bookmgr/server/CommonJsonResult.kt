@@ -1,9 +1,3 @@
-//--------------------------------------------------
-// Class CommonJsonResult
-//--------------------------------------------------
-// Written by Kenvix <i@kenvix.com>
-//--------------------------------------------------
-
 package com.kenvix.bookmgr.server
 
 data class CommonJsonResult(

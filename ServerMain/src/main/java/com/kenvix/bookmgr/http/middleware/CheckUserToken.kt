@@ -15,7 +15,6 @@ import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.request.header
 import io.ktor.util.pipeline.PipelineContext
-import org.apache.http.auth.AuthenticationException
 import java.util.*
 
 /**
@@ -34,26 +33,26 @@ object CheckUserToken : Middleware<User> {
     }
 
     fun check(call: ApplicationCall, fastCheck: Boolean = false): User {
-        try {
-            val verify = getVerifier().verify(call.request.header("Token").assertNotNull())
-            val uid = verify.getClaim("uid").asLong().validateValue { it > 0 }
-            val user = UserModel.run {
-                if(fastCheck)
-                    fetchOneBasicInformationByUid(uid)
-                else
-                    fetchOneByUid(uid)
-            }.assertExist()
-
-            user.password.substring(passwordBeginIndex, passwordBeginIndex + passwordPrefixLength)
-                    .validateValue { it == verify.getClaim("pt").asString() }
-
-            user.role.validateValue { it != AccessLevel.Banned && it != AccessLevel.Unknown }
-
-            return user
-        } catch (e: Exception) {
-            throw AuthenticationException("Auth token is wrong")
-        }
-
+//        try {
+//            val verify = getVerifier().verify(call.request.header("Token").assertNotNull())
+//            val uid = verify.getClaim("uid").asLong().validateValue { it > 0 }
+//            val user = UserModel.run {
+//                if(fastCheck)
+//                    fetchOneBasicInformationByUid(uid)
+//                else
+//                    fetchOneByUid(uid)
+//            }.assertExist()
+//
+//            user.password.substring(passwordBeginIndex, passwordBeginIndex + passwordPrefixLength)
+//                    .validateValue { it == verify.getClaim("pt").asString() }
+//
+//            user.role.validateValue { it != AccessLevel.Banned && it != AccessLevel.Unknown }
+//
+//            return user
+//        } catch (e: Exception) {
+//            throw AuthenticationException("Auth token is wrong")
+//        }
+        TODO()
     }
 
     fun getVerifier(): JWTVerifier = JWT

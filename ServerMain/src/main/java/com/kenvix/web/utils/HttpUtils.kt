@@ -2,7 +2,7 @@
 
 package com.kenvix.web.utils
 
-import com.kenvix.bookmgr.orm.enums.AttachmentType
+//import com.kenvix.bookmgr.orm.enums.AttachmentType
 import com.kenvix.bookmgr.server.CommonJsonResult
 import com.kenvix.bookmgr.server.ErrorResult
 import com.kenvix.utils.exception.CommonBusinessException
@@ -152,32 +152,32 @@ suspend fun <R> File.useTempFile(then: (suspend (File) -> R))
  * Handle form upload
  * @return Temp file
  */
-suspend fun PartData.FileItem.handleUpload(verify: ((File) -> Unit)? = null): File = withContext(Dispatchers.IO) {
-    this@handleUpload.streamProvider().use { input ->
-        val ext = FilenameUtils.getExtension(this@handleUpload.originalFileName)?.toLowerCase()
-        if (ext.isNullOrBlank() || ext.length > 16)
-            throw BadRequestException("Bad file extension name: $ext")
-
-        runCatching { AttachmentType.valueOf(ext) }.onFailure {
-            throw BadRequestException("File extension name $ext is not allowed")
-        }
-
-        val file = uploadTempPath
-                .resolve("up-${System.currentTimeMillis()}-${System.nanoTime()}.$ext").toFile()
-        file.outputStream().buffered().use { output -> input.copyTo(output) }
-
-        if (FileUtils.sizeOf(file) > ServerEnv.MaxUploadSize)
-            throw BadRequestException("File is too big")
-
-        try {
-            verify?.invoke(file)
-            file
-        } catch (throwable: Throwable) {
-            file.runCatching { file.delete() }.onFailure { warn("Delete bad file failed", it, utilsLogger) }
-            throw BadRequestException("Illegal uploaded file ${this@handleUpload.originalFileName}", throwable)
-        }
-    }
-}
+//suspend fun PartData.FileItem.handleUpload(verify: ((File) -> Unit)? = null): File = withContext(Dispatchers.IO) {
+//    this@handleUpload.streamProvider().use { input ->
+//        val ext = FilenameUtils.getExtension(this@handleUpload.originalFileName)?.toLowerCase()
+//        if (ext.isNullOrBlank() || ext.length > 16)
+//            throw BadRequestException("Bad file extension name: $ext")
+//
+//        runCatching { AttachmentType.valueOf(ext) }.onFailure {
+//            throw BadRequestException("File extension name $ext is not allowed")
+//        }
+//
+//        val file = uploadTempPath
+//                .resolve("up-${System.currentTimeMillis()}-${System.nanoTime()}.$ext").toFile()
+//        file.outputStream().buffered().use { output -> input.copyTo(output) }
+//
+//        if (FileUtils.sizeOf(file) > ServerEnv.MaxUploadSize)
+//            throw BadRequestException("File is too big")
+//
+//        try {
+//            verify?.invoke(file)
+//            file
+//        } catch (throwable: Throwable) {
+//            file.runCatching { file.delete() }.onFailure { warn("Delete bad file failed", it, utilsLogger) }
+//            throw BadRequestException("Illegal uploaded file ${this@handleUpload.originalFileName}", throwable)
+//        }
+//    }
+//}
 
 suspend fun saveTempAttachment(temp: File, hash: String, ext: String): File = withContext(Dispatchers.IO) {
     val dest = uploadSavePath.resolve("$hash.$ext").toFile()
