@@ -13,3 +13,5 @@ data class UserDTO (
         val ipLogin: String = "",
         var token: String? = null
 )
+
+data class IDResultDTO(val id: UserId)

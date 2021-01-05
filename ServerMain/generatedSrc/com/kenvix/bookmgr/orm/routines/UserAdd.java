@@ -26,7 +26,7 @@ import org.jooq.impl.Internal;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserAdd extends AbstractRoutine<java.lang.Void> {
 
-    private static final long serialVersionUID = -439919981;
+    private static final long serialVersionUID = -851781345;
 
     /**
      * The parameter <code>user_add.v_serial_id</code>.
@@ -59,6 +59,11 @@ public class UserAdd extends AbstractRoutine<java.lang.Void> {
     public static final Parameter<String> V_IP_CREATION = Internal.createParameter("v_ip_creation", org.jooq.impl.SQLDataType.VARCHAR(45), false, false);
 
     /**
+     * The parameter <code>user_add.insert_id</code>.
+     */
+    public static final Parameter<Long> INSERT_ID = Internal.createParameter("insert_id", org.jooq.impl.SQLDataType.BIGINT, false, false);
+
+    /**
      * Create a new routine call instance
      */
     public UserAdd() {
@@ -70,6 +75,7 @@ public class UserAdd extends AbstractRoutine<java.lang.Void> {
         addInParameter(V_PASSWORD);
         addInParameter(V_ACCESS_LEVEL);
         addInParameter(V_IP_CREATION);
+        addOutParameter(INSERT_ID);
     }
 
     /**
@@ -112,5 +118,12 @@ public class UserAdd extends AbstractRoutine<java.lang.Void> {
      */
     public void setVIpCreation(String value) {
         setValue(V_IP_CREATION, value);
+    }
+
+    /**
+     * Get the <code>insert_id</code> parameter OUT value from the routine
+     */
+    public Long getInsertId() {
+        return get(INSERT_ID);
     }
 }

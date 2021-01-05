@@ -10,7 +10,7 @@ plugins {
     application
     java
     idea
-    kotlin("jvm") version "1.4.0"
+    kotlin("jvm") version "1.4.21"
     id("de.fuerstenau.buildconfig") version "1.1.8"
     id("com.github.johnrengelman.shadow") version "5.2.0"
     //id("org.beryx.jlink") version "2.17.2"

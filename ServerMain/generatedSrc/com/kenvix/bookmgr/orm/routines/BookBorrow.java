@@ -28,7 +28,7 @@ import org.jooq.impl.Internal;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BookBorrow extends AbstractRoutine<java.lang.Void> {
 
-    private static final long serialVersionUID = 371272190;
+    private static final long serialVersionUID = 456451586;
 
     /**
      * The parameter <code>book_borrow.borrower_uid_v</code>.
@@ -46,6 +46,11 @@ public class BookBorrow extends AbstractRoutine<java.lang.Void> {
     public static final Parameter<Timestamp> EXPECTED_RETURNED_AT_V = Internal.createParameter("expected_returned_at_v", org.jooq.impl.SQLDataType.TIMESTAMP, false, false);
 
     /**
+     * The parameter <code>book_borrow.insert_id</code>.
+     */
+    public static final Parameter<Long> INSERT_ID = Internal.createParameter("insert_id", org.jooq.impl.SQLDataType.BIGINT, false, false);
+
+    /**
      * Create a new routine call instance
      */
     public BookBorrow() {
@@ -54,6 +59,7 @@ public class BookBorrow extends AbstractRoutine<java.lang.Void> {
         addInParameter(BORROWER_UID_V);
         addInParameter(BOOK_ID_V);
         addInParameter(EXPECTED_RETURNED_AT_V);
+        addOutParameter(INSERT_ID);
     }
 
     /**
@@ -75,5 +81,12 @@ public class BookBorrow extends AbstractRoutine<java.lang.Void> {
      */
     public void setExpectedReturnedAtV(Timestamp value) {
         setValue(EXPECTED_RETURNED_AT_V, value);
+    }
+
+    /**
+     * Get the <code>insert_id</code> parameter OUT value from the routine
+     */
+    public Long getInsertId() {
+        return get(INSERT_ID);
     }
 }
