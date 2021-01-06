@@ -25,10 +25,10 @@ object ServerEnv : ManagedEnvFile() {
 
     @Description("站点地址")
     val WebSiteUrl: String by envOf("http://127.0.0.1:6449")
-    val ApiBaseUrl: String by envOf("/api")
+    val ApiBaseUrl: String by envOf("/api/v1")
 
     val AsyncRequestTimeout by envOf(10000L)
-    val PublicDirUrl by envOf("/api-public")
+    val PublicDirUrl by envOf("/public")
     val PublicDirPath by envOf("public")
     val RequestCacheSize by envOf(10240000L)
     val CorsOriginAnyHost by envOf(false)

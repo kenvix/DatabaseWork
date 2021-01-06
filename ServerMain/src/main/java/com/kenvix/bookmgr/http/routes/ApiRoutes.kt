@@ -8,7 +8,10 @@
 
 package com.kenvix.bookmgr.http.routes
 
+import com.kenvix.bookmgr.http.controller.TODOController
 import com.kenvix.bookmgr.http.controller.api.*
+import com.kenvix.bookmgr.http.controller.api.reader.BookBorrowController
+import com.kenvix.bookmgr.http.controller.api.reader.BookController
 import com.kenvix.utils.preferences.ServerEnv
 import com.kenvix.web.server.KtorModule
 import com.kenvix.web.utils.controller
@@ -19,16 +22,28 @@ import io.ktor.routing.routing
 
 @OptIn(KtorExperimentalLocationsAPI::class)
 class ApiRoutes : KtorModule {
+
     override fun module(application: Application, testing: Boolean) {
         application.routing {
             /**
              * API Base url is
-             * /api
+             * /api/v1
              */
             route(ServerEnv.ApiBaseUrl) {
                 controller("/user", UserController)
                 controller("/session", SessionController)
                 controller("/tools", ToolsController)
+
+                route("/reader") {
+                    controller("/book", BookController)
+                    controller("/book/borrow", BookBorrowController)
+                }
+
+                route("/admin") {
+                    controller("/user", TODOController)
+                    controller("/book", TODOController)
+                    controller("/book/borrow", TODOController)
+                }
             }
         }
     }
