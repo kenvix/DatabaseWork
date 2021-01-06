@@ -24,7 +24,7 @@ import javax.annotation.processing.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BookForUser implements IBookForUser {
 
-    private static final long serialVersionUID = -883929816;
+    private static final long serialVersionUID = 439126728;
 
     private Long      id;
     private String    title;
@@ -35,7 +35,10 @@ public class BookForUser implements IBookForUser {
     private Integer   numAvailable;
     private Byte      status;
     private String    publisherName;
-    private String    publisherDescription;
+    private Long      authorId;
+    private String    authorName;
+    private String    authorFullname;
+    private String    authorCountry;
 
     public BookForUser() {}
 
@@ -49,7 +52,10 @@ public class BookForUser implements IBookForUser {
         this.numAvailable = value.getNumAvailable();
         this.status = value.getStatus();
         this.publisherName = value.getPublisherName();
-        this.publisherDescription = value.getPublisherDescription();
+        this.authorId = value.getAuthorId();
+        this.authorName = value.getAuthorName();
+        this.authorFullname = value.getAuthorFullname();
+        this.authorCountry = value.getAuthorCountry();
     }
 
     public BookForUser(
@@ -62,7 +68,10 @@ public class BookForUser implements IBookForUser {
         Integer   numAvailable,
         Byte      status,
         String    publisherName,
-        String    publisherDescription
+        Long      authorId,
+        String    authorName,
+        String    authorFullname,
+        String    authorCountry
     ) {
         this.id = id;
         this.title = title;
@@ -73,7 +82,10 @@ public class BookForUser implements IBookForUser {
         this.numAvailable = numAvailable;
         this.status = status;
         this.publisherName = publisherName;
-        this.publisherDescription = publisherDescription;
+        this.authorId = authorId;
+        this.authorName = authorName;
+        this.authorFullname = authorFullname;
+        this.authorCountry = authorCountry;
     }
 
     @Override
@@ -176,13 +188,46 @@ public class BookForUser implements IBookForUser {
     }
 
     @Override
-    public String getPublisherDescription() {
-        return this.publisherDescription;
+    public Long getAuthorId() {
+        return this.authorId;
     }
 
     @Override
-    public BookForUser setPublisherDescription(String publisherDescription) {
-        this.publisherDescription = publisherDescription;
+    public BookForUser setAuthorId(Long authorId) {
+        this.authorId = authorId;
+        return this;
+    }
+
+    @Override
+    public String getAuthorName() {
+        return this.authorName;
+    }
+
+    @Override
+    public BookForUser setAuthorName(String authorName) {
+        this.authorName = authorName;
+        return this;
+    }
+
+    @Override
+    public String getAuthorFullname() {
+        return this.authorFullname;
+    }
+
+    @Override
+    public BookForUser setAuthorFullname(String authorFullname) {
+        this.authorFullname = authorFullname;
+        return this;
+    }
+
+    @Override
+    public String getAuthorCountry() {
+        return this.authorCountry;
+    }
+
+    @Override
+    public BookForUser setAuthorCountry(String authorCountry) {
+        this.authorCountry = authorCountry;
         return this;
     }
 
@@ -199,7 +244,10 @@ public class BookForUser implements IBookForUser {
         sb.append(", ").append(numAvailable);
         sb.append(", ").append(status);
         sb.append(", ").append(publisherName);
-        sb.append(", ").append(publisherDescription);
+        sb.append(", ").append(authorId);
+        sb.append(", ").append(authorName);
+        sb.append(", ").append(authorFullname);
+        sb.append(", ").append(authorCountry);
 
         sb.append(")");
         return sb.toString();
@@ -220,7 +268,10 @@ public class BookForUser implements IBookForUser {
         setNumAvailable(from.getNumAvailable());
         setStatus(from.getStatus());
         setPublisherName(from.getPublisherName());
-        setPublisherDescription(from.getPublisherDescription());
+        setAuthorId(from.getAuthorId());
+        setAuthorName(from.getAuthorName());
+        setAuthorFullname(from.getAuthorFullname());
+        setAuthorCountry(from.getAuthorCountry());
     }
 
     @Override

@@ -161,7 +161,7 @@ fun Array<StackTraceElement>.getStringStackTrace(): String {
     val builder = StringBuilder()
 
     for (stackTrace in this) {
-        builder.appendln("at $stackTrace")
+        builder.appendLine("at $stackTrace")
     }
 
     return builder.toString()
@@ -193,6 +193,18 @@ inline fun <T, R> T?.ifNotNull(then: ((T) -> R?)): R? {
         return then(this)
 
     return null
+}
+
+inline fun <T, U, R> T?.ifNotNull(par: U?, then: ((T, U) -> R?)): R? {
+    if (this != null && par != null)
+        return then(this, par)
+
+    return null
+}
+
+private val sqlSafeCheck = Regex("[<>?:\\\\/\"'|%]")
+fun String.strictSqlSafe(): String {
+    return this.replace(sqlSafeCheck, "")
 }
 
 val Throwable.nameAndHashcode

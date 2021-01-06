@@ -15,7 +15,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row10;
+import org.jooq.Row13;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -37,7 +37,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BookForUser extends TableImpl<BookForUserRecord> {
 
-    private static final long serialVersionUID = -956815363;
+    private static final long serialVersionUID = -368217198;
 
     /**
      * The reference instance of <code>book_for_user</code>
@@ -98,9 +98,24 @@ public class BookForUser extends TableImpl<BookForUserRecord> {
     public final TableField<BookForUserRecord, String> PUBLISHER_NAME = createField(DSL.name("publisher_name"), org.jooq.impl.SQLDataType.VARCHAR(80).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "出版社名称");
 
     /**
-     * The column <code>book_for_user.publisher_description</code>. 出版社简介
+     * The column <code>book_for_user.author_id</code>. 作者ID
      */
-    public final TableField<BookForUserRecord, String> PUBLISHER_DESCRIPTION = createField(DSL.name("publisher_description"), org.jooq.impl.SQLDataType.CLOB, this, "出版社简介");
+    public final TableField<BookForUserRecord, Long> AUTHOR_ID = createField(DSL.name("author_id"), org.jooq.impl.SQLDataType.BIGINT, this, "作者ID");
+
+    /**
+     * The column <code>book_for_user.author_name</code>.
+     */
+    public final TableField<BookForUserRecord, String> AUTHOR_NAME = createField(DSL.name("author_name"), org.jooq.impl.SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>book_for_user.author_fullname</code>.
+     */
+    public final TableField<BookForUserRecord, String> AUTHOR_FULLNAME = createField(DSL.name("author_fullname"), org.jooq.impl.SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>book_for_user.author_country</code>.
+     */
+    public final TableField<BookForUserRecord, String> AUTHOR_COUNTRY = createField(DSL.name("author_country"), org.jooq.impl.SQLDataType.CLOB, this, "");
 
     /**
      * Create a <code>book_for_user</code> table reference
@@ -128,7 +143,7 @@ public class BookForUser extends TableImpl<BookForUserRecord> {
     }
 
     private BookForUser(Name alias, Table<BookForUserRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `book_for_user` as select `book`.`book`.`id` AS `id`,`book`.`book`.`title` AS `title`,`book`.`book`.`description` AS `description`,`book`.`book`.`publisher_id` AS `publisher_id`,`book`.`book`.`created_at` AS `created_at`,`book`.`book`.`num_total` AS `num_total`,`book`.`book`.`num_available` AS `num_available`,`book`.`book`.`status` AS `status`,`book`.`publisher`.`name` AS `publisher_name`,`book`.`publisher`.`description` AS `publisher_description` from (`book`.`book` join `book`.`publisher` on((`book`.`book`.`publisher_id` = `book`.`publisher`.`id`))) where (`book`.`book`.`status` >= 4)"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `book_for_user` as select `book`.`book`.`id` AS `id`,`book`.`book`.`title` AS `title`,`book`.`book`.`description` AS `description`,`book`.`book`.`publisher_id` AS `publisher_id`,`book`.`book`.`created_at` AS `created_at`,`book`.`book`.`num_total` AS `num_total`,`book`.`book`.`num_available` AS `num_available`,`book`.`book`.`status` AS `status`,`book`.`publisher`.`name` AS `publisher_name`,`book`.`book_author_map`.`author_id` AS `author_id`,group_concat(`book`.`author`.`name` separator ', ') AS `author_name`,group_concat(`book`.`author`.`fullname` separator ', ') AS `author_fullname`,group_concat(`book`.`author`.`country` separator ', ') AS `author_country` from (((`book`.`book` join `book`.`publisher` on((`book`.`book`.`publisher_id` = `book`.`publisher`.`id`))) left join `book`.`book_author_map` on((`book`.`book_author_map`.`book_id` = `book`.`book`.`id`))) join `book`.`author` on((`book`.`book_author_map`.`author_id` = `book`.`author`.`id`))) where (`book`.`book`.`status` >= 4) group by `book`.`book`.`id`"));
     }
 
     public <O extends Record> BookForUser(Table<O> child, ForeignKey<O, BookForUserRecord> key) {
@@ -167,11 +182,11 @@ public class BookForUser extends TableImpl<BookForUserRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row10 type methods
+    // Row13 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<Long, String, String, Long, Timestamp, Integer, Integer, Byte, String, String> fieldsRow() {
-        return (Row10) super.fieldsRow();
+    public Row13<Long, String, String, Long, Timestamp, Integer, Integer, Byte, String, Long, String, String, String> fieldsRow() {
+        return (Row13) super.fieldsRow();
     }
 }

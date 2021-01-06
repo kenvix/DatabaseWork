@@ -213,6 +213,13 @@ fun <T: Any> T?.assertExist(): T {
     return this
 }
 
+fun <T: Collection<*>> T?.assertNotEmpty(): T {
+    if (this == null || this.isEmpty())
+        throw NotFoundException("Specified data not exist")
+
+    return this
+}
+
 inline fun <reified E : Enum<E>> validatedEnumValueOf(value: String?, default: E? = null): E {
     if (value.isNullOrEmpty()) {
         if (default == null)

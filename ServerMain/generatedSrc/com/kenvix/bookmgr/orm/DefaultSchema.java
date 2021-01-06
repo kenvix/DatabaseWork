@@ -11,6 +11,7 @@ import com.kenvix.bookmgr.orm.tables.BookAuthorMap;
 import com.kenvix.bookmgr.orm.tables.BookBorrow;
 import com.kenvix.bookmgr.orm.tables.BookBorrowExpired;
 import com.kenvix.bookmgr.orm.tables.BookBorrowForAdmin;
+import com.kenvix.bookmgr.orm.tables.BookBorrowForUser;
 import com.kenvix.bookmgr.orm.tables.BookForUser;
 import com.kenvix.bookmgr.orm.tables.BookStatus;
 import com.kenvix.bookmgr.orm.tables.Invoice;
@@ -53,7 +54,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = -1211749947;
+    private static final long serialVersionUID = 1995560990;
 
     /**
      * The reference instance of <code>DEFAULT_SCHEMA</code>
@@ -94,6 +95,11 @@ public class DefaultSchema extends SchemaImpl {
      * VIEW
      */
     public final BookBorrowForAdmin BOOK_BORROW_FOR_ADMIN = BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN;
+
+    /**
+     * VIEW
+     */
+    public final BookBorrowForUser BOOK_BORROW_FOR_USER = BookBorrowForUser.BOOK_BORROW_FOR_USER;
 
     /**
      * VIEW
@@ -208,6 +214,7 @@ public class DefaultSchema extends SchemaImpl {
             BookBorrow.BOOK_BORROW,
             BookBorrowExpired.BOOK_BORROW_EXPIRED,
             BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN,
+            BookBorrowForUser.BOOK_BORROW_FOR_USER,
             BookForUser.BOOK_FOR_USER,
             BookStatus.BOOK_STATUS,
             Invoice.INVOICE,

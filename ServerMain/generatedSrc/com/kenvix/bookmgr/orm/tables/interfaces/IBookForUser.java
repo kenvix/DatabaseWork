@@ -114,14 +114,44 @@ public interface IBookForUser extends Serializable {
     public String getPublisherName();
 
     /**
-     * Setter for <code>book_for_user.publisher_description</code>. 出版社简介
+     * Setter for <code>book_for_user.author_id</code>. 作者ID
      */
-    public IBookForUser setPublisherDescription(String value);
+    public IBookForUser setAuthorId(Long value);
 
     /**
-     * Getter for <code>book_for_user.publisher_description</code>. 出版社简介
+     * Getter for <code>book_for_user.author_id</code>. 作者ID
      */
-    public String getPublisherDescription();
+    public Long getAuthorId();
+
+    /**
+     * Setter for <code>book_for_user.author_name</code>.
+     */
+    public IBookForUser setAuthorName(String value);
+
+    /**
+     * Getter for <code>book_for_user.author_name</code>.
+     */
+    public String getAuthorName();
+
+    /**
+     * Setter for <code>book_for_user.author_fullname</code>.
+     */
+    public IBookForUser setAuthorFullname(String value);
+
+    /**
+     * Getter for <code>book_for_user.author_fullname</code>.
+     */
+    public String getAuthorFullname();
+
+    /**
+     * Setter for <code>book_for_user.author_country</code>.
+     */
+    public IBookForUser setAuthorCountry(String value);
+
+    /**
+     * Getter for <code>book_for_user.author_country</code>.
+     */
+    public String getAuthorCountry();
 
     // -------------------------------------------------------------------------
     // FROM and INTO

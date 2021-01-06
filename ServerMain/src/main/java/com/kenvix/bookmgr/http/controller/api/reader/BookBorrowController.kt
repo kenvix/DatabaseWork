@@ -8,7 +8,6 @@ object BookBorrowController : ApiBaseController() {
         route {
             // 列出我的所有借书
             get("/") {
-
             }
         }
     }
