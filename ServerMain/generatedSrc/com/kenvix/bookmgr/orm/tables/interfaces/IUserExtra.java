@@ -43,6 +43,16 @@ public interface IUserExtra extends Serializable {
     public Long getPhone();
 
     /**
+     * Setter for <code>user_extra.money</code>. 可用钱数（单位为分）
+     */
+    public IUserExtra setMoney(Integer value);
+
+    /**
+     * Getter for <code>user_extra.money</code>. 可用钱数（单位为分）
+     */
+    public Integer getMoney();
+
+    /**
      * Setter for <code>user_extra.card_serial_id</code>. 卡片序列号
      */
     public IUserExtra setCardSerialId(Long value);

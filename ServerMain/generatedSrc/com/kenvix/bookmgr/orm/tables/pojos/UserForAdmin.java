@@ -24,7 +24,7 @@ import javax.annotation.processing.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserForAdmin implements IUserForAdmin {
 
-    private static final long serialVersionUID = 204876296;
+    private static final long serialVersionUID = -1883771226;
 
     private Long      uid;
     private String    serialId;
@@ -35,6 +35,7 @@ public class UserForAdmin implements IUserForAdmin {
     private String    accessLevelDescription;
     private Timestamp createdAt;
     private Long      phone;
+    private Integer   money;
     private Long      cardSerialId;
     private Short     startYear;
     private String    department;
@@ -54,6 +55,7 @@ public class UserForAdmin implements IUserForAdmin {
         this.accessLevelDescription = value.getAccessLevelDescription();
         this.createdAt = value.getCreatedAt();
         this.phone = value.getPhone();
+        this.money = value.getMoney();
         this.cardSerialId = value.getCardSerialId();
         this.startYear = value.getStartYear();
         this.department = value.getDepartment();
@@ -72,6 +74,7 @@ public class UserForAdmin implements IUserForAdmin {
         String    accessLevelDescription,
         Timestamp createdAt,
         Long      phone,
+        Integer   money,
         Long      cardSerialId,
         Short     startYear,
         String    department,
@@ -88,6 +91,7 @@ public class UserForAdmin implements IUserForAdmin {
         this.accessLevelDescription = accessLevelDescription;
         this.createdAt = createdAt;
         this.phone = phone;
+        this.money = money;
         this.cardSerialId = cardSerialId;
         this.startYear = startYear;
         this.department = department;
@@ -196,6 +200,17 @@ public class UserForAdmin implements IUserForAdmin {
     }
 
     @Override
+    public Integer getMoney() {
+        return this.money;
+    }
+
+    @Override
+    public UserForAdmin setMoney(Integer money) {
+        this.money = money;
+        return this;
+    }
+
+    @Override
     public Long getCardSerialId() {
         return this.cardSerialId;
     }
@@ -274,6 +289,7 @@ public class UserForAdmin implements IUserForAdmin {
         sb.append(", ").append(accessLevelDescription);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(phone);
+        sb.append(", ").append(money);
         sb.append(", ").append(cardSerialId);
         sb.append(", ").append(startYear);
         sb.append(", ").append(department);
@@ -300,6 +316,7 @@ public class UserForAdmin implements IUserForAdmin {
         setAccessLevelDescription(from.getAccessLevelDescription());
         setCreatedAt(from.getCreatedAt());
         setPhone(from.getPhone());
+        setMoney(from.getMoney());
         setCardSerialId(from.getCardSerialId());
         setStartYear(from.getStartYear());
         setDepartment(from.getDepartment());

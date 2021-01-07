@@ -26,7 +26,7 @@ import org.jooq.impl.Internal;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class RaiseError extends AbstractRoutine<java.lang.Void> {
 
-    private static final long serialVersionUID = -1688266919;
+    private static final long serialVersionUID = -1322614809;
 
     /**
      * The parameter <code>raise_error.error_message</code>.
@@ -36,7 +36,7 @@ public class RaiseError extends AbstractRoutine<java.lang.Void> {
     /**
      * The parameter <code>raise_error.error_id</code>.
      */
-    public static final Parameter<Integer> ERROR_ID = Internal.createParameter("error_id", org.jooq.impl.SQLDataType.INTEGER, false, false);
+    public static final Parameter<Short> ERROR_ID = Internal.createParameter("error_id", org.jooq.impl.SQLDataType.SMALLINT, false, false);
 
     /**
      * Create a new routine call instance
@@ -58,7 +58,7 @@ public class RaiseError extends AbstractRoutine<java.lang.Void> {
     /**
      * Set the <code>error_id</code> parameter IN value to the routine
      */
-    public void setErrorId(Integer value) {
+    public void setErrorId(Short value) {
         setValue(ERROR_ID, value);
     }
 }

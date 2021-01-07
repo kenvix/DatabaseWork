@@ -38,10 +38,10 @@ public class Routines {
     /**
      * Call <code>book_borrow</code>
      */
-    public static Long bookBorrow(Configuration configuration, Long borrowerUidV, Long bookIdV, Timestamp expectedReturnedAtV) {
+    public static Long bookBorrow(Configuration configuration, Long bookIdV, Long borrowerUidV, Timestamp expectedReturnedAtV) {
         BookBorrow p = new BookBorrow();
-        p.setBorrowerUidV(borrowerUidV);
         p.setBookIdV(bookIdV);
+        p.setBorrowerUidV(borrowerUidV);
         p.setExpectedReturnedAtV(expectedReturnedAtV);
 
         p.execute(configuration);
@@ -51,10 +51,9 @@ public class Routines {
     /**
      * Call <code>book_borrow_renew</code>
      */
-    public static Timestamp bookBorrowRenew(Configuration configuration, Long bookIdV, Long borrowerUidV) {
+    public static Timestamp bookBorrowRenew(Configuration configuration, Long borrowId) {
         BookBorrowRenew p = new BookBorrowRenew();
-        p.setBookIdV(bookIdV);
-        p.setBorrowerUidV(borrowerUidV);
+        p.setBorrowId(borrowId);
 
         p.execute(configuration);
         return p.getNextExpectedReturn();
@@ -63,10 +62,10 @@ public class Routines {
     /**
      * Call <code>book_borrow_return</code>
      */
-    public static void bookBorrowReturn(Configuration configuration, Long bookIdV, Long borrowerUidV) {
+    public static void bookBorrowReturn(Configuration configuration, Long borrowId, Integer requiredMoney) {
         BookBorrowReturn p = new BookBorrowReturn();
-        p.setBookIdV(bookIdV);
-        p.setBorrowerUidV(borrowerUidV);
+        p.setBorrowId(borrowId);
+        p.setRequiredMoney(requiredMoney);
 
         p.execute(configuration);
     }
@@ -124,7 +123,7 @@ public class Routines {
     /**
      * Call <code>raise_error</code>
      */
-    public static void raiseError(Configuration configuration, String errorMessage, Integer errorId) {
+    public static void raiseError(Configuration configuration, String errorMessage, Short errorId) {
         RaiseError p = new RaiseError();
         p.setErrorMessage(errorMessage);
         p.setErrorId(errorId);

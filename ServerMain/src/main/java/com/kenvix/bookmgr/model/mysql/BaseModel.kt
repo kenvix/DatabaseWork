@@ -48,6 +48,8 @@ interface BaseModel {
     companion object {
         val logger = LoggerFactory.getLogger("Models")
     }
+
+    fun configuration(): Configuration
 }
 
 

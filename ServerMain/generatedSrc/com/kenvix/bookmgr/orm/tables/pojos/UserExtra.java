@@ -22,20 +22,22 @@ import javax.annotation.processing.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserExtra implements IUserExtra {
 
-    private static final long serialVersionUID = -1237498268;
+    private static final long serialVersionUID = -2129638802;
 
-    private Long   uid;
-    private Long   phone;
-    private Long   cardSerialId;
-    private Short  startYear;
-    private String department;
-    private String comment;
+    private Long    uid;
+    private Long    phone;
+    private Integer money;
+    private Long    cardSerialId;
+    private Short   startYear;
+    private String  department;
+    private String  comment;
 
     public UserExtra() {}
 
     public UserExtra(IUserExtra value) {
         this.uid = value.getUid();
         this.phone = value.getPhone();
+        this.money = value.getMoney();
         this.cardSerialId = value.getCardSerialId();
         this.startYear = value.getStartYear();
         this.department = value.getDepartment();
@@ -43,15 +45,17 @@ public class UserExtra implements IUserExtra {
     }
 
     public UserExtra(
-        Long   uid,
-        Long   phone,
-        Long   cardSerialId,
-        Short  startYear,
-        String department,
-        String comment
+        Long    uid,
+        Long    phone,
+        Integer money,
+        Long    cardSerialId,
+        Short   startYear,
+        String  department,
+        String  comment
     ) {
         this.uid = uid;
         this.phone = phone;
+        this.money = money;
         this.cardSerialId = cardSerialId;
         this.startYear = startYear;
         this.department = department;
@@ -77,6 +81,17 @@ public class UserExtra implements IUserExtra {
     @Override
     public UserExtra setPhone(Long phone) {
         this.phone = phone;
+        return this;
+    }
+
+    @Override
+    public Integer getMoney() {
+        return this.money;
+    }
+
+    @Override
+    public UserExtra setMoney(Integer money) {
+        this.money = money;
         return this;
     }
 
@@ -130,6 +145,7 @@ public class UserExtra implements IUserExtra {
 
         sb.append(uid);
         sb.append(", ").append(phone);
+        sb.append(", ").append(money);
         sb.append(", ").append(cardSerialId);
         sb.append(", ").append(startYear);
         sb.append(", ").append(department);
@@ -147,6 +163,7 @@ public class UserExtra implements IUserExtra {
     public void from(IUserExtra from) {
         setUid(from.getUid());
         setPhone(from.getPhone());
+        setMoney(from.getMoney());
         setCardSerialId(from.getCardSerialId());
         setStartYear(from.getStartYear());
         setDepartment(from.getDepartment());

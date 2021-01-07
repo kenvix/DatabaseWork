@@ -28,17 +28,17 @@ import org.jooq.impl.Internal;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BookBorrow extends AbstractRoutine<java.lang.Void> {
 
-    private static final long serialVersionUID = 456451586;
-
-    /**
-     * The parameter <code>book_borrow.borrower_uid_v</code>.
-     */
-    public static final Parameter<Long> BORROWER_UID_V = Internal.createParameter("borrower_uid_v", org.jooq.impl.SQLDataType.BIGINT, false, false);
+    private static final long serialVersionUID = -207714602;
 
     /**
      * The parameter <code>book_borrow.book_id_v</code>.
      */
     public static final Parameter<Long> BOOK_ID_V = Internal.createParameter("book_id_v", org.jooq.impl.SQLDataType.BIGINT, false, false);
+
+    /**
+     * The parameter <code>book_borrow.borrower_uid_v</code>.
+     */
+    public static final Parameter<Long> BORROWER_UID_V = Internal.createParameter("borrower_uid_v", org.jooq.impl.SQLDataType.BIGINT, false, false);
 
     /**
      * The parameter <code>book_borrow.expected_returned_at_v</code>.
@@ -56,17 +56,10 @@ public class BookBorrow extends AbstractRoutine<java.lang.Void> {
     public BookBorrow() {
         super("book_borrow", DefaultSchema.DEFAULT_SCHEMA);
 
-        addInParameter(BORROWER_UID_V);
         addInParameter(BOOK_ID_V);
+        addInParameter(BORROWER_UID_V);
         addInParameter(EXPECTED_RETURNED_AT_V);
         addOutParameter(INSERT_ID);
-    }
-
-    /**
-     * Set the <code>borrower_uid_v</code> parameter IN value to the routine
-     */
-    public void setBorrowerUidV(Long value) {
-        setValue(BORROWER_UID_V, value);
     }
 
     /**
@@ -74,6 +67,13 @@ public class BookBorrow extends AbstractRoutine<java.lang.Void> {
      */
     public void setBookIdV(Long value) {
         setValue(BOOK_ID_V, value);
+    }
+
+    /**
+     * Set the <code>borrower_uid_v</code> parameter IN value to the routine
+     */
+    public void setBorrowerUidV(Long value) {
+        setValue(BORROWER_UID_V, value);
     }
 
     /**

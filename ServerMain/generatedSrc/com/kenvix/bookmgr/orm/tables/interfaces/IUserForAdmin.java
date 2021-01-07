@@ -114,6 +114,16 @@ public interface IUserForAdmin extends Serializable {
     public Long getPhone();
 
     /**
+     * Setter for <code>user_for_admin.money</code>. 可用钱数（单位为分）
+     */
+    public IUserForAdmin setMoney(Integer value);
+
+    /**
+     * Getter for <code>user_for_admin.money</code>. 可用钱数（单位为分）
+     */
+    public Integer getMoney();
+
+    /**
      * Setter for <code>user_for_admin.card_serial_id</code>. 卡片序列号
      */
     public IUserForAdmin setCardSerialId(Long value);

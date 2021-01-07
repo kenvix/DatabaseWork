@@ -38,6 +38,8 @@ internal object UserController : ApiBaseController() {
         }
     }
 
+    private val illegalUserNameRegex = Regex("<|>|@|:|\\|\\\\|\\?|\"|'|\\[")
+
     /**
      * Create user
      */
@@ -45,11 +47,11 @@ internal object UserController : ApiBaseController() {
         val postParameters: Parameters = call.receiveParameters()
 
         val serialId = postParameters.getOrFail<String>("username").validateValue {
-            it.length in 0..60 && !it.contains(Regex("<|>|@|:|\\|\\\\|\\?|\"|'|\\["))
+            it.length in 0..60 && !it.contains(illegalUserNameRegex)
         }.trim()
 
         val realName = postParameters.getOrFail<String>("realName").validateValue {
-            it.length in 0..30 && !it.contains(Regex("<|>|@|:|\\|\\\\|\\?|\"|'|\\["))
+            it.length in 0..30 && !it.contains(illegalUserNameRegex)
         }.trim()
 
         val password = postParameters.getOrFail<String>("password").toPasswordHash()

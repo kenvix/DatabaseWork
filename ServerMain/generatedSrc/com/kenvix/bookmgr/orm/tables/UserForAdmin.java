@@ -15,7 +15,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row15;
+import org.jooq.Row16;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -37,7 +37,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserForAdmin extends TableImpl<UserForAdminRecord> {
 
-    private static final long serialVersionUID = 2135712778;
+    private static final long serialVersionUID = -1076702566;
 
     /**
      * The reference instance of <code>user_for_admin</code>
@@ -98,6 +98,11 @@ public class UserForAdmin extends TableImpl<UserForAdminRecord> {
     public final TableField<UserForAdminRecord, Long> PHONE = createField(DSL.name("phone"), org.jooq.impl.SQLDataType.BIGINT, this, "电话号");
 
     /**
+     * The column <code>user_for_admin.money</code>. 可用钱数（单位为分）
+     */
+    public final TableField<UserForAdminRecord, Integer> MONEY = createField(DSL.name("money"), org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "可用钱数（单位为分）");
+
+    /**
      * The column <code>user_for_admin.card_serial_id</code>. 卡片序列号
      */
     public final TableField<UserForAdminRecord, Long> CARD_SERIAL_ID = createField(DSL.name("card_serial_id"), org.jooq.impl.SQLDataType.BIGINT, this, "卡片序列号");
@@ -153,7 +158,7 @@ public class UserForAdmin extends TableImpl<UserForAdminRecord> {
     }
 
     private UserForAdmin(Name alias, Table<UserForAdminRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `user_for_admin` as select `book`.`user`.`uid` AS `uid`,`book`.`user`.`serial_id` AS `serial_id`,`book`.`user`.`email` AS `email`,`book`.`user`.`real_name` AS `real_name`,`book`.`user`.`password` AS `password`,`book`.`user`.`access_level` AS `access_level`,`book`.`user_access_level`.`description` AS `access_level_description`,`book`.`user`.`created_at` AS `created_at`,`book`.`user_extra`.`phone` AS `phone`,`book`.`user_extra`.`card_serial_id` AS `card_serial_id`,`book`.`user_extra`.`start_year` AS `start_year`,`book`.`user_extra`.`department` AS `department`,`book`.`user_extra`.`comment` AS `comment`,`book`.`user`.`ip_creation` AS `ip_creation`,`book`.`user`.`ip_login` AS `ip_login` from ((`book`.`user` left join `book`.`user_extra` on((`book`.`user`.`uid` = `book`.`user_extra`.`uid`))) join `book`.`user_access_level` on((`book`.`user`.`access_level` = `book`.`user_access_level`.`id`)))"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `user_for_admin` as select `book`.`user`.`uid` AS `uid`,`book`.`user`.`serial_id` AS `serial_id`,`book`.`user`.`email` AS `email`,`book`.`user`.`real_name` AS `real_name`,`book`.`user`.`password` AS `password`,`book`.`user`.`access_level` AS `access_level`,`book`.`user_access_level`.`description` AS `access_level_description`,`book`.`user`.`created_at` AS `created_at`,`book`.`user_extra`.`phone` AS `phone`,`book`.`user_extra`.`money` AS `money`,`book`.`user_extra`.`card_serial_id` AS `card_serial_id`,`book`.`user_extra`.`start_year` AS `start_year`,`book`.`user_extra`.`department` AS `department`,`book`.`user_extra`.`comment` AS `comment`,`book`.`user`.`ip_creation` AS `ip_creation`,`book`.`user`.`ip_login` AS `ip_login` from ((`book`.`user` left join `book`.`user_extra` on((`book`.`user`.`uid` = `book`.`user_extra`.`uid`))) join `book`.`user_access_level` on((`book`.`user`.`access_level` = `book`.`user_access_level`.`id`)))"));
     }
 
     public <O extends Record> UserForAdmin(Table<O> child, ForeignKey<O, UserForAdminRecord> key) {
@@ -192,11 +197,11 @@ public class UserForAdmin extends TableImpl<UserForAdminRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row15 type methods
+    // Row16 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<Long, String, String, String, String, Byte, String, Timestamp, Long, Long, Short, String, String, String, String> fieldsRow() {
-        return (Row15) super.fieldsRow();
+    public Row16<Long, String, String, String, String, Byte, String, Timestamp, Long, Integer, Long, Short, String, String, String, String> fieldsRow() {
+        return (Row16) super.fieldsRow();
     }
 }

@@ -83,6 +83,20 @@ public class UserExtraDao extends DAOImpl<UserExtraRecord, com.kenvix.bookmgr.or
     }
 
     /**
+     * Fetch records that have <code>money BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.kenvix.bookmgr.orm.tables.pojos.UserExtra> fetchRangeOfMoney(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(UserExtra.USER_EXTRA.MONEY, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>money IN (values)</code>
+     */
+    public List<com.kenvix.bookmgr.orm.tables.pojos.UserExtra> fetchByMoney(Integer... values) {
+        return fetch(UserExtra.USER_EXTRA.MONEY, values);
+    }
+
+    /**
      * Fetch records that have <code>card_serial_id BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.kenvix.bookmgr.orm.tables.pojos.UserExtra> fetchRangeOfCardSerialId(Long lowerInclusive, Long upperInclusive) {

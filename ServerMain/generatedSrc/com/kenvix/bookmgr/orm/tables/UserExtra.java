@@ -17,7 +17,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row6;
+import org.jooq.Row7;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserExtra extends TableImpl<UserExtraRecord> {
 
-    private static final long serialVersionUID = 808374925;
+    private static final long serialVersionUID = 1213623088;
 
     /**
      * The reference instance of <code>user_extra</code>
@@ -64,6 +64,11 @@ public class UserExtra extends TableImpl<UserExtraRecord> {
      * The column <code>user_extra.phone</code>. 电话号
      */
     public final TableField<UserExtraRecord, Long> PHONE = createField(DSL.name("phone"), org.jooq.impl.SQLDataType.BIGINT, this, "电话号");
+
+    /**
+     * The column <code>user_extra.money</code>. 可用钱数（单位为分）
+     */
+    public final TableField<UserExtraRecord, Integer> MONEY = createField(DSL.name("money"), org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "可用钱数（单位为分）");
 
     /**
      * The column <code>user_extra.card_serial_id</code>. 卡片序列号
@@ -169,11 +174,11 @@ public class UserExtra extends TableImpl<UserExtraRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<Long, Long, Long, Short, String, String> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<Long, Long, Integer, Long, Short, String, String> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 }

@@ -4,14 +4,18 @@ import com.kenvix.bookmgr.AppConstants
 import com.kenvix.bookmgr.http.controller.api.ApiBaseController
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
 import com.kenvix.bookmgr.http.utils.BookIDLocation
+import com.kenvix.bookmgr.http.utils.BorrowIDLocation
+import com.kenvix.bookmgr.model.mysql.BookBorrowModel
 import com.kenvix.bookmgr.model.mysql.SettingModel
 import com.kenvix.bookmgr.orm.Routines
 import com.kenvix.bookmgr.orm.tables.BookBorrowForAdmin
 import com.kenvix.bookmgr.orm.tables.BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN
 import com.kenvix.bookmgr.orm.tables.daos.BookBorrowDao
-import com.kenvix.web.utils.middleware
-import com.kenvix.web.utils.respondJson
-import com.kenvix.web.utils.respondSuccess
+import com.kenvix.utils.exception.BadRequestException
+import com.kenvix.utils.exception.CommonBusinessException
+import com.kenvix.utils.exception.NotSupportedException
+import com.kenvix.web.utils.*
+import io.ktor.http.*
 import io.ktor.locations.*
 import io.ktor.routing.*
 import java.sql.Timestamp
@@ -34,25 +38,50 @@ object BookBorrowController : ApiBaseController() {
             }
 
             // 请求借书，即“新增借书”
-            post<BookIDLocation> {
+            post<BookIDLocation> { bookId ->
                 val user = middleware(CheckUserToken)
                 val returnAt = Timestamp(System.currentTimeMillis() + SettingModel.get<Long>("book_borrow_period_millis"))
-                Routines.bookBorrow(AppConstants.jooqConfiguration, user.uid, it.id, returnAt)
+                Routines.bookBorrow(AppConstants.jooqConfiguration, bookId.id, user.uid, returnAt)
 
-                respondSuccess("借书成功，下次还书时间为 $returnAt")
-            }
-
-            // 还书，即“删除借书”
-            delete<BookIDLocation> {
-                val user = middleware(CheckUserToken)
-
+                respondSuccess("借书 #${bookId.id} 成功，下次还书时间为 $returnAt")
             }
 
             // 续期，即“修改借书”
-            patch<BookIDLocation> {
+            patch<BorrowIDLocation> { borrowId ->
                 val user = middleware(CheckUserToken)
-                val book = BookBorrowDao(AppConstants.jooqConfiguration).fetchOneById(user.uid)
+                BookBorrowModel.fetchUidById(borrowId.id).validateValue { user.uid == it }
+                val returnAt = Routines.bookBorrowRenew(AppConstants.jooqConfiguration, borrowId.id)
 
+                respondSuccess("续期成功，下次还书时间为 $returnAt")
+            }
+
+            // 还书，即“删除借书”
+            delete<BorrowIDLocation> { borrowId ->
+                val user = middleware(CheckUserToken)
+                val bookBorrow = BookBorrowModel.fetchOneById(borrowId.id)
+
+                if (bookBorrow.borrowerUid != user.uid || bookBorrow.actualReturnedAt != null)
+                    throw BadRequestException("该借书不属于你或者已经还书了")
+
+                // 超期
+                val currentTime: Long = System.currentTimeMillis()
+                val requiredMoney: Int = kotlin.run {
+                    if (bookBorrow.expectedReturnedAt.time <= currentTime) {
+                        val expiredDays = (currentTime - bookBorrow.expectedReturnedAt.time) / (24 * 60 * 60 * 1000)
+                        (expiredDays * SettingModel.get<Int>("book_expire_penalty_cents_a_day")).validateValue {
+                            it < Int.MAX_VALUE
+                        }.toInt()
+                    } else {
+                        0
+                    }
+                }.validateValue { it >= 0 }
+
+                kotlin.runCatching {
+                    Routines.bookBorrowReturn(AppConstants.jooqConfiguration, borrowId.id, requiredMoney)
+                    respondSuccess("还书成功，扣款 ${requiredMoney.toYuanMoneyString()}")
+                }.onFailure {
+                    throw CommonBusinessException(it.message + " (本次还书需要 ${requiredMoney.toYuanMoneyString()}", HttpStatusCode.NotAcceptable.value)
+                }
             }
         }
     }

@@ -24,7 +24,7 @@ object UserModel : UserDao(), BaseModel {
     }
 
     fun fetchOneByEmailOrSerialId(name: String): User? {
-        return if (isEmailExist(name))
+        return if (name.contains('@'))
             fetchOneByEmail(name)
         else
             fetchOneBySerialId(name)

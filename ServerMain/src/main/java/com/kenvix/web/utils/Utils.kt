@@ -233,3 +233,9 @@ inline fun <reified E: Enum<E>> E.next(): E {
     val nextOrdinal = (ordinal + 1) % values.size
     return values[nextOrdinal]
 }
+
+fun Int.toYuanMoneyString(): String {
+    val yuan = this / 100
+    val remain = this % 100
+    return "￥${yuan}.${remain}"
+}
