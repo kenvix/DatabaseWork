@@ -13,6 +13,7 @@ import com.kenvix.bookmgr.orm.tables.BookBorrowExpired;
 import com.kenvix.bookmgr.orm.tables.BookBorrowForAdmin;
 import com.kenvix.bookmgr.orm.tables.BookForUser;
 import com.kenvix.bookmgr.orm.tables.BookStatus;
+import com.kenvix.bookmgr.orm.tables.BookType;
 import com.kenvix.bookmgr.orm.tables.Invoice;
 import com.kenvix.bookmgr.orm.tables.InvoiceForUser;
 import com.kenvix.bookmgr.orm.tables.InvoicePenalty;
@@ -91,6 +92,11 @@ public class Tables {
      * 书籍状态表
      */
     public static final BookStatus BOOK_STATUS = BookStatus.BOOK_STATUS;
+
+    /**
+     * 图书类目
+     */
+    public static final BookType BOOK_TYPE = BookType.BOOK_TYPE;
 
     /**
      * 账单，包括罚款

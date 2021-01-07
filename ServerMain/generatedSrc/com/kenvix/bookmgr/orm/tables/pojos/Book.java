@@ -24,10 +24,11 @@ import javax.annotation.processing.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Book implements IBook {
 
-    private static final long serialVersionUID = -1512069603;
+    private static final long serialVersionUID = 2144998304;
 
     private Long      id;
     private Long      creatorUid;
+    private Integer   typeId;
     private String    title;
     private String    description;
     private Long      publisherId;
@@ -41,6 +42,7 @@ public class Book implements IBook {
     public Book(IBook value) {
         this.id = value.getId();
         this.creatorUid = value.getCreatorUid();
+        this.typeId = value.getTypeId();
         this.title = value.getTitle();
         this.description = value.getDescription();
         this.publisherId = value.getPublisherId();
@@ -53,6 +55,7 @@ public class Book implements IBook {
     public Book(
         Long      id,
         Long      creatorUid,
+        Integer   typeId,
         String    title,
         String    description,
         Long      publisherId,
@@ -63,6 +66,7 @@ public class Book implements IBook {
     ) {
         this.id = id;
         this.creatorUid = creatorUid;
+        this.typeId = typeId;
         this.title = title;
         this.description = description;
         this.publisherId = publisherId;
@@ -91,6 +95,17 @@ public class Book implements IBook {
     @Override
     public Book setCreatorUid(Long creatorUid) {
         this.creatorUid = creatorUid;
+        return this;
+    }
+
+    @Override
+    public Integer getTypeId() {
+        return this.typeId;
+    }
+
+    @Override
+    public Book setTypeId(Integer typeId) {
+        this.typeId = typeId;
         return this;
     }
 
@@ -177,6 +192,7 @@ public class Book implements IBook {
 
         sb.append(id);
         sb.append(", ").append(creatorUid);
+        sb.append(", ").append(typeId);
         sb.append(", ").append(title);
         sb.append(", ").append(description);
         sb.append(", ").append(publisherId);
@@ -197,6 +213,7 @@ public class Book implements IBook {
     public void from(IBook from) {
         setId(from.getId());
         setCreatorUid(from.getCreatorUid());
+        setTypeId(from.getTypeId());
         setTitle(from.getTitle());
         setDescription(from.getDescription());
         setPublisherId(from.getPublisherId());

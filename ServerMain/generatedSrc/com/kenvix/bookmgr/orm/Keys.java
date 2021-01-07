@@ -9,6 +9,7 @@ import com.kenvix.bookmgr.orm.tables.Book;
 import com.kenvix.bookmgr.orm.tables.BookAuthorMap;
 import com.kenvix.bookmgr.orm.tables.BookBorrow;
 import com.kenvix.bookmgr.orm.tables.BookStatus;
+import com.kenvix.bookmgr.orm.tables.BookType;
 import com.kenvix.bookmgr.orm.tables.Invoice;
 import com.kenvix.bookmgr.orm.tables.InvoicePenalty;
 import com.kenvix.bookmgr.orm.tables.InvoiceStatus;
@@ -27,6 +28,7 @@ import com.kenvix.bookmgr.orm.tables.records.BookAuthorMapRecord;
 import com.kenvix.bookmgr.orm.tables.records.BookBorrowRecord;
 import com.kenvix.bookmgr.orm.tables.records.BookRecord;
 import com.kenvix.bookmgr.orm.tables.records.BookStatusRecord;
+import com.kenvix.bookmgr.orm.tables.records.BookTypeRecord;
 import com.kenvix.bookmgr.orm.tables.records.InvoicePenaltyRecord;
 import com.kenvix.bookmgr.orm.tables.records.InvoiceRecord;
 import com.kenvix.bookmgr.orm.tables.records.InvoiceStatusRecord;
@@ -70,6 +72,7 @@ public class Keys {
 
     public static final Identity<AuthorRecord, Long> IDENTITY_AUTHOR = Identities0.IDENTITY_AUTHOR;
     public static final Identity<BookRecord, Long> IDENTITY_BOOK = Identities0.IDENTITY_BOOK;
+    public static final Identity<BookTypeRecord, Integer> IDENTITY_BOOK_TYPE = Identities0.IDENTITY_BOOK_TYPE;
     public static final Identity<InvoiceRecord, Long> IDENTITY_INVOICE = Identities0.IDENTITY_INVOICE;
     public static final Identity<InvoicePenaltyRecord, Long> IDENTITY_INVOICE_PENALTY = Identities0.IDENTITY_INVOICE_PENALTY;
     public static final Identity<LogCardAccessRecord, Long> IDENTITY_LOG_CARD_ACCESS = Identities0.IDENTITY_LOG_CARD_ACCESS;
@@ -88,6 +91,7 @@ public class Keys {
     public static final UniqueKey<BookAuthorMapRecord> KEY_BOOK_AUTHOR_MAP_PRIMARY = UniqueKeys0.KEY_BOOK_AUTHOR_MAP_PRIMARY;
     public static final UniqueKey<BookBorrowRecord> KEY_BOOK_BORROW_PRIMARY = UniqueKeys0.KEY_BOOK_BORROW_PRIMARY;
     public static final UniqueKey<BookStatusRecord> KEY_BOOK_STATUS_PRIMARY = UniqueKeys0.KEY_BOOK_STATUS_PRIMARY;
+    public static final UniqueKey<BookTypeRecord> KEY_BOOK_TYPE_PRIMARY = UniqueKeys0.KEY_BOOK_TYPE_PRIMARY;
     public static final UniqueKey<InvoiceRecord> KEY_INVOICE_PRIMARY = UniqueKeys0.KEY_INVOICE_PRIMARY;
     public static final UniqueKey<InvoicePenaltyRecord> KEY_INVOICE_PENALTY_PRIMARY = UniqueKeys0.KEY_INVOICE_PENALTY_PRIMARY;
     public static final UniqueKey<InvoiceStatusRecord> KEY_INVOICE_STATUS_PRIMARY = UniqueKeys0.KEY_INVOICE_STATUS_PRIMARY;
@@ -110,12 +114,14 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<BookRecord, UserRecord> FK_CREATOR_UID = ForeignKeys0.FK_CREATOR_UID;
+    public static final ForeignKey<BookRecord, BookTypeRecord> FK_BOOK_TYPE_ID = ForeignKeys0.FK_BOOK_TYPE_ID;
     public static final ForeignKey<BookRecord, PublisherRecord> FK_PUBLISHER_ID = ForeignKeys0.FK_PUBLISHER_ID;
     public static final ForeignKey<BookRecord, BookStatusRecord> FK_BOOK_STATUS = ForeignKeys0.FK_BOOK_STATUS;
     public static final ForeignKey<BookAuthorMapRecord, BookRecord> FK_BOOK_AUTHOR_MAP_BOOK_ID = ForeignKeys0.FK_BOOK_AUTHOR_MAP_BOOK_ID;
     public static final ForeignKey<BookAuthorMapRecord, AuthorRecord> FK_BOOK_AUTHOR_MAP_AUTHOR_ID = ForeignKeys0.FK_BOOK_AUTHOR_MAP_AUTHOR_ID;
     public static final ForeignKey<BookBorrowRecord, BookRecord> FK_BOOK_ID = ForeignKeys0.FK_BOOK_ID;
     public static final ForeignKey<BookBorrowRecord, UserRecord> FK_BORROWER_UID = ForeignKeys0.FK_BORROWER_UID;
+    public static final ForeignKey<BookTypeRecord, BookTypeRecord> FK_BOOK_TYPE_PARENT_ID = ForeignKeys0.FK_BOOK_TYPE_PARENT_ID;
     public static final ForeignKey<InvoiceRecord, InvoiceTypeRecord> FK_TYPE = ForeignKeys0.FK_TYPE;
     public static final ForeignKey<InvoiceRecord, UserRecord> FK_OWNER_UID = ForeignKeys0.FK_OWNER_UID;
     public static final ForeignKey<InvoiceRecord, InvoiceStatusRecord> FK_INVOCIE_STATUS = ForeignKeys0.FK_INVOCIE_STATUS;
@@ -131,6 +137,7 @@ public class Keys {
     private static class Identities0 {
         public static Identity<AuthorRecord, Long> IDENTITY_AUTHOR = Internal.createIdentity(Author.AUTHOR, Author.AUTHOR.ID);
         public static Identity<BookRecord, Long> IDENTITY_BOOK = Internal.createIdentity(Book.BOOK, Book.BOOK.ID);
+        public static Identity<BookTypeRecord, Integer> IDENTITY_BOOK_TYPE = Internal.createIdentity(BookType.BOOK_TYPE, BookType.BOOK_TYPE.ID);
         public static Identity<InvoiceRecord, Long> IDENTITY_INVOICE = Internal.createIdentity(Invoice.INVOICE, Invoice.INVOICE.ID);
         public static Identity<InvoicePenaltyRecord, Long> IDENTITY_INVOICE_PENALTY = Internal.createIdentity(InvoicePenalty.INVOICE_PENALTY, InvoicePenalty.INVOICE_PENALTY.ID);
         public static Identity<LogCardAccessRecord, Long> IDENTITY_LOG_CARD_ACCESS = Internal.createIdentity(LogCardAccess.LOG_CARD_ACCESS, LogCardAccess.LOG_CARD_ACCESS.ID);
@@ -147,6 +154,7 @@ public class Keys {
         public static final UniqueKey<BookAuthorMapRecord> KEY_BOOK_AUTHOR_MAP_PRIMARY = Internal.createUniqueKey(BookAuthorMap.BOOK_AUTHOR_MAP, "KEY_book_author_map_PRIMARY", new TableField[] { BookAuthorMap.BOOK_AUTHOR_MAP.BOOK_ID, BookAuthorMap.BOOK_AUTHOR_MAP.AUTHOR_ID }, true);
         public static final UniqueKey<BookBorrowRecord> KEY_BOOK_BORROW_PRIMARY = Internal.createUniqueKey(BookBorrow.BOOK_BORROW, "KEY_book_borrow_PRIMARY", new TableField[] { BookBorrow.BOOK_BORROW.ID }, true);
         public static final UniqueKey<BookStatusRecord> KEY_BOOK_STATUS_PRIMARY = Internal.createUniqueKey(BookStatus.BOOK_STATUS, "KEY_book_status_PRIMARY", new TableField[] { BookStatus.BOOK_STATUS.ID }, true);
+        public static final UniqueKey<BookTypeRecord> KEY_BOOK_TYPE_PRIMARY = Internal.createUniqueKey(BookType.BOOK_TYPE, "KEY_book_type_PRIMARY", new TableField[] { BookType.BOOK_TYPE.ID }, true);
         public static final UniqueKey<InvoiceRecord> KEY_INVOICE_PRIMARY = Internal.createUniqueKey(Invoice.INVOICE, "KEY_invoice_PRIMARY", new TableField[] { Invoice.INVOICE.ID }, true);
         public static final UniqueKey<InvoicePenaltyRecord> KEY_INVOICE_PENALTY_PRIMARY = Internal.createUniqueKey(InvoicePenalty.INVOICE_PENALTY, "KEY_invoice_penalty_PRIMARY", new TableField[] { InvoicePenalty.INVOICE_PENALTY.ID }, true);
         public static final UniqueKey<InvoiceStatusRecord> KEY_INVOICE_STATUS_PRIMARY = Internal.createUniqueKey(InvoiceStatus.INVOICE_STATUS, "KEY_invoice_status_PRIMARY", new TableField[] { InvoiceStatus.INVOICE_STATUS.ID }, true);
@@ -167,12 +175,14 @@ public class Keys {
 
     private static class ForeignKeys0 {
         public static final ForeignKey<BookRecord, UserRecord> FK_CREATOR_UID = Internal.createForeignKey(Keys.KEY_USER_PRIMARY, Book.BOOK, "fk_creator_uid", new TableField[] { Book.BOOK.CREATOR_UID }, true);
+        public static final ForeignKey<BookRecord, BookTypeRecord> FK_BOOK_TYPE_ID = Internal.createForeignKey(Keys.KEY_BOOK_TYPE_PRIMARY, Book.BOOK, "fk_book_type_id", new TableField[] { Book.BOOK.TYPE_ID }, true);
         public static final ForeignKey<BookRecord, PublisherRecord> FK_PUBLISHER_ID = Internal.createForeignKey(Keys.KEY_PUBLISHER_PRIMARY, Book.BOOK, "fk_publisher_id", new TableField[] { Book.BOOK.PUBLISHER_ID }, true);
         public static final ForeignKey<BookRecord, BookStatusRecord> FK_BOOK_STATUS = Internal.createForeignKey(Keys.KEY_BOOK_STATUS_PRIMARY, Book.BOOK, "fk_book_status", new TableField[] { Book.BOOK.STATUS }, true);
         public static final ForeignKey<BookAuthorMapRecord, BookRecord> FK_BOOK_AUTHOR_MAP_BOOK_ID = Internal.createForeignKey(Keys.KEY_BOOK_PRIMARY, BookAuthorMap.BOOK_AUTHOR_MAP, "fk_book_author_map_book_id", new TableField[] { BookAuthorMap.BOOK_AUTHOR_MAP.BOOK_ID }, true);
         public static final ForeignKey<BookAuthorMapRecord, AuthorRecord> FK_BOOK_AUTHOR_MAP_AUTHOR_ID = Internal.createForeignKey(Keys.KEY_AUTHOR_PRIMARY, BookAuthorMap.BOOK_AUTHOR_MAP, "fk_book_author_map_author_id", new TableField[] { BookAuthorMap.BOOK_AUTHOR_MAP.AUTHOR_ID }, true);
         public static final ForeignKey<BookBorrowRecord, BookRecord> FK_BOOK_ID = Internal.createForeignKey(Keys.KEY_BOOK_PRIMARY, BookBorrow.BOOK_BORROW, "fk_book_id", new TableField[] { BookBorrow.BOOK_BORROW.BOOK_ID }, true);
         public static final ForeignKey<BookBorrowRecord, UserRecord> FK_BORROWER_UID = Internal.createForeignKey(Keys.KEY_USER_PRIMARY, BookBorrow.BOOK_BORROW, "fk_borrower_uid", new TableField[] { BookBorrow.BOOK_BORROW.BORROWER_UID }, true);
+        public static final ForeignKey<BookTypeRecord, BookTypeRecord> FK_BOOK_TYPE_PARENT_ID = Internal.createForeignKey(Keys.KEY_BOOK_TYPE_PRIMARY, BookType.BOOK_TYPE, "fk_book_type_parent_id", new TableField[] { BookType.BOOK_TYPE.PARENT_ID }, true);
         public static final ForeignKey<InvoiceRecord, InvoiceTypeRecord> FK_TYPE = Internal.createForeignKey(Keys.KEY_INVOICE_TYPE_PRIMARY, Invoice.INVOICE, "fk_type", new TableField[] { Invoice.INVOICE.TYPE }, true);
         public static final ForeignKey<InvoiceRecord, UserRecord> FK_OWNER_UID = Internal.createForeignKey(Keys.KEY_USER_PRIMARY, Invoice.INVOICE, "fk_owner_uid", new TableField[] { Invoice.INVOICE.OWNER_UID }, true);
         public static final ForeignKey<InvoiceRecord, InvoiceStatusRecord> FK_INVOCIE_STATUS = Internal.createForeignKey(Keys.KEY_INVOICE_STATUS_PRIMARY, Invoice.INVOICE, "fk_invocie_status", new TableField[] { Invoice.INVOICE.STATUS }, true);

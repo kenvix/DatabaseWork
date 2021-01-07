@@ -1,12 +1,11 @@
 package com.kenvix.bookmgr.http.controller.api
 
-import io.ktor.application.call
-import io.ktor.features.origin
-import io.ktor.locations.KtorExperimentalLocationsAPI
-import io.ktor.response.respondText
-import io.ktor.routing.Route
-import io.ktor.routing.get
-import io.ktor.util.KtorExperimentalAPI
+import io.ktor.application.*
+import io.ktor.features.*
+import io.ktor.locations.*
+import io.ktor.response.*
+import io.ktor.routing.*
+import io.ktor.util.*
 
 @OptIn(KtorExperimentalAPI::class, KtorExperimentalLocationsAPI::class)
 object ToolsController : ApiBaseController() {

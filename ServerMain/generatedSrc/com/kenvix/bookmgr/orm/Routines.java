@@ -7,6 +7,8 @@ package com.kenvix.bookmgr.orm;
 import com.kenvix.bookmgr.orm.routines.BookBorrow;
 import com.kenvix.bookmgr.orm.routines.BookBorrowRenew;
 import com.kenvix.bookmgr.orm.routines.BookBorrowReturn;
+import com.kenvix.bookmgr.orm.routines.BookBorrowUnreturnedNum;
+import com.kenvix.bookmgr.orm.routines.BookBorrowerHasExpired;
 import com.kenvix.bookmgr.orm.routines.GetLastInsertId;
 import com.kenvix.bookmgr.orm.routines.GetSetting;
 import com.kenvix.bookmgr.orm.routines.RaiseError;
@@ -68,6 +70,68 @@ public class Routines {
         p.setRequiredMoney(requiredMoney);
 
         p.execute(configuration);
+    }
+
+    /**
+     * Call <code>book_borrow_unreturned_num</code>
+     */
+    public static Integer bookBorrowUnreturnedNum(Configuration configuration, Long borrowerUid) {
+        BookBorrowUnreturnedNum f = new BookBorrowUnreturnedNum();
+        f.setBorrowerUid(borrowerUid);
+
+        f.execute(configuration);
+        return f.getReturnValue();
+    }
+
+    /**
+     * Get <code>book_borrow_unreturned_num</code> as a field.
+     */
+    public static Field<Integer> bookBorrowUnreturnedNum(Long borrowerUid) {
+        BookBorrowUnreturnedNum f = new BookBorrowUnreturnedNum();
+        f.setBorrowerUid(borrowerUid);
+
+        return f.asField();
+    }
+
+    /**
+     * Get <code>book_borrow_unreturned_num</code> as a field.
+     */
+    public static Field<Integer> bookBorrowUnreturnedNum(Field<Long> borrowerUid) {
+        BookBorrowUnreturnedNum f = new BookBorrowUnreturnedNum();
+        f.setBorrowerUid(borrowerUid);
+
+        return f.asField();
+    }
+
+    /**
+     * Call <code>book_borrower_has_expired</code>
+     */
+    public static Boolean bookBorrowerHasExpired(Configuration configuration, Long userUid) {
+        BookBorrowerHasExpired f = new BookBorrowerHasExpired();
+        f.setUserUid(userUid);
+
+        f.execute(configuration);
+        return f.getReturnValue();
+    }
+
+    /**
+     * Get <code>book_borrower_has_expired</code> as a field.
+     */
+    public static Field<Boolean> bookBorrowerHasExpired(Long userUid) {
+        BookBorrowerHasExpired f = new BookBorrowerHasExpired();
+        f.setUserUid(userUid);
+
+        return f.asField();
+    }
+
+    /**
+     * Get <code>book_borrower_has_expired</code> as a field.
+     */
+    public static Field<Boolean> bookBorrowerHasExpired(Field<Long> userUid) {
+        BookBorrowerHasExpired f = new BookBorrowerHasExpired();
+        f.setUserUid(userUid);
+
+        return f.asField();
     }
 
     /**

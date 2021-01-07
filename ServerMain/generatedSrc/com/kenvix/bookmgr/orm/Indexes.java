@@ -8,6 +8,7 @@ import com.kenvix.bookmgr.orm.tables.Author;
 import com.kenvix.bookmgr.orm.tables.Book;
 import com.kenvix.bookmgr.orm.tables.BookAuthorMap;
 import com.kenvix.bookmgr.orm.tables.BookBorrow;
+import com.kenvix.bookmgr.orm.tables.BookType;
 import com.kenvix.bookmgr.orm.tables.Invoice;
 import com.kenvix.bookmgr.orm.tables.InvoicePenalty;
 import com.kenvix.bookmgr.orm.tables.LogSystem;
@@ -41,11 +42,13 @@ public class Indexes {
 
     public static final Index AUTHOR_INDEX_AUTHOR_NAME = Indexes0.AUTHOR_INDEX_AUTHOR_NAME;
     public static final Index BOOK_FK_BOOK_STATUS = Indexes0.BOOK_FK_BOOK_STATUS;
+    public static final Index BOOK_FK_BOOK_TYPE_ID = Indexes0.BOOK_FK_BOOK_TYPE_ID;
     public static final Index BOOK_FK_CREATOR_UID = Indexes0.BOOK_FK_CREATOR_UID;
     public static final Index BOOK_FK_PUBLISHER_ID = Indexes0.BOOK_FK_PUBLISHER_ID;
     public static final Index BOOK_AUTHOR_MAP_FK_BOOK_AUTHOR_MAP_AUTHOR_ID = Indexes0.BOOK_AUTHOR_MAP_FK_BOOK_AUTHOR_MAP_AUTHOR_ID;
     public static final Index BOOK_BORROW_FK_BOOK_ID = Indexes0.BOOK_BORROW_FK_BOOK_ID;
     public static final Index BOOK_BORROW_FK_BORROWER_UID = Indexes0.BOOK_BORROW_FK_BORROWER_UID;
+    public static final Index BOOK_TYPE_FK_BOOK_TYPE_PARENT_ID = Indexes0.BOOK_TYPE_FK_BOOK_TYPE_PARENT_ID;
     public static final Index INVOICE_FK_INVOCIE_STATUS = Indexes0.INVOICE_FK_INVOCIE_STATUS;
     public static final Index INVOICE_FK_OWNER_UID = Indexes0.INVOICE_FK_OWNER_UID;
     public static final Index INVOICE_FK_TYPE = Indexes0.INVOICE_FK_TYPE;
@@ -65,11 +68,13 @@ public class Indexes {
     private static class Indexes0 {
         public static Index AUTHOR_INDEX_AUTHOR_NAME = Internal.createIndex("index_author_name", Author.AUTHOR, new OrderField[] { Author.AUTHOR.NAME }, false);
         public static Index BOOK_FK_BOOK_STATUS = Internal.createIndex("fk_book_status", Book.BOOK, new OrderField[] { Book.BOOK.STATUS }, false);
+        public static Index BOOK_FK_BOOK_TYPE_ID = Internal.createIndex("fk_book_type_id", Book.BOOK, new OrderField[] { Book.BOOK.TYPE_ID }, false);
         public static Index BOOK_FK_CREATOR_UID = Internal.createIndex("fk_creator_uid", Book.BOOK, new OrderField[] { Book.BOOK.CREATOR_UID }, false);
         public static Index BOOK_FK_PUBLISHER_ID = Internal.createIndex("fk_publisher_id", Book.BOOK, new OrderField[] { Book.BOOK.PUBLISHER_ID }, false);
         public static Index BOOK_AUTHOR_MAP_FK_BOOK_AUTHOR_MAP_AUTHOR_ID = Internal.createIndex("fk_book_author_map_author_id", BookAuthorMap.BOOK_AUTHOR_MAP, new OrderField[] { BookAuthorMap.BOOK_AUTHOR_MAP.AUTHOR_ID }, false);
         public static Index BOOK_BORROW_FK_BOOK_ID = Internal.createIndex("fk_book_id", BookBorrow.BOOK_BORROW, new OrderField[] { BookBorrow.BOOK_BORROW.BOOK_ID }, false);
         public static Index BOOK_BORROW_FK_BORROWER_UID = Internal.createIndex("fk_borrower_uid", BookBorrow.BOOK_BORROW, new OrderField[] { BookBorrow.BOOK_BORROW.BORROWER_UID }, false);
+        public static Index BOOK_TYPE_FK_BOOK_TYPE_PARENT_ID = Internal.createIndex("fk_book_type_parent_id", BookType.BOOK_TYPE, new OrderField[] { BookType.BOOK_TYPE.PARENT_ID }, false);
         public static Index INVOICE_FK_INVOCIE_STATUS = Internal.createIndex("fk_invocie_status", Invoice.INVOICE, new OrderField[] { Invoice.INVOICE.STATUS }, false);
         public static Index INVOICE_FK_OWNER_UID = Internal.createIndex("fk_owner_uid", Invoice.INVOICE, new OrderField[] { Invoice.INVOICE.OWNER_UID }, false);
         public static Index INVOICE_FK_TYPE = Internal.createIndex("fk_type", Invoice.INVOICE, new OrderField[] { Invoice.INVOICE.TYPE }, false);

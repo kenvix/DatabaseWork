@@ -2,20 +2,19 @@ package com.kenvix.bookmgr.http.controller.api.reader
 
 import com.kenvix.bookmgr.AppConstants
 import com.kenvix.bookmgr.contacts.generic.BookForUserAndAuthors
-import com.kenvix.bookmgr.http.controller.api.ApiBaseController
+import com.kenvix.bookmgr.http.controller.api.admin.ApiBaseController
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
 import com.kenvix.bookmgr.http.utils.BookIDLocation
-import com.kenvix.bookmgr.orm.tables.Author.AUTHOR
+import com.kenvix.bookmgr.model.mysql.AuthorModel
+import com.kenvix.bookmgr.model.mysql.BookForUserModel.getBooksForUser
 import com.kenvix.bookmgr.orm.tables.BookAuthor.BOOK_AUTHOR
 import com.kenvix.bookmgr.orm.tables.BookAuthorMap.BOOK_AUTHOR_MAP
 import com.kenvix.bookmgr.orm.tables.BookForUser.BOOK_FOR_USER
 import com.kenvix.bookmgr.orm.tables.pojos.BookAuthor
-import com.kenvix.bookmgr.orm.tables.pojos.BookForUser
 import com.kenvix.web.utils.*
 import io.ktor.application.*
 import io.ktor.locations.*
 import io.ktor.routing.*
-import org.jooq.Condition
 
 @OptIn(KtorExperimentalLocationsAPI::class)
 object BookController : ApiBaseController() {
@@ -36,8 +35,9 @@ object BookController : ApiBaseController() {
                     params["filter_publisher"].ifNotNull { BOOK_FOR_USER.PUBLISHER_NAME.likeIgnoreCase("%" + it.strictSqlSafe() + "%") },
                     params["filter_description"].ifNotNull { BOOK_FOR_USER.DESCRIPTION.likeIgnoreCase("%" + it.strictSqlSafe() + "%") },
                     params["filter_available"].ifNotNull { BOOK_FOR_USER.NUM_AVAILABLE.greaterThan(0) },
+                    params["filter_type"].ifNotNull { BOOK_FOR_USER.TYPE_NAME.eq(it.strictSqlSafe()) },
                     params["filter_author"].ifNotNull {
-                        val authors = AppConstants.dslContext.select(AUTHOR.ID).from(AUTHOR).where(AUTHOR.NAME.`in`(it.split(",")))
+                        val authors = AuthorModel.getAuthorsIdsConditionByName(it.split(','))
                         BOOK_AUTHOR_MAP.AUTHOR_ID.`in`(authors)
                     }
                 ).filterNotNull().toList()
@@ -57,28 +57,5 @@ object BookController : ApiBaseController() {
                 respondJson(BookForUserAndAuthors(book[0], authors))
             }
         }
-    }
-
-    private fun getBooksForUser(conditions: List<Condition>): MutableList<BookForUser> {
-        val queryBuilder = AppConstants.dslContext
-            .select(
-                BOOK_FOR_USER.ID,
-                BOOK_FOR_USER.TITLE,
-                BOOK_FOR_USER.DESCRIPTION,
-                BOOK_FOR_USER.CREATED_AT,
-                BOOK_FOR_USER.NUM_TOTAL,
-                BOOK_FOR_USER.NUM_AVAILABLE,
-                BOOK_FOR_USER.STATUS,
-                BOOK_FOR_USER.PUBLISHER_NAME,
-                BOOK_FOR_USER.PUBLISHER_ID,
-                BOOK_FOR_USER.AUTHOR_NAME,
-                BOOK_FOR_USER.AUTHOR_FULLNAME,
-                BOOK_FOR_USER.AUTHOR_COUNTRY,
-            )
-            .from(BOOK_FOR_USER)
-            .where(conditions).and(BOOK_FOR_USER.STATUS.greaterOrEqual(4))
-            .orderBy(BOOK_FOR_USER.ID)
-
-        return queryBuilder.fetchInto(BookForUser::class.java)
     }
 }

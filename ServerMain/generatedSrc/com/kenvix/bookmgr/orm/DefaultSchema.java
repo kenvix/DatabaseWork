@@ -13,6 +13,7 @@ import com.kenvix.bookmgr.orm.tables.BookBorrowExpired;
 import com.kenvix.bookmgr.orm.tables.BookBorrowForAdmin;
 import com.kenvix.bookmgr.orm.tables.BookForUser;
 import com.kenvix.bookmgr.orm.tables.BookStatus;
+import com.kenvix.bookmgr.orm.tables.BookType;
 import com.kenvix.bookmgr.orm.tables.Invoice;
 import com.kenvix.bookmgr.orm.tables.InvoiceForUser;
 import com.kenvix.bookmgr.orm.tables.InvoicePenalty;
@@ -54,7 +55,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = 1989992066;
+    private static final long serialVersionUID = 1859374562;
 
     /**
      * The reference instance of <code>DEFAULT_SCHEMA</code>
@@ -105,6 +106,11 @@ public class DefaultSchema extends SchemaImpl {
      * 书籍状态表
      */
     public final BookStatus BOOK_STATUS = BookStatus.BOOK_STATUS;
+
+    /**
+     * 图书类目
+     */
+    public final BookType BOOK_TYPE = BookType.BOOK_TYPE;
 
     /**
      * 账单，包括罚款
@@ -216,6 +222,7 @@ public class DefaultSchema extends SchemaImpl {
             BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN,
             BookForUser.BOOK_FOR_USER,
             BookStatus.BOOK_STATUS,
+            BookType.BOOK_TYPE,
             Invoice.INVOICE,
             InvoiceForUser.INVOICE_FOR_USER,
             InvoicePenalty.INVOICE_PENALTY,

@@ -11,7 +11,6 @@ import com.kenvix.bookmgr.http.utils.toUserDTO
 import com.kenvix.bookmgr.http.utils.validateEmail
 import com.kenvix.bookmgr.model.mysql.UserModel
 import com.kenvix.bookmgr.orm.Routines
-import com.kenvix.bookmgr.orm.tables.pojos.User
 import com.kenvix.utils.exception.CommonBusinessException
 import com.kenvix.web.utils.*
 import io.ktor.application.*
@@ -22,9 +21,6 @@ import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.util.*
 import io.ktor.util.pipeline.*
-import org.jooq.DSLContext
-import org.jooq.impl.DSL
-import java.sql.Timestamp
 
 @OptIn(KtorExperimentalAPI::class, KtorExperimentalLocationsAPI::class)
 internal object UserController : ApiBaseController() {

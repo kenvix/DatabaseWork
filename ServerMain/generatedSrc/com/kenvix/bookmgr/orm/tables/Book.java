@@ -22,7 +22,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row9;
+import org.jooq.Row10;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -46,7 +46,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Book extends TableImpl<BookRecord> {
 
-    private static final long serialVersionUID = 1684961752;
+    private static final long serialVersionUID = 1293381225;
 
     /**
      * The reference instance of <code>book</code>
@@ -70,6 +70,11 @@ public class Book extends TableImpl<BookRecord> {
      * The column <code>book.creator_uid</code>. 条目创建者UID
      */
     public final TableField<BookRecord, Long> CREATOR_UID = createField(DSL.name("creator_uid"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "条目创建者UID");
+
+    /**
+     * The column <code>book.type_id</code>. 图书类型ID
+     */
+    public final TableField<BookRecord, Integer> TYPE_ID = createField(DSL.name("type_id"), org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "图书类型ID");
 
     /**
      * The column <code>book.title</code>. 书籍标题
@@ -146,7 +151,7 @@ public class Book extends TableImpl<BookRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.BOOK_FK_BOOK_STATUS, Indexes.BOOK_FK_CREATOR_UID, Indexes.BOOK_FK_PUBLISHER_ID);
+        return Arrays.<Index>asList(Indexes.BOOK_FK_BOOK_STATUS, Indexes.BOOK_FK_BOOK_TYPE_ID, Indexes.BOOK_FK_CREATOR_UID, Indexes.BOOK_FK_PUBLISHER_ID);
     }
 
     @Override
@@ -166,11 +171,15 @@ public class Book extends TableImpl<BookRecord> {
 
     @Override
     public List<ForeignKey<BookRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<BookRecord, ?>>asList(Keys.FK_CREATOR_UID, Keys.FK_PUBLISHER_ID, Keys.FK_BOOK_STATUS);
+        return Arrays.<ForeignKey<BookRecord, ?>>asList(Keys.FK_CREATOR_UID, Keys.FK_BOOK_TYPE_ID, Keys.FK_PUBLISHER_ID, Keys.FK_BOOK_STATUS);
     }
 
     public User user() {
         return new User(this, Keys.FK_CREATOR_UID);
+    }
+
+    public BookType bookType() {
+        return new BookType(this, Keys.FK_BOOK_TYPE_ID);
     }
 
     public Publisher publisher() {
@@ -215,11 +224,11 @@ public class Book extends TableImpl<BookRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row9 type methods
+    // Row10 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<Long, Long, String, String, Long, Timestamp, Integer, Integer, Byte> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row10<Long, Long, Integer, String, String, Long, Timestamp, Integer, Integer, Byte> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 }

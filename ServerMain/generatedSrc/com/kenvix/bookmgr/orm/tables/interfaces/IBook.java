@@ -44,6 +44,16 @@ public interface IBook extends Serializable {
     public Long getCreatorUid();
 
     /**
+     * Setter for <code>book.type_id</code>. 图书类型ID
+     */
+    public IBook setTypeId(Integer value);
+
+    /**
+     * Getter for <code>book.type_id</code>. 图书类型ID
+     */
+    public Integer getTypeId();
+
+    /**
      * Setter for <code>book.title</code>. 书籍标题
      */
     public IBook setTitle(String value);

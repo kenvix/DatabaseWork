@@ -163,6 +163,26 @@ public interface IBookForUser extends Serializable {
      */
     public Long getCreatorUid();
 
+    /**
+     * Setter for <code>book_for_user.type_id</code>. 图书类型ID
+     */
+    public IBookForUser setTypeId(Integer value);
+
+    /**
+     * Getter for <code>book_for_user.type_id</code>. 图书类型ID
+     */
+    public Integer getTypeId();
+
+    /**
+     * Setter for <code>book_for_user.type_name</code>. 类目名称
+     */
+    public IBookForUser setTypeName(String value);
+
+    /**
+     * Getter for <code>book_for_user.type_name</code>. 类目名称
+     */
+    public String getTypeName();
+
     // -------------------------------------------------------------------------
     // FROM and INTO
     // -------------------------------------------------------------------------

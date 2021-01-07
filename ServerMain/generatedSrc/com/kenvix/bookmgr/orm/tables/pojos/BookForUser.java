@@ -24,7 +24,7 @@ import javax.annotation.processing.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BookForUser implements IBookForUser {
 
-    private static final long serialVersionUID = 1843460652;
+    private static final long serialVersionUID = 1153410618;
 
     private Long      id;
     private String    title;
@@ -40,6 +40,8 @@ public class BookForUser implements IBookForUser {
     private String    authorFullname;
     private String    authorCountry;
     private Long      creatorUid;
+    private Integer   typeId;
+    private String    typeName;
 
     public BookForUser() {}
 
@@ -58,6 +60,8 @@ public class BookForUser implements IBookForUser {
         this.authorFullname = value.getAuthorFullname();
         this.authorCountry = value.getAuthorCountry();
         this.creatorUid = value.getCreatorUid();
+        this.typeId = value.getTypeId();
+        this.typeName = value.getTypeName();
     }
 
     public BookForUser(
@@ -74,7 +78,9 @@ public class BookForUser implements IBookForUser {
         String    authorName,
         String    authorFullname,
         String    authorCountry,
-        Long      creatorUid
+        Long      creatorUid,
+        Integer   typeId,
+        String    typeName
     ) {
         this.id = id;
         this.title = title;
@@ -90,6 +96,8 @@ public class BookForUser implements IBookForUser {
         this.authorFullname = authorFullname;
         this.authorCountry = authorCountry;
         this.creatorUid = creatorUid;
+        this.typeId = typeId;
+        this.typeName = typeName;
     }
 
     @Override
@@ -247,6 +255,28 @@ public class BookForUser implements IBookForUser {
     }
 
     @Override
+    public Integer getTypeId() {
+        return this.typeId;
+    }
+
+    @Override
+    public BookForUser setTypeId(Integer typeId) {
+        this.typeId = typeId;
+        return this;
+    }
+
+    @Override
+    public String getTypeName() {
+        return this.typeName;
+    }
+
+    @Override
+    public BookForUser setTypeName(String typeName) {
+        this.typeName = typeName;
+        return this;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("BookForUser (");
 
@@ -264,6 +294,8 @@ public class BookForUser implements IBookForUser {
         sb.append(", ").append(authorFullname);
         sb.append(", ").append(authorCountry);
         sb.append(", ").append(creatorUid);
+        sb.append(", ").append(typeId);
+        sb.append(", ").append(typeName);
 
         sb.append(")");
         return sb.toString();
@@ -289,6 +321,8 @@ public class BookForUser implements IBookForUser {
         setAuthorFullname(from.getAuthorFullname());
         setAuthorCountry(from.getAuthorCountry());
         setCreatorUid(from.getCreatorUid());
+        setTypeId(from.getTypeId());
+        setTypeName(from.getTypeName());
     }
 
     @Override

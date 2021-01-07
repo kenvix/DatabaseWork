@@ -84,6 +84,20 @@ public class BookDao extends DAOImpl<BookRecord, com.kenvix.bookmgr.orm.tables.p
     }
 
     /**
+     * Fetch records that have <code>type_id BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.kenvix.bookmgr.orm.tables.pojos.Book> fetchRangeOfTypeId(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(Book.BOOK.TYPE_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>type_id IN (values)</code>
+     */
+    public List<com.kenvix.bookmgr.orm.tables.pojos.Book> fetchByTypeId(Integer... values) {
+        return fetch(Book.BOOK.TYPE_ID, values);
+    }
+
+    /**
      * Fetch records that have <code>title BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.kenvix.bookmgr.orm.tables.pojos.Book> fetchRangeOfTitle(String lowerInclusive, String upperInclusive) {
