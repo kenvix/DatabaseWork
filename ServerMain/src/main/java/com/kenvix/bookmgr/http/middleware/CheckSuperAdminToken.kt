@@ -12,6 +12,6 @@ import javax.naming.AuthenticationException
 object CheckSuperAdminToken : Middleware<User> {
     override fun handle(pipeline: PipelineContext<*, ApplicationCall>): User {
         val user = pipeline.middleware(CheckUserToken)
-        return user.validateValue(AuthenticationException()) { user.accessLevel == AccessLevel.SuperAdmin }
+        return user.validateValue(AuthenticationException()) { user.accessLevel >= AccessLevel.SuperAdmin }
     }
 }

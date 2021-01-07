@@ -10,8 +10,10 @@ package com.kenvix.bookmgr.http.routes
 
 import com.kenvix.bookmgr.http.controller.TODOController
 import com.kenvix.bookmgr.http.controller.api.*
+import com.kenvix.bookmgr.http.controller.api.reader.AuthorController
 import com.kenvix.bookmgr.http.controller.api.reader.BookBorrowController
 import com.kenvix.bookmgr.http.controller.api.reader.BookController
+import com.kenvix.bookmgr.http.controller.api.reader.PublisherController
 import com.kenvix.utils.preferences.ServerEnv
 import com.kenvix.web.server.KtorModule
 import com.kenvix.web.utils.controller
@@ -37,6 +39,8 @@ class ApiRoutes : KtorModule {
                 route("/reader") {
                     controller("/book", BookController)
                     controller("/book/borrow", BookBorrowController)
+                    controller("/publisher", PublisherController)
+                    controller("/author", AuthorController)
                 }
 
                 route("/admin") {

@@ -1,7 +1,7 @@
 package com.kenvix.bookmgr.model.mysql
 
 import com.kenvix.bookmgr.AppConstants
-import com.kenvix.bookmgr.orm.tables.Author
+import com.kenvix.bookmgr.orm.tables.pojos.Author
 import com.kenvix.bookmgr.orm.tables.Author.AUTHOR
 import com.kenvix.bookmgr.orm.tables.daos.AuthorDao
 import org.jooq.Configuration
@@ -17,4 +17,6 @@ object AuthorModel : AuthorDao(), BaseModel {
     fun getAuthorsIdsConditionByName(names: List<String>): SelectConditionStep<Record1<Long>>? {
         return AppConstants.dslContext.select(AUTHOR.ID).from(AUTHOR).where(AUTHOR.NAME.`in`(names))
     }
+
+    fun fetchAll() = dsl.select().from(AUTHOR).fetchInto(Author::class.java)
 }

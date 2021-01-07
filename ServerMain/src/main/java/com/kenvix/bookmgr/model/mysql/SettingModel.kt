@@ -51,7 +51,8 @@ object SettingModel : SettingDao(), BaseModel {
 
     inline fun <reified T> set(key: String, value: T, noinline serializer: ((T) -> String)? = null) {
         settingCache.put(key + "@" + T::class.java.name, value)
-        update(Setting(key, value.run { if (serializer != null) serializer(this) else toString() }))
+    //TODO
+    //update(Setting(key, value.run { if (serializer != null) serializer(this) else toString() }, ""))
     }
 
     override fun configuration(): Configuration {

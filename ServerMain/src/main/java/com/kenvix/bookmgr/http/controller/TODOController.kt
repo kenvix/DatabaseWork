@@ -15,6 +15,6 @@ import io.ktor.routing.*
  */
 object TODOController : BaseController() {
     override fun route(route: Route) {
-        TODO("Not yet implemented")
+
     }
 }
