@@ -103,6 +103,16 @@ public interface IBookBorrowForAdmin extends Serializable {
      */
     public String getBorrowerSerialId();
 
+    /**
+     * Setter for <code>book_borrow_for_admin.renew_num</code>. 续借次数
+     */
+    public IBookBorrowForAdmin setRenewNum(Short value);
+
+    /**
+     * Getter for <code>book_borrow_for_admin.renew_num</code>. 续借次数
+     */
+    public Short getRenewNum();
+
     // -------------------------------------------------------------------------
     // FROM and INTO
     // -------------------------------------------------------------------------

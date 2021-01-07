@@ -6,9 +6,7 @@ import com.kenvix.utils.exception.*
 import com.kenvix.utils.preferences.ServerEnv
 import com.kenvix.web.utils.respondError
 import freemarker.cache.ClassTemplateLoader
-import io.ktor.application.Application
-import io.ktor.application.call
-import io.ktor.application.install
+import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.features.BadRequestException
 import io.ktor.features.NotFoundException
@@ -29,6 +27,7 @@ import io.ktor.routing.get
 import io.ktor.routing.route
 import io.ktor.routing.routing
 import io.ktor.util.date.GMTDate
+import io.ktor.util.pipeline.*
 import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
 import org.jooq.exception.DataAccessException
@@ -176,14 +175,15 @@ fun Application.module() {
         exception<NotImplementedError> { respondError(HttpStatusCode.NotImplemented, it) }
 
         exception<DataAccessException> {
-            com.kenvix.web.utils.error("MySQL Database failed!", it, WebServerBasicRoutes.logger)
-            respondError(HttpStatusCode.InternalServerError, it)
+            if (it.cause != null && it.cause is SQLException && (it.cause as SQLException?)?.sqlState == "45233") {
+
+            } else {
+                com.kenvix.web.utils.error("MySQL Database failed!", it, WebServerBasicRoutes.logger)
+                respondError(HttpStatusCode.InternalServerError, it)
+            }
         }
 
-        exception<SQLException> {
-            com.kenvix.web.utils.error("Database failed!", it, WebServerBasicRoutes.logger)
-            respondError(HttpStatusCode.InternalServerError, it)
-        }
+        exception<SQLException> { handleSQLException(it) }
 
         exception<Throwable> {
             com.kenvix.web.utils.error("HTTP request failed unexpectedly", it, WebServerBasicRoutes.logger)
@@ -199,4 +199,15 @@ fun Application.module() {
     }
 
     WebServer.registerRoutes(this, isTesting)
+}
+
+suspend fun PipelineContext<*, ApplicationCall>.handleSQLException(exception: Throwable) {
+    val it = if (exception is DataAccessException && exception.cause != null && exception.cause is SQLException) exception.cause!! else exception
+
+    if (it is SQLException && (it.cause as SQLException?)?.sqlState == "45233") {
+        respondError(HttpStatusCode.NotAcceptable, it)
+    } else {
+        com.kenvix.web.utils.error("MySQL Database failed!", it, WebServerBasicRoutes.logger)
+        respondError(HttpStatusCode.InternalServerError, it)
+    }
 }

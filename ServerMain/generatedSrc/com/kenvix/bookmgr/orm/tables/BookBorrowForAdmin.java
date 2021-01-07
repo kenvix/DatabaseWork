@@ -15,7 +15,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row8;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -37,7 +37,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BookBorrowForAdmin extends TableImpl<BookBorrowForAdminRecord> {
 
-    private static final long serialVersionUID = 103648549;
+    private static final long serialVersionUID = 1805160588;
 
     /**
      * The reference instance of <code>book_borrow_for_admin</code>
@@ -93,6 +93,11 @@ public class BookBorrowForAdmin extends TableImpl<BookBorrowForAdminRecord> {
     public final TableField<BookBorrowForAdminRecord, String> BORROWER_SERIAL_ID = createField(DSL.name("borrower_serial_id"), org.jooq.impl.SQLDataType.VARCHAR(15).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "工号/序列号");
 
     /**
+     * The column <code>book_borrow_for_admin.renew_num</code>. 续借次数
+     */
+    public final TableField<BookBorrowForAdminRecord, Short> RENEW_NUM = createField(DSL.name("renew_num"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.SMALLINT)), this, "续借次数");
+
+    /**
      * Create a <code>book_borrow_for_admin</code> table reference
      */
     public BookBorrowForAdmin() {
@@ -118,7 +123,7 @@ public class BookBorrowForAdmin extends TableImpl<BookBorrowForAdminRecord> {
     }
 
     private BookBorrowForAdmin(Name alias, Table<BookBorrowForAdminRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `book_borrow_for_admin` as select `book`.`book_borrow`.`book_id` AS `book_id`,`book`.`book`.`title` AS `book_title`,`book`.`book_borrow`.`borrower_uid` AS `borrower_uid`,`book`.`book_borrow`.`borrowed_at` AS `borrowed_at`,`book`.`book_borrow`.`expected_returned_at` AS `expected_returned_at`,`book`.`book_borrow`.`actual_returned_at` AS `actual_returned_at`,`book`.`user`.`real_name` AS `borrower_real_name`,`book`.`user`.`serial_id` AS `borrower_serial_id` from ((`book`.`book` join `book`.`book_borrow` on((`book`.`book`.`id` = `book`.`book_borrow`.`book_id`))) join `book`.`user` on((`book`.`book_borrow`.`borrower_uid` = `book`.`user`.`uid`)))"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `book_borrow_for_admin` as select `book`.`book_borrow`.`book_id` AS `book_id`,`book`.`book`.`title` AS `book_title`,`book`.`book_borrow`.`borrower_uid` AS `borrower_uid`,`book`.`book_borrow`.`borrowed_at` AS `borrowed_at`,`book`.`book_borrow`.`expected_returned_at` AS `expected_returned_at`,`book`.`book_borrow`.`actual_returned_at` AS `actual_returned_at`,`book`.`user`.`real_name` AS `borrower_real_name`,`book`.`user`.`serial_id` AS `borrower_serial_id`,`book`.`book_borrow`.`renew_num` AS `renew_num` from ((`book`.`book` join `book`.`book_borrow` on((`book`.`book`.`id` = `book`.`book_borrow`.`book_id`))) join `book`.`user` on((`book`.`book_borrow`.`borrower_uid` = `book`.`user`.`uid`)))"));
     }
 
     public <O extends Record> BookBorrowForAdmin(Table<O> child, ForeignKey<O, BookBorrowForAdminRecord> key) {
@@ -157,11 +162,11 @@ public class BookBorrowForAdmin extends TableImpl<BookBorrowForAdminRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Long, String, Long, Timestamp, Timestamp, Timestamp, String, String> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row9<Long, String, Long, Timestamp, Timestamp, Timestamp, String, String, Short> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 }

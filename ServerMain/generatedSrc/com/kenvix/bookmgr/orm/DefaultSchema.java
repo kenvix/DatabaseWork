@@ -11,7 +11,6 @@ import com.kenvix.bookmgr.orm.tables.BookAuthorMap;
 import com.kenvix.bookmgr.orm.tables.BookBorrow;
 import com.kenvix.bookmgr.orm.tables.BookBorrowExpired;
 import com.kenvix.bookmgr.orm.tables.BookBorrowForAdmin;
-import com.kenvix.bookmgr.orm.tables.BookBorrowForUser;
 import com.kenvix.bookmgr.orm.tables.BookForUser;
 import com.kenvix.bookmgr.orm.tables.BookStatus;
 import com.kenvix.bookmgr.orm.tables.Invoice;
@@ -25,6 +24,7 @@ import com.kenvix.bookmgr.orm.tables.LogSystem;
 import com.kenvix.bookmgr.orm.tables.LogUserLogin;
 import com.kenvix.bookmgr.orm.tables.LogUserLoginForAdmin;
 import com.kenvix.bookmgr.orm.tables.Publisher;
+import com.kenvix.bookmgr.orm.tables.Setting;
 import com.kenvix.bookmgr.orm.tables.TaskQueue;
 import com.kenvix.bookmgr.orm.tables.User;
 import com.kenvix.bookmgr.orm.tables.UserAccessLevel;
@@ -54,7 +54,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = 1995560990;
+    private static final long serialVersionUID = 1989992066;
 
     /**
      * The reference instance of <code>DEFAULT_SCHEMA</code>
@@ -95,11 +95,6 @@ public class DefaultSchema extends SchemaImpl {
      * VIEW
      */
     public final BookBorrowForAdmin BOOK_BORROW_FOR_ADMIN = BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN;
-
-    /**
-     * VIEW
-     */
-    public final BookBorrowForUser BOOK_BORROW_FOR_USER = BookBorrowForUser.BOOK_BORROW_FOR_USER;
 
     /**
      * VIEW
@@ -167,6 +162,11 @@ public class DefaultSchema extends SchemaImpl {
     public final Publisher PUBLISHER = Publisher.PUBLISHER;
 
     /**
+     * 设置表
+     */
+    public final Setting SETTING = Setting.SETTING;
+
+    /**
      * 任务队列（程序可读）
      */
     public final TaskQueue TASK_QUEUE = TaskQueue.TASK_QUEUE;
@@ -214,7 +214,6 @@ public class DefaultSchema extends SchemaImpl {
             BookBorrow.BOOK_BORROW,
             BookBorrowExpired.BOOK_BORROW_EXPIRED,
             BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN,
-            BookBorrowForUser.BOOK_BORROW_FOR_USER,
             BookForUser.BOOK_FOR_USER,
             BookStatus.BOOK_STATUS,
             Invoice.INVOICE,
@@ -228,6 +227,7 @@ public class DefaultSchema extends SchemaImpl {
             LogUserLogin.LOG_USER_LOGIN,
             LogUserLoginForAdmin.LOG_USER_LOGIN_FOR_ADMIN,
             Publisher.PUBLISHER,
+            Setting.SETTING,
             TaskQueue.TASK_QUEUE,
             User.USER,
             UserAccessLevel.USER_ACCESS_LEVEL,

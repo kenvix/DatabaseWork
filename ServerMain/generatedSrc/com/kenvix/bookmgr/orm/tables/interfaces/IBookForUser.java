@@ -153,6 +153,16 @@ public interface IBookForUser extends Serializable {
      */
     public String getAuthorCountry();
 
+    /**
+     * Setter for <code>book_for_user.creator_uid</code>. 条目创建者UID
+     */
+    public IBookForUser setCreatorUid(Long value);
+
+    /**
+     * Getter for <code>book_for_user.creator_uid</code>. 条目创建者UID
+     */
+    public Long getCreatorUid();
+
     // -------------------------------------------------------------------------
     // FROM and INTO
     // -------------------------------------------------------------------------

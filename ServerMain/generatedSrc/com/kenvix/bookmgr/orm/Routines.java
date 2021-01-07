@@ -5,8 +5,12 @@ package com.kenvix.bookmgr.orm;
 
 
 import com.kenvix.bookmgr.orm.routines.BookBorrow;
+import com.kenvix.bookmgr.orm.routines.BookBorrowRenew;
+import com.kenvix.bookmgr.orm.routines.BookBorrowReturn;
 import com.kenvix.bookmgr.orm.routines.GetLastInsertId;
+import com.kenvix.bookmgr.orm.routines.GetSetting;
 import com.kenvix.bookmgr.orm.routines.RaiseError;
+import com.kenvix.bookmgr.orm.routines.Test;
 import com.kenvix.bookmgr.orm.routines.UserAdd;
 import com.kenvix.bookmgr.orm.routines.UserDelete;
 
@@ -45,6 +49,29 @@ public class Routines {
     }
 
     /**
+     * Call <code>book_borrow_renew</code>
+     */
+    public static Timestamp bookBorrowRenew(Configuration configuration, Long bookIdV, Long borrowerUidV) {
+        BookBorrowRenew p = new BookBorrowRenew();
+        p.setBookIdV(bookIdV);
+        p.setBorrowerUidV(borrowerUidV);
+
+        p.execute(configuration);
+        return p.getNextExpectedReturn();
+    }
+
+    /**
+     * Call <code>book_borrow_return</code>
+     */
+    public static void bookBorrowReturn(Configuration configuration, Long bookIdV, Long borrowerUidV) {
+        BookBorrowReturn p = new BookBorrowReturn();
+        p.setBookIdV(bookIdV);
+        p.setBorrowerUidV(borrowerUidV);
+
+        p.execute(configuration);
+    }
+
+    /**
      * Call <code>get_last_insert_id</code>
      */
     public static Long getLastInsertId(Configuration configuration) {
@@ -64,6 +91,37 @@ public class Routines {
     }
 
     /**
+     * Call <code>get_setting</code>
+     */
+    public static String getSetting(Configuration configuration, String keyV) {
+        GetSetting f = new GetSetting();
+        f.setKeyV(keyV);
+
+        f.execute(configuration);
+        return f.getReturnValue();
+    }
+
+    /**
+     * Get <code>get_setting</code> as a field.
+     */
+    public static Field<String> getSetting(String keyV) {
+        GetSetting f = new GetSetting();
+        f.setKeyV(keyV);
+
+        return f.asField();
+    }
+
+    /**
+     * Get <code>get_setting</code> as a field.
+     */
+    public static Field<String> getSetting(Field<String> keyV) {
+        GetSetting f = new GetSetting();
+        f.setKeyV(keyV);
+
+        return f.asField();
+    }
+
+    /**
      * Call <code>raise_error</code>
      */
     public static void raiseError(Configuration configuration, String errorMessage, Integer errorId) {
@@ -72,6 +130,16 @@ public class Routines {
         p.setErrorId(errorId);
 
         p.execute(configuration);
+    }
+
+    /**
+     * Call <code>test</code>
+     */
+    public static Short test(Configuration configuration) {
+        Test p = new Test();
+
+        p.execute(configuration);
+        return p.getMaxRenewNum();
     }
 
     /**

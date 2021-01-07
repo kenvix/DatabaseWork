@@ -24,7 +24,7 @@ import javax.annotation.processing.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BookBorrow implements IBookBorrow {
 
-    private static final long serialVersionUID = 2054868889;
+    private static final long serialVersionUID = -74112195;
 
     private Long      id;
     private Long      bookId;
@@ -32,6 +32,7 @@ public class BookBorrow implements IBookBorrow {
     private Timestamp borrowedAt;
     private Timestamp expectedReturnedAt;
     private Timestamp actualReturnedAt;
+    private Short     renewNum;
 
     public BookBorrow() {}
 
@@ -42,6 +43,7 @@ public class BookBorrow implements IBookBorrow {
         this.borrowedAt = value.getBorrowedAt();
         this.expectedReturnedAt = value.getExpectedReturnedAt();
         this.actualReturnedAt = value.getActualReturnedAt();
+        this.renewNum = value.getRenewNum();
     }
 
     public BookBorrow(
@@ -50,7 +52,8 @@ public class BookBorrow implements IBookBorrow {
         Long      borrowerUid,
         Timestamp borrowedAt,
         Timestamp expectedReturnedAt,
-        Timestamp actualReturnedAt
+        Timestamp actualReturnedAt,
+        Short     renewNum
     ) {
         this.id = id;
         this.bookId = bookId;
@@ -58,6 +61,7 @@ public class BookBorrow implements IBookBorrow {
         this.borrowedAt = borrowedAt;
         this.expectedReturnedAt = expectedReturnedAt;
         this.actualReturnedAt = actualReturnedAt;
+        this.renewNum = renewNum;
     }
 
     @Override
@@ -127,6 +131,17 @@ public class BookBorrow implements IBookBorrow {
     }
 
     @Override
+    public Short getRenewNum() {
+        return this.renewNum;
+    }
+
+    @Override
+    public BookBorrow setRenewNum(Short renewNum) {
+        this.renewNum = renewNum;
+        return this;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("BookBorrow (");
 
@@ -136,6 +151,7 @@ public class BookBorrow implements IBookBorrow {
         sb.append(", ").append(borrowedAt);
         sb.append(", ").append(expectedReturnedAt);
         sb.append(", ").append(actualReturnedAt);
+        sb.append(", ").append(renewNum);
 
         sb.append(")");
         return sb.toString();
@@ -153,6 +169,7 @@ public class BookBorrow implements IBookBorrow {
         setBorrowedAt(from.getBorrowedAt());
         setExpectedReturnedAt(from.getExpectedReturnedAt());
         setActualReturnedAt(from.getActualReturnedAt());
+        setRenewNum(from.getRenewNum());
     }
 
     @Override

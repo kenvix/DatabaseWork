@@ -21,6 +21,7 @@
     <option name="WORKING_DIRECTORY" value="file://ServerMain" />
     <envs>
       <env name="HttpPort" value="56447" />
+      <env name="DatabasePassword" value="123456" />
     </envs>
     <method v="2">
       <option name="Make" enabled="true" />

@@ -20,7 +20,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row6;
+import org.jooq.Row7;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -43,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BookBorrow extends TableImpl<BookBorrowRecord> {
 
-    private static final long serialVersionUID = 2061212557;
+    private static final long serialVersionUID = 2031851620;
 
     /**
      * The reference instance of <code>book_borrow</code>
@@ -87,6 +87,11 @@ public class BookBorrow extends TableImpl<BookBorrowRecord> {
      * The column <code>book_borrow.actual_returned_at</code>. 实际还书日期，NULL为没还
      */
     public final TableField<BookBorrowRecord, Timestamp> ACTUAL_RETURNED_AT = createField(DSL.name("actual_returned_at"), org.jooq.impl.SQLDataType.TIMESTAMP, this, "实际还书日期，NULL为没还");
+
+    /**
+     * The column <code>book_borrow.renew_num</code>. 续借次数
+     */
+    public final TableField<BookBorrowRecord, Short> RENEW_NUM = createField(DSL.name("renew_num"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.SMALLINT)), this, "续借次数");
 
     /**
      * Create a <code>book_borrow</code> table reference
@@ -181,11 +186,11 @@ public class BookBorrow extends TableImpl<BookBorrowRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<Long, Long, Long, Timestamp, Timestamp, Timestamp> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<Long, Long, Long, Timestamp, Timestamp, Timestamp, Short> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 }

@@ -24,7 +24,7 @@ import javax.annotation.processing.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BookForUser implements IBookForUser {
 
-    private static final long serialVersionUID = 439126728;
+    private static final long serialVersionUID = 1843460652;
 
     private Long      id;
     private String    title;
@@ -39,6 +39,7 @@ public class BookForUser implements IBookForUser {
     private String    authorName;
     private String    authorFullname;
     private String    authorCountry;
+    private Long      creatorUid;
 
     public BookForUser() {}
 
@@ -56,6 +57,7 @@ public class BookForUser implements IBookForUser {
         this.authorName = value.getAuthorName();
         this.authorFullname = value.getAuthorFullname();
         this.authorCountry = value.getAuthorCountry();
+        this.creatorUid = value.getCreatorUid();
     }
 
     public BookForUser(
@@ -71,7 +73,8 @@ public class BookForUser implements IBookForUser {
         Long      authorId,
         String    authorName,
         String    authorFullname,
-        String    authorCountry
+        String    authorCountry,
+        Long      creatorUid
     ) {
         this.id = id;
         this.title = title;
@@ -86,6 +89,7 @@ public class BookForUser implements IBookForUser {
         this.authorName = authorName;
         this.authorFullname = authorFullname;
         this.authorCountry = authorCountry;
+        this.creatorUid = creatorUid;
     }
 
     @Override
@@ -232,6 +236,17 @@ public class BookForUser implements IBookForUser {
     }
 
     @Override
+    public Long getCreatorUid() {
+        return this.creatorUid;
+    }
+
+    @Override
+    public BookForUser setCreatorUid(Long creatorUid) {
+        this.creatorUid = creatorUid;
+        return this;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("BookForUser (");
 
@@ -248,6 +263,7 @@ public class BookForUser implements IBookForUser {
         sb.append(", ").append(authorName);
         sb.append(", ").append(authorFullname);
         sb.append(", ").append(authorCountry);
+        sb.append(", ").append(creatorUid);
 
         sb.append(")");
         return sb.toString();
@@ -272,6 +288,7 @@ public class BookForUser implements IBookForUser {
         setAuthorName(from.getAuthorName());
         setAuthorFullname(from.getAuthorFullname());
         setAuthorCountry(from.getAuthorCountry());
+        setCreatorUid(from.getCreatorUid());
     }
 
     @Override

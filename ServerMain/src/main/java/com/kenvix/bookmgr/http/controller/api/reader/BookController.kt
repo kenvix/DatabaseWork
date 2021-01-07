@@ -4,6 +4,7 @@ import com.kenvix.bookmgr.AppConstants
 import com.kenvix.bookmgr.contacts.generic.BookForUserAndAuthors
 import com.kenvix.bookmgr.http.controller.api.ApiBaseController
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
+import com.kenvix.bookmgr.http.utils.BookIDLocation
 import com.kenvix.bookmgr.orm.tables.Author.AUTHOR
 import com.kenvix.bookmgr.orm.tables.BookAuthor.BOOK_AUTHOR
 import com.kenvix.bookmgr.orm.tables.BookAuthorMap.BOOK_AUTHOR_MAP
@@ -57,9 +58,6 @@ object BookController : ApiBaseController() {
             }
         }
     }
-
-    @Location("/{id}")
-    class BookIDLocation(val id: Long)
 
     private fun getBooksForUser(conditions: List<Condition>): MutableList<BookForUser> {
         val queryBuilder = AppConstants.dslContext

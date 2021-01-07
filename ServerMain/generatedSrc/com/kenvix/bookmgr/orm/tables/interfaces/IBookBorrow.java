@@ -83,6 +83,16 @@ public interface IBookBorrow extends Serializable {
      */
     public Timestamp getActualReturnedAt();
 
+    /**
+     * Setter for <code>book_borrow.renew_num</code>. 续借次数
+     */
+    public IBookBorrow setRenewNum(Short value);
+
+    /**
+     * Getter for <code>book_borrow.renew_num</code>. 续借次数
+     */
+    public Short getRenewNum();
+
     // -------------------------------------------------------------------------
     // FROM and INTO
     // -------------------------------------------------------------------------

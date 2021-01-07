@@ -24,10 +24,13 @@ dependencies {
     // jooqRuntime group: 'org.xerial', name: 'sqlite-jdbc', version: '3.25.2'
 
     // For mysql
-    jooqRuntime group: "mysql", name: "mysql-connector-java", version: "8.0.17"
+    jooqRuntime group: "mysql", name: "mysql-connector-java", version: "8.0.22"
 }
 
 task createJooqConfig {
+    group = "jooq"
+    description = 'Generate jooq config'
+
     doLast {
         def file = project.file(System.getProperty("project.jooqPropFile"))
 
@@ -40,6 +43,13 @@ task createJooqConfig {
                     "jooq.user=root\n" +
                     "jooq.password=")
         }
+    }
+}
+
+task cleanGeneratedSrc {
+    group = "jooq"
+    doLast {
+        project.delete(files(System.getProperty("project.generatedSrcDir") + "/" + (System.getProperty("project.fullPackageName") + ".orm").replace('.', '/')))
     }
 }
 
@@ -91,7 +101,7 @@ jooq {
                     udts = true
                     sequences  = true
                     interfaces = true
-                    pojos = true //是否生成数据表对应的javabean类
+                    pojos = true//是否生成数据表对应的javabean类
                     daos = true//是否生成数据表对应的dao层，这里生成的dao能执行基本的增删改查sql操作，复杂一点的操作需要自己写dao
                     fluentSetters = true
                 }

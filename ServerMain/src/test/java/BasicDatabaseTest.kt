@@ -20,7 +20,7 @@ class BasicDatabaseTest {
                 if (e.cause != null && e.cause is SQLException) {
                     println("OK: SQLSTATE ${e.sqlState()}: ${e.cause!!.message}")
                 }
-               
+
             }
         }
     }

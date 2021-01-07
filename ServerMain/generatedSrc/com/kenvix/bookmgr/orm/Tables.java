@@ -11,7 +11,6 @@ import com.kenvix.bookmgr.orm.tables.BookAuthorMap;
 import com.kenvix.bookmgr.orm.tables.BookBorrow;
 import com.kenvix.bookmgr.orm.tables.BookBorrowExpired;
 import com.kenvix.bookmgr.orm.tables.BookBorrowForAdmin;
-import com.kenvix.bookmgr.orm.tables.BookBorrowForUser;
 import com.kenvix.bookmgr.orm.tables.BookForUser;
 import com.kenvix.bookmgr.orm.tables.BookStatus;
 import com.kenvix.bookmgr.orm.tables.Invoice;
@@ -25,6 +24,7 @@ import com.kenvix.bookmgr.orm.tables.LogSystem;
 import com.kenvix.bookmgr.orm.tables.LogUserLogin;
 import com.kenvix.bookmgr.orm.tables.LogUserLoginForAdmin;
 import com.kenvix.bookmgr.orm.tables.Publisher;
+import com.kenvix.bookmgr.orm.tables.Setting;
 import com.kenvix.bookmgr.orm.tables.TaskQueue;
 import com.kenvix.bookmgr.orm.tables.User;
 import com.kenvix.bookmgr.orm.tables.UserAccessLevel;
@@ -81,11 +81,6 @@ public class Tables {
      * VIEW
      */
     public static final BookBorrowForAdmin BOOK_BORROW_FOR_ADMIN = BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN;
-
-    /**
-     * VIEW
-     */
-    public static final BookBorrowForUser BOOK_BORROW_FOR_USER = BookBorrowForUser.BOOK_BORROW_FOR_USER;
 
     /**
      * VIEW
@@ -151,6 +146,11 @@ public class Tables {
      * 出版社
      */
     public static final Publisher PUBLISHER = Publisher.PUBLISHER;
+
+    /**
+     * 设置表
+     */
+    public static final Setting SETTING = Setting.SETTING;
 
     /**
      * 任务队列（程序可读）

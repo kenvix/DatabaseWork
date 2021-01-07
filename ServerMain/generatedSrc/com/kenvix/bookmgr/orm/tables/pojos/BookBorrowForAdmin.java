@@ -24,7 +24,7 @@ import javax.annotation.processing.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BookBorrowForAdmin implements IBookBorrowForAdmin {
 
-    private static final long serialVersionUID = 886524247;
+    private static final long serialVersionUID = -1432297803;
 
     private Long      bookId;
     private String    bookTitle;
@@ -34,6 +34,7 @@ public class BookBorrowForAdmin implements IBookBorrowForAdmin {
     private Timestamp actualReturnedAt;
     private String    borrowerRealName;
     private String    borrowerSerialId;
+    private Short     renewNum;
 
     public BookBorrowForAdmin() {}
 
@@ -46,6 +47,7 @@ public class BookBorrowForAdmin implements IBookBorrowForAdmin {
         this.actualReturnedAt = value.getActualReturnedAt();
         this.borrowerRealName = value.getBorrowerRealName();
         this.borrowerSerialId = value.getBorrowerSerialId();
+        this.renewNum = value.getRenewNum();
     }
 
     public BookBorrowForAdmin(
@@ -56,7 +58,8 @@ public class BookBorrowForAdmin implements IBookBorrowForAdmin {
         Timestamp expectedReturnedAt,
         Timestamp actualReturnedAt,
         String    borrowerRealName,
-        String    borrowerSerialId
+        String    borrowerSerialId,
+        Short     renewNum
     ) {
         this.bookId = bookId;
         this.bookTitle = bookTitle;
@@ -66,6 +69,7 @@ public class BookBorrowForAdmin implements IBookBorrowForAdmin {
         this.actualReturnedAt = actualReturnedAt;
         this.borrowerRealName = borrowerRealName;
         this.borrowerSerialId = borrowerSerialId;
+        this.renewNum = renewNum;
     }
 
     @Override
@@ -157,6 +161,17 @@ public class BookBorrowForAdmin implements IBookBorrowForAdmin {
     }
 
     @Override
+    public Short getRenewNum() {
+        return this.renewNum;
+    }
+
+    @Override
+    public BookBorrowForAdmin setRenewNum(Short renewNum) {
+        this.renewNum = renewNum;
+        return this;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("BookBorrowForAdmin (");
 
@@ -168,6 +183,7 @@ public class BookBorrowForAdmin implements IBookBorrowForAdmin {
         sb.append(", ").append(actualReturnedAt);
         sb.append(", ").append(borrowerRealName);
         sb.append(", ").append(borrowerSerialId);
+        sb.append(", ").append(renewNum);
 
         sb.append(")");
         return sb.toString();
@@ -187,6 +203,7 @@ public class BookBorrowForAdmin implements IBookBorrowForAdmin {
         setActualReturnedAt(from.getActualReturnedAt());
         setBorrowerRealName(from.getBorrowerRealName());
         setBorrowerSerialId(from.getBorrowerSerialId());
+        setRenewNum(from.getRenewNum());
     }
 
     @Override

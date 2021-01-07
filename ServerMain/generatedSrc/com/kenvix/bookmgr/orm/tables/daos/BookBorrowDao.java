@@ -138,4 +138,18 @@ public class BookBorrowDao extends DAOImpl<BookBorrowRecord, com.kenvix.bookmgr.
     public List<com.kenvix.bookmgr.orm.tables.pojos.BookBorrow> fetchByActualReturnedAt(Timestamp... values) {
         return fetch(BookBorrow.BOOK_BORROW.ACTUAL_RETURNED_AT, values);
     }
+
+    /**
+     * Fetch records that have <code>renew_num BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.kenvix.bookmgr.orm.tables.pojos.BookBorrow> fetchRangeOfRenewNum(Short lowerInclusive, Short upperInclusive) {
+        return fetchRange(BookBorrow.BOOK_BORROW.RENEW_NUM, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>renew_num IN (values)</code>
+     */
+    public List<com.kenvix.bookmgr.orm.tables.pojos.BookBorrow> fetchByRenewNum(Short... values) {
+        return fetch(BookBorrow.BOOK_BORROW.RENEW_NUM, values);
+    }
 }
