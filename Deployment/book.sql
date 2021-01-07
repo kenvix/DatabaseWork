@@ -10,7 +10,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 07/01/2021 10:32:24
+ Date: 07/01/2021 11:34:55
 */
 
 SET NAMES utf8mb4;
@@ -45,6 +45,7 @@ DROP TABLE IF EXISTS `book`;
 CREATE TABLE `book`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '书本ID',
   `creator_uid` bigint NOT NULL COMMENT '条目创建者UID',
+  `type_id` int NOT NULL DEFAULT 0 COMMENT '图书类型ID',
   `title` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '书籍标题',
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '书籍概述',
   `publisher_id` bigint NOT NULL COMMENT '出版社ID',
@@ -56,7 +57,9 @@ CREATE TABLE `book`  (
   INDEX `fk_creator_uid`(`creator_uid`) USING BTREE,
   INDEX `fk_publisher_id`(`publisher_id`) USING BTREE,
   INDEX `fk_book_status`(`status`) USING BTREE,
+  INDEX `fk_book_type_id`(`type_id`) USING BTREE,
   CONSTRAINT `fk_book_status` FOREIGN KEY (`status`) REFERENCES `book_status` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_book_type_id` FOREIGN KEY (`type_id`) REFERENCES `book_type` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_creator_uid` FOREIGN KEY (`creator_uid`) REFERENCES `user` (`uid`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_publisher_id` FOREIGN KEY (`publisher_id`) REFERENCES `publisher` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '书籍表' ROW_FORMAT = Dynamic;
@@ -64,10 +67,10 @@ CREATE TABLE `book`  (
 -- ----------------------------
 -- Records of book
 -- ----------------------------
-INSERT INTO `book` VALUES (1, 1, '仲夏夜之梦', '《仲夏夜之夢》，是威廉·莎士比亞在約1590年－1596年間創作的浪漫喜劇。它描繪了以雅典大公忒修斯和希波呂忒婚禮為中心的一系列故事。包括四名​​雅典戀人和六個業餘演員的冒險經歷，而森林裡的仙子們則在背後操作它們的命運。本戲劇是莎士比亞最流行的劇本之一，在全世界都有上演。', 1, '2021-01-03 16:12:55', 100, 100, 5);
-INSERT INTO `book` VALUES (2, 1, '毛泽东选集', '《毛泽东选集》是1951年人民出版社出版的图书，作者是毛泽东。该书是毛泽东思想的重要载体，是毛泽东思想的集中展现，亦是对20世纪的中国影响最大的书籍之一。\r\n建国后出版的两个版本均由人民出版社负责。该书在建国前即有大量出版，1944年于邯郸创建的晋察冀日报社出版首版《毛泽东选集》。建国后共出版了五卷，编入的是毛泽东同志在新民主主义革命时期、社会主义革命和社会主义建设时期的主要著作。1991年7月1日，《毛泽东选集》一至四卷第二版出版发行。', 2, '2021-01-04 16:13:59', 20, 20, 5);
-INSERT INTO `book` VALUES (3, 1, '哈姆雷特', '《哈姆雷特（Hamlet）》是由英国剧作家威廉·莎士比亚创作于1599年至1602年间的一部悲剧作品。戏剧讲述了叔叔克劳狄斯谋害了哈姆雷特的父亲，篡取了王位，并娶了国王的遗孀乔特鲁德；哈姆雷特王子因此为父王向叔叔复仇。\r\n《哈姆雷特》是莎士比亚所有戏剧中篇幅最长的一部， [1]  也是莎士比亚最负盛名的剧本，具有深刻的悲剧意义。复杂的人物性格以及丰富完美的悲剧艺术手法，代表着整个西方文艺复兴时期文学的最高成就。同《麦克白》、《李尔王》和《奥赛罗》一起组成莎士比亚“四大悲剧”。', 1, '2021-01-04 16:15:26', 1, 1, 4);
-INSERT INTO `book` VALUES (4, 1, '数据库系统概论（第5版', '《数据库系统概论（第5版）“十二五”普通高等教育本科国家级规划教材》第1版于1983年出版，至今已修订至第5版。第5版被列入“十二五”普通高等教育本科国家级规划教材。相应课程于2004年被评为北京市精品课程，2005年被评为国家精品课程，2014年被批准为国家级精品资源共享课。\r\n\r\n《数据库系统概论（第5版）“十二五”普通高等教育本科国家级规划教材》系统全面地阐述了数据库系统的基础理论、基本技术和基本方法。全书分为4篇16章。第一篇基础篇，包括绪论、关系数据库、关系数据库标准语言SQL、数据库安全性和数据库完整性，共5章；第二篇设计与应用开发篇，包括关系数据理论、数据库设计和数据库编程，共3章；第三篇系统篇，包括关系查询处理和查询优化、数据库恢复技术、并发控制和数据库管理系统，共4章', 3, '2021-01-04 16:22:13', 50, 50, 5);
+INSERT INTO `book` VALUES (1, 1, 4, '仲夏夜之梦', '《仲夏夜之夢》，是威廉·莎士比亞在約1590年－1596年間創作的浪漫喜劇。它描繪了以雅典大公忒修斯和希波呂忒婚禮為中心的一系列故事。包括四名​​雅典戀人和六個業餘演員的冒險經歷，而森林裡的仙子們則在背後操作它們的命運。本戲劇是莎士比亞最流行的劇本之一，在全世界都有上演。', 1, '2021-01-03 16:12:55', 100, 100, 5);
+INSERT INTO `book` VALUES (2, 1, 5, '毛泽东选集', '《毛泽东选集》是1951年人民出版社出版的图书，作者是毛泽东。该书是毛泽东思想的重要载体，是毛泽东思想的集中展现，亦是对20世纪的中国影响最大的书籍之一。\r\n建国后出版的两个版本均由人民出版社负责。该书在建国前即有大量出版，1944年于邯郸创建的晋察冀日报社出版首版《毛泽东选集》。建国后共出版了五卷，编入的是毛泽东同志在新民主主义革命时期、社会主义革命和社会主义建设时期的主要著作。1991年7月1日，《毛泽东选集》一至四卷第二版出版发行。', 2, '2021-01-04 16:13:59', 20, 20, 5);
+INSERT INTO `book` VALUES (3, 1, 4, '哈姆雷特', '《哈姆雷特（Hamlet）》是由英国剧作家威廉·莎士比亚创作于1599年至1602年间的一部悲剧作品。戏剧讲述了叔叔克劳狄斯谋害了哈姆雷特的父亲，篡取了王位，并娶了国王的遗孀乔特鲁德；哈姆雷特王子因此为父王向叔叔复仇。\r\n《哈姆雷特》是莎士比亚所有戏剧中篇幅最长的一部， [1]  也是莎士比亚最负盛名的剧本，具有深刻的悲剧意义。复杂的人物性格以及丰富完美的悲剧艺术手法，代表着整个西方文艺复兴时期文学的最高成就。同《麦克白》、《李尔王》和《奥赛罗》一起组成莎士比亚“四大悲剧”。', 1, '2021-01-04 16:15:26', 1, 1, 4);
+INSERT INTO `book` VALUES (4, 1, 6, '数据库系统概论（第5版', '《数据库系统概论（第5版）“十二五”普通高等教育本科国家级规划教材》第1版于1983年出版，至今已修订至第5版。第5版被列入“十二五”普通高等教育本科国家级规划教材。相应课程于2004年被评为北京市精品课程，2005年被评为国家精品课程，2014年被批准为国家级精品资源共享课。\r\n\r\n《数据库系统概论（第5版）“十二五”普通高等教育本科国家级规划教材》系统全面地阐述了数据库系统的基础理论、基本技术和基本方法。全书分为4篇16章。第一篇基础篇，包括绪论、关系数据库、关系数据库标准语言SQL、数据库安全性和数据库完整性，共5章；第二篇设计与应用开发篇，包括关系数据理论、数据库设计和数据库编程，共3章；第三篇系统篇，包括关系查询处理和查询优化、数据库恢复技术、并发控制和数据库管理系统，共4章', 3, '2021-01-04 16:22:13', 50, 50, 5);
 
 -- ----------------------------
 -- Table structure for book_author_map
@@ -132,6 +135,29 @@ INSERT INTO `book_status` VALUES (2, '已全部损坏');
 INSERT INTO `book_status` VALUES (3, '已全部过期');
 INSERT INTO `book_status` VALUES (4, '已公开，不可借阅');
 INSERT INTO `book_status` VALUES (5, '已公开，可借阅');
+
+-- ----------------------------
+-- Table structure for book_type
+-- ----------------------------
+DROP TABLE IF EXISTS `book_type`;
+CREATE TABLE `book_type`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '图书类目ID',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '类目名称',
+  `parent_id` int NOT NULL DEFAULT 0 COMMENT '父级图书类目ID',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_book_type_parent_id`(`parent_id`) USING BTREE,
+  CONSTRAINT `fk_book_type_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `book_type` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '图书类目' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of book_type
+-- ----------------------------
+INSERT INTO `book_type` VALUES (0, '无类别', 0);
+INSERT INTO `book_type` VALUES (1, '人文', 0);
+INSERT INTO `book_type` VALUES (3, '工学', 0);
+INSERT INTO `book_type` VALUES (4, '戏剧', 1);
+INSERT INTO `book_type` VALUES (5, '政治', 1);
+INSERT INTO `book_type` VALUES (6, '计算机科学', 3);
 
 -- ----------------------------
 -- Table structure for invoice
@@ -296,15 +322,18 @@ DROP TABLE IF EXISTS `setting`;
 CREATE TABLE `setting`  (
   `key` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `value` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   PRIMARY KEY (`key`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '设置表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of setting
 -- ----------------------------
-INSERT INTO `setting` VALUES ('book_borrow_max_renew_num', '7');
-INSERT INTO `setting` VALUES ('book_borrow_period_millis', '2592000000');
-INSERT INTO `setting` VALUES ('book_expire_penalty_cents_a_day', '15');
+INSERT INTO `setting` VALUES ('book_borrow_max_borrow_num', '10', '最多允许同时借书数');
+INSERT INTO `setting` VALUES ('book_borrow_max_renew_num', '7', '借书最大续期次数');
+INSERT INTO `setting` VALUES ('book_borrow_period_millis', '2592000000', '每次借书/续期时长（毫秒）');
+INSERT INTO `setting` VALUES ('book_expire_penalty_cents_a_day', '15', '超期罚款（每天，罚款单位为分）');
+INSERT INTO `setting` VALUES ('site_name', '高级图书文献管理系统', '站点名称');
 
 -- ----------------------------
 -- Table structure for task_queue
@@ -417,7 +446,7 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_borrow_for_admin` A
 -- View structure for book_for_user
 -- ----------------------------
 DROP VIEW IF EXISTS `book_for_user`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_for_user` AS select `book`.`id` AS `id`,`book`.`title` AS `title`,`book`.`description` AS `description`,`book`.`publisher_id` AS `publisher_id`,`book`.`created_at` AS `created_at`,`book`.`num_total` AS `num_total`,`book`.`num_available` AS `num_available`,`book`.`status` AS `status`,`publisher`.`name` AS `publisher_name`,`book_author_map`.`author_id` AS `author_id`,group_concat(`author`.`name` separator ', ') AS `author_name`,group_concat(`author`.`fullname` separator ', ') AS `author_fullname`,group_concat(`author`.`country` separator ', ') AS `author_country`,`book`.`creator_uid` AS `creator_uid` from (((`book` join `publisher` on((`book`.`publisher_id` = `publisher`.`id`))) left join `book_author_map` on((`book_author_map`.`book_id` = `book`.`id`))) join `author` on((`book_author_map`.`author_id` = `author`.`id`))) where (`book`.`status` >= 4) group by `book`.`id`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_for_user` AS select `book`.`id` AS `id`,`book`.`title` AS `title`,`book`.`description` AS `description`,`book`.`publisher_id` AS `publisher_id`,`book`.`created_at` AS `created_at`,`book`.`num_total` AS `num_total`,`book`.`num_available` AS `num_available`,`book`.`status` AS `status`,`publisher`.`name` AS `publisher_name`,`book_author_map`.`author_id` AS `author_id`,group_concat(`author`.`name` separator ', ') AS `author_name`,group_concat(`author`.`fullname` separator ', ') AS `author_fullname`,group_concat(`author`.`country` separator ', ') AS `author_country`,`book`.`creator_uid` AS `creator_uid`,`book`.`type_id` AS `type_id`,`book_type`.`name` AS `type_name` from ((((`book` join `publisher` on((`book`.`publisher_id` = `publisher`.`id`))) left join `book_author_map` on((`book_author_map`.`book_id` = `book`.`id`))) join `author` on((`book_author_map`.`author_id` = `author`.`id`))) join `book_type` on((`book`.`type_id` = `book_type`.`id`))) where (`book`.`status` >= 4) group by `book`.`id`;
 
 -- ----------------------------
 -- View structure for invoice_for_user
@@ -472,6 +501,23 @@ BEGIN
     SET remain_book_num = remain_book_num - 1;
     UPDATE book SET num_available = remain_book_num WHERE id = `book_id_v`;
     COMMIT WORK;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for book_borrower_has_expired
+-- ----------------------------
+DROP FUNCTION IF EXISTS `book_borrower_has_expired`;
+delimiter ;;
+CREATE FUNCTION `book_borrower_has_expired`(`user_uid` bigint)
+ RETURNS bit(1)
+  DETERMINISTIC
+BEGIN
+	#Routine body goes here...
+	DECLARE result bit(1);
+	SELECT EXISTS(SELECT * FROM book_borrow_expired WHERE book_borrow_expired.borrower_uid = user_uid) INTO result;
+	RETURN result;
 END
 ;;
 delimiter ;
@@ -552,6 +598,23 @@ BEGIN
     values(get_last_insert_id(), book_id);
 
     commit work;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for book_borrow_unreturned_num
+-- ----------------------------
+DROP FUNCTION IF EXISTS `book_borrow_unreturned_num`;
+delimiter ;;
+CREATE FUNCTION `book_borrow_unreturned_num`(`borrower_uid` bigint)
+ RETURNS int
+  DETERMINISTIC
+BEGIN
+	#Routine body goes here...
+	DECLARE result INT;
+	SELECT COUNT(*) INTO result FROM book_borrow WHERE book_borrow.borrower_uid = borrower_uid AND book_borrow.actual_returned_at IS NULL;
+	RETURN result;
 END
 ;;
 delimiter ;

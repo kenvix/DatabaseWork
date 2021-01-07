@@ -1,7 +1,7 @@
 package com.kenvix.bookmgr.http.controller.api.reader
 
 import com.kenvix.bookmgr.AppConstants
-import com.kenvix.bookmgr.http.controller.api.admin.ApiBaseController
+import com.kenvix.bookmgr.http.controller.api.ApiBaseController
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
 import com.kenvix.bookmgr.http.utils.BookIDLocation
 import com.kenvix.bookmgr.http.utils.BorrowIDLocation
