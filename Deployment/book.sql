@@ -10,7 +10,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 07/01/2021 11:34:55
+ Date: 08/01/2021 16:06:30
 */
 
 SET NAMES utf8mb4;
@@ -147,7 +147,7 @@ CREATE TABLE `book_type`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_book_type_parent_id`(`parent_id`) USING BTREE,
   CONSTRAINT `fk_book_type_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `book_type` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '图书类目' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '图书类目' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of book_type

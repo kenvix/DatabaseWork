@@ -24,6 +24,7 @@ import io.ktor.routing.Route
 import io.ktor.routing.route
 import io.ktor.util.pipeline.PipelineContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asContextElement
 import kotlinx.coroutines.withContext
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.FilenameUtils
@@ -36,13 +37,18 @@ import java.nio.file.Paths
 import java.sql.Timestamp
 
 private val utilsLogger = LoggerFactory.getLogger("HttpUtils")!!
+private val middlewareContextLocal = threadLocal {
+    HashMap<BaseMiddleware<*>, Any>()
+}.asContextElement()
 
 fun Route.controller(path: String, controller: Controller) {
     this.route(path, controller::route)
 }
 
 fun <T> PipelineContext<*, ApplicationCall>.middleware(clazz: Middleware<T>): T {
-    return clazz.handle(this)
+    return clazz.handle(this).also {
+
+    }
 }
 
 suspend fun <T> PipelineContext<*, ApplicationCall>.middleware(clazz: MiddlewareSuspend<T>): T {

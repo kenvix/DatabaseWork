@@ -22,6 +22,7 @@
     <envs>
       <env name="HttpPort" value="56447" />
       <env name="DatabasePassword" value="123456" />
+      <env name="HttpHost" value="0.0.0.0" />
     </envs>
     <method v="2">
       <option name="Make" enabled="true" />
