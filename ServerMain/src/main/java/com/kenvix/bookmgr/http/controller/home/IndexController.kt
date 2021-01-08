@@ -10,7 +10,7 @@ object IndexController : HomeBaseController() {
     override fun route(route: Route) {
         route {
             get("/") {
-                TODO("HTML index page todo :(   Is there anyone can implement me?")
+
             }
 
             get("/asshole") {
