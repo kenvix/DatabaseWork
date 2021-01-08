@@ -101,6 +101,7 @@ dependencies {
     implementation(fileTree("libs"))
 
     implementation("com.google.protobuf:protobuf-java:3.12.4")
+    implementation("org.apache.commons:commons-lang3:3.11")
 
     // https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api
     implementation(group = "javax.persistence", name = "javax.persistence-api", version = "2.2")

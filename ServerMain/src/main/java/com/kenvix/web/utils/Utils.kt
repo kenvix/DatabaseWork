@@ -3,6 +3,7 @@
 
 package com.kenvix.web.utils
 
+import org.apache.commons.lang3.math.NumberUtils
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import java.text.SimpleDateFormat
@@ -239,3 +240,5 @@ fun Int.toYuanMoneyString(): String {
     val remain = this % 100
     return "￥${yuan}.${remain}"
 }
+
+fun String.isNumeric() = NumberUtils.isParsable(this)

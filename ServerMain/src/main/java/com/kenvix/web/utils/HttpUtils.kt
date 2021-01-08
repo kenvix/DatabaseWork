@@ -71,6 +71,10 @@ suspend fun PipelineContext<*, ApplicationCall>.respondSuccess(info: String? = n
     respondJson(null, info)
 }
 
+fun businessException(description: String): Nothing {
+    throw CommonBusinessException(description, HttpStatusCode.NotAcceptable.value)
+}
+
 suspend fun PipelineContext<*, ApplicationCall>.respondError(code: HttpStatusCode, exception: Throwable? = null) {
     val userAgent = call.request.userAgent()
     var info = ""
