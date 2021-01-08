@@ -9,7 +9,7 @@ import io.ktor.application.ApplicationCall
 import io.ktor.util.pipeline.PipelineContext
 import javax.naming.AuthenticationException
 
-object CheckCommonAdminToken : Middleware<User> {
+object CheckCommonAdminToken : Middleware<User>() {
     override fun handle(pipeline: PipelineContext<*, ApplicationCall>): User {
         val user = pipeline.middleware(CheckUserToken)
         return user.validateValue(AuthenticationException()) { user.accessLevel >= AccessLevel.CommonAdmin }

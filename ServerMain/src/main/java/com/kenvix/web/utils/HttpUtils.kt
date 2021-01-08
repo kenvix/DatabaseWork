@@ -37,30 +37,65 @@ import java.nio.file.Paths
 import java.sql.Timestamp
 
 private val utilsLogger = LoggerFactory.getLogger("HttpUtils")!!
-private val middlewareContextLocal = threadLocal {
-    HashMap<BaseMiddleware<*>, Any>()
-}.asContextElement()
 
 fun Route.controller(path: String, controller: Controller) {
     this.route(path, controller::route)
 }
 
-fun <T> PipelineContext<*, ApplicationCall>.middleware(clazz: Middleware<T>): T {
-    return clazz.handle(this).also {
-
-    }
+fun <T: Any> PipelineContext<*, ApplicationCall>.middlewareResultOrNull(clazz: BaseMiddleware<T>): T? {
+    return clazz.getMiddlewareValueOrNull(this)
 }
 
-suspend fun <T> PipelineContext<*, ApplicationCall>.middleware(clazz: MiddlewareSuspend<T>): T {
-    return clazz.handle(this)
+fun <T: Any> PipelineContext<*, ApplicationCall>.middleware(clazz: Middleware<T>): T {
+    return clazz.callMiddleware(this)
+}
+
+suspend fun <T: Any> PipelineContext<*, ApplicationCall>.middleware(clazz: MiddlewareSuspend<T>): T {
+    return clazz.callMiddleware(this)
+}
+
+fun <T: Any, U: Any> PipelineContext<*, ApplicationCall>.middleware(clazz1: Middleware<T>, clazz2: Middleware<U>) {
+    clazz1.callMiddleware(this)
+    clazz2.callMiddleware(this)
+}
+
+suspend fun <T: Any, U: Any> PipelineContext<*, ApplicationCall>.middleware(clazz1: MiddlewareSuspend<T>, clazz2: MiddlewareSuspend<U>) {
+    clazz1.callMiddleware(this)
+    clazz2.callMiddleware(this)
+}
+
+fun <T: Any, U: Any, V: Any> PipelineContext<*, ApplicationCall>.middleware(clazz1: Middleware<T>, clazz2: Middleware<U>, clazz3: Middleware<V>) {
+    clazz1.callMiddleware(this)
+    clazz2.callMiddleware(this)
+    clazz3.callMiddleware(this)
+}
+
+suspend fun <T: Any, U: Any, V: Any> PipelineContext<*, ApplicationCall>.middleware(clazz1: MiddlewareSuspend<T>, clazz2: MiddlewareSuspend<U>, clazz3: MiddlewareSuspend<V>) {
+    clazz1.callMiddleware(this)
+    clazz2.callMiddleware(this)
+    clazz3.callMiddleware(this)
+}
+
+fun <T: Any, U: Any, V: Any, W: Any> PipelineContext<*, ApplicationCall>.middleware(clazz1: Middleware<T>, clazz2: Middleware<U>, clazz3: Middleware<V>, clazz4: Middleware<W>) {
+    clazz1.callMiddleware(this)
+    clazz2.callMiddleware(this)
+    clazz3.callMiddleware(this)
+    clazz4.callMiddleware(this)
+}
+
+suspend fun <T: Any, U: Any, V: Any, W: Any> PipelineContext<*, ApplicationCall>.middleware(clazz1: MiddlewareSuspend<T>, clazz2: MiddlewareSuspend<U>, clazz3: MiddlewareSuspend<V>, clazz4: MiddlewareSuspend<W>) {
+    clazz1.callMiddleware(this)
+    clazz2.callMiddleware(this)
+    clazz3.callMiddleware(this)
+    clazz4.callMiddleware(this)
 }
 
 fun PipelineContext<*, ApplicationCall>.middleware(vararg clazz: Middleware<*>) {
-    clazz.forEach { it.handle(this) }
+    clazz.forEach { it.callMiddleware(this) }
 }
 
-suspend fun <T> PipelineContext<*, ApplicationCall>.middleware(vararg clazz: MiddlewareSuspend<*>) {
-    clazz.forEach { it.handle(this) }
+suspend fun PipelineContext<*, ApplicationCall>.middleware(vararg clazz: MiddlewareSuspend<*>) {
+    clazz.forEach { it.callMiddleware(this) }
 }
 
 suspend fun PipelineContext<*, ApplicationCall>.respondJson(data: Any?, info: String? = null,

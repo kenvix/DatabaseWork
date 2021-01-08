@@ -7,14 +7,43 @@
 package com.kenvix.web.utils
 
 import io.ktor.application.ApplicationCall
+import io.ktor.util.*
 import io.ktor.util.pipeline.PipelineContext
 
-interface BaseMiddleware<T>
-
-interface Middleware<T> : BaseMiddleware<T> {
-    fun handle(pipeline: PipelineContext<*, ApplicationCall>): T
+sealed class BaseMiddleware<T: Any> {
+    val attributeKey: AttributeKey<T> = AttributeKey(this.javaClass.name)
+    fun getMiddlewareValueOrNull(pipeline: PipelineContext<*, ApplicationCall>) =
+        pipeline.context.attributes.getOrNull(attributeKey)
 }
 
-interface MiddlewareSuspend<T> : BaseMiddleware<T> {
-    suspend fun handle(pipeline: PipelineContext<*, ApplicationCall>): T
+abstract class Middleware<T: Any> : BaseMiddleware<T>() {
+    abstract fun handle(pipeline: PipelineContext<*, ApplicationCall>): T
+
+    fun callMiddleware(pipeline: PipelineContext<*, ApplicationCall>): T {
+        return getMiddlewareValueOrNull(pipeline).run {
+            if (this == null) {
+                val result = handle(pipeline)
+                pipeline.context.attributes.put(attributeKey, result)
+                result
+            } else {
+                this
+            }
+        }
+    }
+}
+
+abstract class MiddlewareSuspend<T: Any> : BaseMiddleware<T>() {
+    abstract suspend fun handle(pipeline: PipelineContext<*, ApplicationCall>): T
+
+    suspend fun callMiddleware(pipeline: PipelineContext<*, ApplicationCall>): T {
+        return getMiddlewareValueOrNull(pipeline).run {
+            if (this == null) {
+                val result = handle(pipeline)
+                pipeline.context.attributes.put(attributeKey, result)
+                result
+            } else {
+                this
+            }
+        }
+    }
 }

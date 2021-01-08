@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 /**
  * 检查用户 Token （已缓存）
  */
-object CheckUserToken : Middleware<User>, Cached {
+object CheckUserToken : Middleware<User>(), Cached {
     private val secretKey = ServerEnv.AuthSecretKey
     private val algorithm = Algorithm.HMAC256(secretKey)
     private val issuer = ServerEnv.AuthIssuer

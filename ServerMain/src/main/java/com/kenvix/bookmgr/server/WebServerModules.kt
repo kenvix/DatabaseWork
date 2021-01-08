@@ -44,6 +44,11 @@ fun Application.module() {
     install(FreeMarker) {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
         setSharedVariable("public", ServerEnv.PublicDirUrl)
+
+        // 兼容性考虑
+        setSharedVariable("__public__", ServerEnv.PublicDirUrl)
+        setSharedVariable("__PUBLIC__", ServerEnv.PublicDirUrl)
+        setSharedVariable("title", ServerEnv.AppName)
     }
 
     install(Locations) {
