@@ -15,10 +15,10 @@ import io.ktor.freemarker.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.util.pipeline.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
-import java.io.Serializable
 import java.nio.file.Path
-import java.util.function.Consumer
 
 abstract class BaseController : Controller {
     val logger = LoggerFactory.getLogger(this::class.java)!!
@@ -27,9 +27,9 @@ abstract class BaseController : Controller {
 
     suspend fun PipelineContext<*, ApplicationCall>.respondTemplate(
         templateName: String,
-        extraConfig: ((vars: MutableMap<String, Any?>) -> Unit)? = null,
-        statusCode: HttpStatusCode = HttpStatusCode.OK
-    ) {
+        statusCode: HttpStatusCode = HttpStatusCode.OK,
+        extraConfig: ((vars: MutableMap<String, Any?>) -> Unit)? = null
+    ) = withContext(Dispatchers.IO) {
         val baseVars: MutableMap<String, Any?> = mutableMapOf(
             "user" to middlewareResultOrNull(CheckUserToken),
             "page" to (middlewareResultOrNull(Paginate)?.currentPage ?: 0)
@@ -44,8 +44,8 @@ abstract class BaseController : Controller {
 
     suspend fun PipelineContext<*, ApplicationCall>.respondTemplate(
         templateName: String,
-        statusCode: HttpStatusCode = HttpStatusCode.OK
+        extraConfig: ((vars: MutableMap<String, Any?>) -> Unit)? = null
     ) {
-        respondTemplate(templateName, null, statusCode)
+        respondTemplate(templateName, HttpStatusCode.OK, extraConfig)
     }
 }

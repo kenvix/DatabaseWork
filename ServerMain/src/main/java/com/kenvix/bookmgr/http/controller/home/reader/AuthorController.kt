@@ -1,16 +1,25 @@
 package com.kenvix.bookmgr.http.controller.home.reader
 
 import com.kenvix.bookmgr.http.controller.home.HomeBaseController
+import com.kenvix.bookmgr.http.middleware.CheckUserToken
 import com.kenvix.bookmgr.http.utils.AuthorIDLocation
+import com.kenvix.web.utils.middleware
 import io.ktor.locations.*
 import io.ktor.routing.*
+import java.nio.file.Path
 
 @KtorExperimentalLocationsAPI
 object AuthorController : HomeBaseController() {
+    override val baseTemplatePath: Path
+        get() = super.baseTemplatePath.resolve("reader")
+
     override fun route(route: Route) {
         route {
-            get<AuthorIDLocation> {
-
+            get<AuthorIDLocation> { authorId ->
+                middleware(CheckUserToken)
+                respondTemplate("author_detail") {
+                    it["author_id"] = authorId.id
+                }
             }
         }
     }

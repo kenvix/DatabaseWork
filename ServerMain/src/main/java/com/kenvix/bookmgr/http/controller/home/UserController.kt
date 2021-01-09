@@ -1,5 +1,7 @@
 package com.kenvix.bookmgr.http.controller.home
 
+import com.kenvix.bookmgr.http.middleware.CheckUserToken
+import com.kenvix.web.utils.middleware
 import io.ktor.routing.*
 import java.nio.file.Path
 import com.kenvix.web.utils.plus
@@ -23,10 +25,12 @@ object UserController : HomeBaseController() {
             }
 
             get("/profile") {
+                middleware(CheckUserToken)
                 respondTemplate("profile")
             }
 
             get("/personalize") {
+                middleware(CheckUserToken)
                 respondTemplate("personalize")
             }
         }
