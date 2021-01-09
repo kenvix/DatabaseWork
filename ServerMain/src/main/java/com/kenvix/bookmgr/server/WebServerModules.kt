@@ -209,7 +209,7 @@ fun Application.module() {
 suspend fun PipelineContext<*, ApplicationCall>.handleSQLException(exception: Throwable) {
     val it = if (exception is DataAccessException && exception.cause != null && exception.cause is SQLException) exception.cause!! else exception
 
-    if (it is SQLException && (it.cause as SQLException?)?.sqlState == "45233") {
+    if (it is SQLException && (it.cause as SQLException?)?.sqlState == "45000") {
         respondError(HttpStatusCode.NotAcceptable, it)
     } else {
         com.kenvix.web.utils.error("MySQL Database failed!", it, WebServerBasicRoutes.logger)
