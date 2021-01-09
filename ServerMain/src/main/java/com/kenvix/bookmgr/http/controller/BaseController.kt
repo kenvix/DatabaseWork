@@ -8,6 +8,7 @@ package com.kenvix.bookmgr.http.controller
 
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
 import com.kenvix.bookmgr.http.middleware.Paginate
+import com.kenvix.bookmgr.model.mysql.SettingModel
 import com.kenvix.web.utils.Controller
 import com.kenvix.web.utils.middlewareResultOrNull
 import io.ktor.application.*
@@ -32,7 +33,8 @@ abstract class BaseController : Controller {
     ) = withContext(Dispatchers.IO) {
         val baseVars: MutableMap<String, Any?> = mutableMapOf(
             "user" to middlewareResultOrNull(CheckUserToken),
-            "page" to (middlewareResultOrNull(Paginate)?.currentPage ?: 0)
+            "page" to (middlewareResultOrNull(Paginate)?.currentPage ?: 0),
+            "site_name" to SettingModel["site_name"]
         )
         extraConfig?.invoke(baseVars)
 
