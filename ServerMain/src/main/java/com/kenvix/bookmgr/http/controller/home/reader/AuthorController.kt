@@ -10,8 +10,8 @@ import java.nio.file.Path
 
 @KtorExperimentalLocationsAPI
 object AuthorController : HomeBaseController() {
-    override val baseTemplatePath: Path
-        get() = super.baseTemplatePath.resolve("reader")
+    override val baseTemplatePath: String
+        get() = super.baseTemplatePath + "reader/"
 
     override fun route(route: Route) {
         route {

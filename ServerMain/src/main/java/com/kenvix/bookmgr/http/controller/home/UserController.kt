@@ -7,8 +7,8 @@ import java.nio.file.Path
 import com.kenvix.web.utils.plus
 
 object UserController : HomeBaseController() {
-    override val baseTemplatePath: Path
-        get() = super.baseTemplatePath + "user"
+    override val baseTemplatePath: String
+        get() = super.baseTemplatePath + "user/"
 
     override fun route(route: Route) {
         route {

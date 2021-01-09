@@ -11,6 +11,6 @@ import com.kenvix.web.utils.plus
 import java.nio.file.Path
 
 abstract class HomeBaseController : BaseController() {
-    override val baseTemplatePath: Path
-        get() = super.baseTemplatePath + "home"
+    override val baseTemplatePath: String
+        get() = super.baseTemplatePath + "home/"
 }
