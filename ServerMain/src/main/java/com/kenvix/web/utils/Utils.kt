@@ -6,6 +6,7 @@ package com.kenvix.web.utils
 import org.apache.commons.lang3.math.NumberUtils
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
+import java.nio.file.Path
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.Instant
@@ -242,3 +243,5 @@ fun Int.toYuanMoneyString(): String {
 }
 
 fun String.isNumeric() = NumberUtils.isParsable(this)
+
+operator fun Path.plus(another: String): Path = resolve(another)

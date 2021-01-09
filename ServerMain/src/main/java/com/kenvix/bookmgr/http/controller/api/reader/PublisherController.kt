@@ -3,6 +3,7 @@ package com.kenvix.bookmgr.http.controller.api.reader
 import com.kenvix.bookmgr.http.controller.api.ApiBaseController
 import com.kenvix.bookmgr.http.middleware.CheckCommonAdminToken
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
+import com.kenvix.bookmgr.http.utils.PublisherIDLocation
 import com.kenvix.bookmgr.model.mysql.PublisherModel
 import com.kenvix.bookmgr.orm.tables.pojos.Publisher
 import com.kenvix.web.utils.*
@@ -58,8 +59,4 @@ object PublisherController : ApiBaseController() {
             }
         }
     }
-
-    @OptIn(KtorExperimentalLocationsAPI::class)
-    @Location("/{id}")
-    class PublisherIDLocation(val id: Long)
 }
