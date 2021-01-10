@@ -34,9 +34,9 @@ val libDirName = "libs"
 val mainClass = "${fullPackageName}.Main"
 
 
-application {
-    mainClassName = mainClass
-}
+//application {
+//    mainClassName = mainClass.get()
+//}
 
 repositories {
     mavenLocal()
@@ -77,6 +77,7 @@ dependencies {
 //    implementation("io.ktor:ktor-client-cio:$ktor_version")
 //    implementation("io.ktor:ktor-client-websockets:$ktor_version")
 //    implementation("io.ktor:ktor-client-logging-jvm:$ktor_version")
+    implementation("org.freemarker:freemarker:2.3.30")
 
     // Server Metrics
     implementation("io.dropwizard.metrics:metrics-core:4.1.11")
@@ -211,7 +212,7 @@ apply(from = "enableJooq.gradle")
 
 tasks {
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = sourceCompatibility
+        kotlinOptions.jvmTarget = "14"
         kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
         kotlinOptions.freeCompilerArgs += "-Xinline-classes"
     }
