@@ -4,6 +4,7 @@ import java.util.Properties
 val ktorVersion: String by project
 val kotlinVersion: String by project
 val kotlinxCoroutinesVersion: String by project
+val defaultProjectDatabaseName: String by project
 val logbackVersion: String by project
 
 plugins {
@@ -141,6 +142,7 @@ sourceSets {
     getByName("main").apply {
         java.srcDirs(
                 File(mainSrcDir),
+                File(generatedSrcDir),
                 File(buildDir, "gen/buildconfig/src"),
                 File(buildDir, "src")
         )
@@ -150,6 +152,7 @@ sourceSets {
     getByName("test").apply {
         java.srcDirs(
                 File(testSrcDir),
+                File(generatedSrcDir),
                 File(buildDir, "gen/buildconfig/src"),
                 File(buildDir, "src")
         )
@@ -190,6 +193,8 @@ buildConfig {
         val props = Properties()
         props.load(jooqFile.inputStream())
         buildConfigField("String", "DATABASE_NAME", props.getProperty("jooq.srcDatabaseName"))
+    } else {
+        buildConfigField("String", "DATABASE_NAME", defaultProjectDatabaseName)
     }
 }
 
