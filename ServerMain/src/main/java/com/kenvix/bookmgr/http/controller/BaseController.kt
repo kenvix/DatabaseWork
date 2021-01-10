@@ -23,8 +23,8 @@ import java.nio.file.Path
 
 abstract class BaseController : Controller {
     val logger = LoggerFactory.getLogger(this::class.java)!!
-    open val baseTemplatePath: Path
-        get() = Path.of(".")
+    open val baseTemplatePath: String
+        get() = "./"
 
     suspend fun PipelineContext<*, ApplicationCall>.respondTemplate(
         templateName: String,
@@ -34,13 +34,13 @@ abstract class BaseController : Controller {
         val baseVars: MutableMap<String, Any?> = mutableMapOf(
             "user" to middlewareResultOrNull(CheckUserToken),
             "page" to (middlewareResultOrNull(Paginate)?.currentPage ?: 0),
-            "site_name" to SettingModel["site_name"]
+            "siteName" to SettingModel.get<String>("site_name")
         )
         extraConfig?.invoke(baseVars)
 
         call.respond(
             statusCode,
-            FreeMarkerContent(baseTemplatePath.resolve("$templateName.ftl").toString(), baseVars)
+            FreeMarkerContent("$baseTemplatePath$templateName.ftl", baseVars)
         )
     }
 

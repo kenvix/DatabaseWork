@@ -18,7 +18,7 @@ class BasicDatabaseTest {
                 throw AssertionError("Expected a exception")
             } catch (e: DataAccessException) {
                 if (e.cause != null && e.cause is SQLException) {
-                    println("OK: SQLSTATE ${e.sqlState()}: ${e.cause!!.message}")
+                    println("OK: SQLSTATE ${e.sqlState()}: ${(e.cause as SQLException).errorCode} - ${e.cause!!.message}")
                 }
 
             }

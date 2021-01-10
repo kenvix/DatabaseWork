@@ -6,9 +6,9 @@ import com.kenvix.web.utils.middleware
 import io.ktor.routing.*
 import java.nio.file.Path
 
-object UserController : HomeBaseController() {
-    override val baseTemplatePath: Path
-        get() = super.baseTemplatePath.resolve("admin")
+object UserController : AdminHomeBaseController() {
+    override val baseTemplatePath: String
+        get() = super.baseTemplatePath + "admin/"
 
     override fun route(route: Route) {
         route {

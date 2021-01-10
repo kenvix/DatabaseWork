@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="zh">
-<#include "../../common/header.ftl" />
-<body>
-<!-- Begin Page code -->
+<#import "../../common/layout.ftl" as layout />
+<@layout.layout title="标题">
+    <!-- Begin Page code -->
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white navbar-main">
@@ -192,7 +190,5 @@
 
 
 
-<!-- End of page code -->
-<#include "../../common/footer.ftl" />
-</body>
-</html>
+    <!-- End of page code -->
+</@layout.layout>

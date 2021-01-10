@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html lang="zh">
-<#include "../../common/header.ftl" />
-<body>
+<#import "../../common/layout.ftl" as layout />
+<@layout.layout title="标题">
 <!-- Begin Page code -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white navbar-main">
     <div class="container">
@@ -9,7 +7,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
+    <!-- Begin Page code -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"><a class="nav-link" href="/Home/User/login">登录</a></li>
@@ -110,7 +108,5 @@
 </div>
 
 
-<!-- End of page code -->
-<#include "../../common/footer.ftl" />
-</body>
-</html>
+    <!-- End of page code -->
+</@layout.layout>

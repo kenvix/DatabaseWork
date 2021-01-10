@@ -11,6 +11,6 @@ import java.nio.file.Path
 import com.kenvix.web.utils.plus
 
 abstract class ApiBaseController : BaseController() {
-    override val baseTemplatePath: Path
-        get() = super.baseTemplatePath + "api"
+    override val baseTemplatePath: String
+        get() = super.baseTemplatePath + "api/"
 }
