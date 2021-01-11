@@ -3,7 +3,7 @@
 详细设计说明书
 </p>
 
-**用词说明**：以下说明文档中的 *输入*，对于 Web后端模块，均指通过 [URL Query String](https://en.wikipedia.org/wiki/Query_string)、[Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 或以 HTML `application/x-www-form-urlencoded` 或 `multipart/form-data` 形式提交的表单；对于 API，则指通过 API 请求，配合所需 HTTP 谓词提交的 `application/x-www-form-urlencoded` 或 `multipart/form-data`  [表单](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form)。以下说明文档中的 *输出*，对于Web后端模块，均指通过模板变量向前端传送的对象；对于 API，则指 [JSON](https://en.wikipedia.org/wiki/JSON) 对象。
+**用词说明**：以下说明文档中的 *输入*，对于 Web后端模块，均指通过 [URL Query String](https://en.wikipedia.org/wiki/Query_string) 、[Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 或以 HTML `application/x-www-form-urlencoded` 或 `multipart/form-data` 形式提交的表单；对于 API，则指通过 API 请求，配合所需 HTTP 谓词提交的 `application/x-www-form-urlencoded` 或 `multipart/form-data`  [表单](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form) 。以下说明文档中的 *输出*，对于Web后端模块，均指通过模板变量向前端传送的对象；对于 API，则指 [JSON](https://en.wikipedia.org/wiki/JSON) 对象。
 
 以上说明中的名词均是链接，可点击查看详细。[URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
 
@@ -29,7 +29,9 @@
 
 ### 登录
 
-**登录页面 URI**：`/user/login`
+**登录页面 URI**：`/user/login` 
+
+**页面模板路径**：`home/user/login.ftl`
 
 **登录过程 URI**：`/user/login/action`
 
@@ -64,6 +66,8 @@
 
 **注册页面 URI**：`/user/register`
 
+**页面模板路径**：`home/user/register.ftl`
+
 **注册过程 URI**：`/user/register/action`
 
 **输入方式**：HTTP POST `/user/register/action` (MIME `application/x-www-form-urlencoded`)
@@ -89,6 +93,8 @@
 
 **资料页面 URI**：`/user/profile`
 
+**页面模板路径**：`home/user/profile.ftl`
+
 **资料修改过程 URI**：`/user/profile/action`
 
 **输入方式**：HTTP POST `/user/profile/action` (MIME `application/x-www-form-urlencoded`)
@@ -110,6 +116,8 @@
 
 **个性化页面 URI**：`/user/personalize`
 
+**页面模板路径**：`home/user/personalize.ftl`
+
 此功能没有 `/action` 动作后端
 
 ## 读者图书借阅
@@ -118,7 +126,9 @@
 
 ### 列出所有图书（用户视角）
 
-**URI**：`/reader/book`
+**页面 URI**：`/reader/book`
+
+**页面模板路径**：`home/reader/book_list.ftl`
 
 **输入方式**： URL Query String
 
@@ -140,9 +150,21 @@
 | ---- | ---------- | ---------------------- |
 | books | List\<BookForUser\> | 符合条件的图书列表。完整名称为 `com.kenvix.bookmgr.orm.tables.pojos.BookForUser` |
 
+### 搜索图书页面
+
+**页面 URI**：`/reader/book/search`
+
+**页面模板路径**：`home/reader/book_search.ftl`
+
+无输入
+
+**说明**：这个页面应提供搜索表单，其表单动作目标就是 *列出所有图书（用户视角）*，动作方式为 GET
+
 ### 查看图书详情
 
-**URI**：`/reader/book/{bookId}` （**注：** `{bookId}` 表示此处为变量 bookId）
+**页面 URI**：`/reader/book/{bookId}` （**注：** `{bookId}` 表示此处为变量 bookId）
+
+**页面模板路径**：`home/reader/book_detail.ftl`
 
 **输入方式**：URL Path
 
@@ -167,9 +189,9 @@
 
 ### 列出已借图书
 
-> 前端实现注意：此功能可以和读者图书借阅的列出图书共享同一套前端模板
+> 前端实现注意：此功能可以和读者图书借阅的列出所有图书共享同一套前端模板
 
-**URI**：`/reader/borrow`
+**页面 URI**：`/reader/book/borrow`
 
 无输入
 
@@ -181,9 +203,9 @@
 
 ### 借书
 
-**URI**：`/reader/borrow/borrow`
+**URI**：`/reader/book/borrow/borrow`
 
-**输入方式**：HTTP POST /user/borrow/borrow (MIME application/x-www-form-urlencoded)
+**输入方式**：HTTP POST /user/book/borrow/borrow (MIME application/x-www-form-urlencoded)
 
 **输入变量表**
 
@@ -200,9 +222,9 @@
 
 ### 还书
 
-**URI**：`/reader/borrow/return`
+**URI**：`/reader/book/borrow/return`
 
-**输入方式**：HTTP POST /user/borrow/return (MIME application/x-www-form-urlencoded)
+**输入方式**：HTTP POST /user/book/borrow/return (MIME application/x-www-form-urlencoded)
 
 **输入变量表**
 
@@ -218,9 +240,9 @@
 
 ### 图书续期
 
-**URI**：`/reader/borrow/renew`
+**URI**：`/reader/book/borrow/renew`
 
-**输入方式**：HTTP POST /user/borrow/renew (MIME application/x-www-form-urlencoded)
+**输入方式**：HTTP POST /user/book/borrow/renew (MIME application/x-www-form-urlencoded)
 
 **输入变量表**
 
@@ -234,19 +256,27 @@
 | ---- | ---------- | ---------- | ---------------------- |
 | msg | URL Query String | String | 用户操作结果说明 | 
 
-###  
+### 查看作者信息
+
+### 查看出版社信息
 
 ## 图书管理
 
-以下功能都需要登录且必须具有管理权限 (`user.getAccessLevel() >= 100`) 使用。因此对未登录用户完全隐藏
+以下功能都需要登录且必须具有管理权限 (`user.getAccessLevel() >= 100`) 使用。因此应对未登录用户和权限不足的用户完全隐藏
 
 列出所有作者、列出所有出版社功能和上节一致，管理模块只是提供增删改功能。
 
 ### 列出所有图书（管理员视角）
 
-> 前端实现注意：此功能可以和读者图书借阅的列出图书共享同一套前端模板
+> 前端实现注意：此功能可以和读者图书借阅的列出所有图书共享同一套前端模板
+
+**页面 URI**：`/admin/book`
+
+输入、输出变量表同读者图书借阅的 *列出所有图书*
 
 ### 增加图书
+
+
 
 ### 编辑图书
 

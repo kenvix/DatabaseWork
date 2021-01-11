@@ -115,7 +115,7 @@ suspend fun PipelineContext<*, ApplicationCall>.respondJsonText(jsonText: String
  * Respond a success message to user
  * @param msg message
  * @param data return data. If data is [URI] it will be equals to redirectUrl
- * @param redirectURI Redirect user to this url. Only available if useragent is a valid user browser
+ * @param redirectURI Redirect user to this url, will be attached to Header "X-Redirect-Location" Redirection is only available if useragent is a valid user browser.
  */
 suspend fun PipelineContext<*, ApplicationCall>.respondSuccess(
     msg: String? = null,
@@ -124,12 +124,15 @@ suspend fun PipelineContext<*, ApplicationCall>.respondSuccess(
     statusCode: HttpStatusCode = HttpStatusCode.TemporaryRedirect
 ) {
     if (isUserBrowserRequest()) {
-        val redirectTo: URI? = if (redirectURI == null && data != null && data is URI) data else redirectURI
+        val redirectTo: String? = (if (redirectURI == null && data != null && data is URI) data else redirectURI)?.run {
+            appendQuery("msg=$msg").toString()
+        }
+        redirectTo.ifNotNull {  call.response.headers.append("X-Redirect-Location", it) }
         if (redirectTo != null) {
             call.respond(
                 statusCode, FreeMarkerContent("redirect.ftl", mapOf(
                     "msg" to (msg ?: "请稍候"),
-                    "redirectUrl" to redirectTo.appendQuery("msg=$msg").toString()
+                    "redirectUrl" to redirectTo
                 ))
             )
         } else {
