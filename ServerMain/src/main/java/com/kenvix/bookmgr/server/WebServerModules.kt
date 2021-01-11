@@ -4,6 +4,7 @@ package com.kenvix.bookmgr.server
 import com.codahale.metrics.jmx.JmxReporter
 import com.kenvix.utils.exception.*
 import com.kenvix.utils.preferences.ServerEnv
+import com.kenvix.web.utils.isUserBrowserRequest
 import com.kenvix.web.utils.respondError
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.application.*
@@ -33,6 +34,7 @@ import io.micrometer.prometheus.PrometheusMeterRegistry
 import org.jooq.exception.DataAccessException
 import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
+import java.net.URI
 import java.sql.SQLException
 import java.time.Duration
 import java.util.concurrent.TimeUnit
@@ -166,7 +168,9 @@ fun Application.module() {
         exception<NumberFormatException> { respondError(HttpStatusCode.BadRequest, it) }
         exception<com.kenvix.utils.exception.BadRequestException> { respondError(HttpStatusCode.BadRequest, it) }
 
-        exception<InvalidAuthorizationException> { respondError(HttpStatusCode.Unauthorized, it) }
+        exception<InvalidAuthorizationException> {
+            respondError(HttpStatusCode.Unauthorized, it, URI("/user/login"))
+        }
 
         exception<ForbiddenOperationException> { respondError(HttpStatusCode.Forbidden, it) }
         exception<CommonBusinessException> { respondError(HttpStatusCode.NotAcceptable, it) }

@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>${code} ${description}</title>
+    <#if redirectUrl??>
+        <meta http-equiv="refresh" content="0;url=${redirectUrl}">
+    </#if>
 </head>
 <body>
     <h1>${code} ${description}</h1>

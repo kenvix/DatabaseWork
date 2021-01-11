@@ -1,32 +1,116 @@
-# API Paths
+<p style="text-align: center; font-weight:bold; font-size:2em;">
+高级图书管理系统
+详细设计说明书
+</p>
 
-## 会话
+**用词说明**：以下说明文档中的 *输入*，对于 Web后端模块，均指通过 URL Query String、Cookie 或以 HTML `application/x-www-form-urlencoded` 或 `multipart/form-data` 形式提交的表单；对于 API，则指通过 API 请求，配合所需 HTTP 谓词提交的 `application/x-www-form-urlencoded` 或 `multipart/form-data`  表单。以下说明文档中的 *输出*，对于Web后端模块，均指通过模板变量向前端传送的对象；对于 API，则指 JSON 对象。
 
-* 登录 POST /api/session
-* 注销 DELETE /api/session
+# Web 后端模块
 
-## 用户
+## 本模块全局模板变量
 
-* 注册 POST /api/user
-* 获取当前用户信息 GET /api/user
-* 获取指定用户信息 GET /api/user/{userId}
-* 更新指定用户信息 PUT /api/user/{userId}
-* 删除指定用户信息 DELETE /api/user/{userId}
+**说明**：以下所有变量表中，类型后面带有问号 `?` 表示这个变量的值可能为 `null`，不带有问号表示不可能为 `null`。`Any` 类型表示可以为任何值，但是不可为 `null`，`Any?` 类型表示可以为任何值，也可为 `null`
 
-## 学生端
+| 变量名 | 类型 | 说明 |
+| ---- | ---------- | ---------------------- |
+| public | String | 公共静态资源文件所在路径，值一般为 /public |
+| siteName | String | 站点名称，取决于数据库中 Setting 表同名项的值 |
+| user | User? | 当用户登录后，此变量指向包含当前用户所有基本信息的对象。若未登录则为 `null`。完整名称为 `com.kenvix.bookmgr.orm.tables.pojos.User` |
+| msg | String? | 原样包含用户通过 URL Query String 传入的 msg 变量（ i.e. `/user/login?msg=密码错误`）。一般用于展示某个信息，例如登录页面上通知用户密码错误。此字段已经经过编码确保不会发生 XSS |
 
-* 获取当前所有考试 GET /api/exam/student/examine
-* 获取指定考试信息。学生端对于进行中的考试，此接口会产生副作用（视为学生参与考试并开始倒计时） GET /api/exam/student/examine/{id}
-* 交卷 PUT /api/exam/student/examine/{id}
-* 记录日志、自动保存答案、随机拍照 WebSocket\<ProtoBuf\> /api/exam/student/log
+**备注**：包 `com.kenvix.bookmgr.orm.tables.pojos` 下的所有类的均为对数据库对象的直接映射，命名和数据类型均和数据库对应，只是将 小写和下划线 的命名替换为 驼峰命名（表为大驼峰，字段为小驼峰）。
 
-## 教师端
+**命名风格**：本模块中，URI 以 `/action` 结尾的一般表示对应功能的动作部分；不带 `/action` 的则为展示部分，用于展示前端页面。为防止用户重复执行操作，以 `/action` 结尾的动作部分没有前端页面，也不会停留，始终会通过跳转或JSON的形式转到展示部分。
 
-* 获取当前所有考试 GET /api/exam/teacher/examine
-* 获取指定考试信息。教师端不会产生副作用。 GET /api/exam/student/teacher/examine/{id}
-* 编辑考试完整信息（例如考试内容） PUT /api/exam/student/teacher/examine/{id}
-* 编辑考试某些信息（例如提前终止考试） PATCH /api/exam/student/teacher/examine/{id}
-* 删除考试 PUT /api/exam/student/teacher/examine/{id}
-* 新建考试 POST /api/exam/student/teacher/examine
+## 用户部分
 
-### WebSocket ProtoBuf (简称 WS PB)
+### 登录
+
+**登录页面 URI**：`/user/login`
+
+**登录过程 URI**：`/user/login/action`
+
+**输入方式**：HTTP POST `/user/login/action` (MIME `application/x-www-form-urlencoded`)
+
+**输入变量表**
+
+| 变量名 | 类型 | 说明 |
+| ---- | ---------- | ---------------------- |
+| username | String | 学号或邮箱 |
+| password | String | 密码 |
+| remember | Any? | 是否保持登录 30 天，这个字段非 Null 则视为保持登录 |
+
+**输出行为**：当登录失败时，跳转回 *登录页面*，并附加 `msg` 参数告知原因；当登录成功时，将会命令浏览器设置一个名为 `Token` 的 Cookie，并直接跳转到首页
+
+| 变量名 | 形式 | 类型 | 说明 |
+| ---- | ---------- | ---------- | ---------------------- |
+| msg | URL Query String | String | 用户登录失败说明 | 
+| Token | Cookie | String | 当用户登录成功时由服务器命令客户端设置。用户登录凭证，由后端签名颁发。凭此凭证可以证明用户已经登录 |
+
+### 登出
+
+**登出过程 URI**：`/user/logout/action`
+
+**输入方式**：HTTP POST `/user/logout/action` 
+
+**输入变量表**：无
+
+**输出行为**：当登出成功时，转 *登录页面* 并带有 `msg` 提示登出成功
+
+### 注册
+
+**注册页面 URI**：`/user/register`
+
+**注册过程 URI**：`/user/register/action`
+
+**输入方式**：HTTP POST `/user/register/action` (MIME `application/x-www-form-urlencoded`)
+
+**输入变量表**
+
+| 变量名 | 类型 | 说明 |
+| ---- | ---------- | ---------------------- |
+| username | String | 学号 |
+| realName | String | 真实姓名 |
+| email | String | 邮箱地址 |
+| password | String | 密码 |
+
+**输出行为**：当注册失败时，跳转回 *注册页面*，并附加 `msg` 参数告知原因；当注册成功时，转 *登录页面*，并附加 `msg` 参数告知注册成功
+
+| 变量名 | 形式 | 类型 | 说明 |
+| ---- | ---------- | ---------- | ---------------------- |
+| msg | URL Query String | String | 用户注册结果说明 | 
+
+### 忘记密码(密码重置)
+
+### 个人资料修改
+
+**资料页面 URI**：`/user/profile`
+
+**资料修改过程 URI**：`/user/profile/action`
+
+**输入方式**：HTTP POST `/user/profile/action` (MIME `application/x-www-form-urlencoded`)
+
+**输入变量表**
+
+| 变量名 | 类型 | 说明 |
+| ---- | ---------- | ---------------------- |
+| email | String | 新邮箱地址 |
+| password | String | 新密码 |
+
+**输出行为**：始终跳转到 *资料页面*，并附加 `msg` 参数告知结果
+
+| 变量名 | 形式 | 类型 | 说明 |
+| ---- | ---------- | ---------- | ---------------------- |
+| msg | URL Query String | String | 用户操作结果说明 | 
+
+### 个性化设置
+
+**个性化页面 URI**：`/user/personalize`
+
+此功能没有 `/action` 动作后端
+
+# 读者图书借阅
+
+
+
+# 图书管理

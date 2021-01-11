@@ -149,7 +149,7 @@ fun PipelineContext<*, ApplicationCall>.isUserBrowserRequest(): Boolean {
             call.request.header("X-Requested-With") == null
 }
 
-suspend fun PipelineContext<*, ApplicationCall>.respondError(code: HttpStatusCode, exception: Throwable? = null) {
+suspend fun PipelineContext<*, ApplicationCall>.respondError(code: HttpStatusCode, exception: Throwable? = null, redirectURI: URI? = null) {
     var info = ""
     var trace = ""
 
@@ -170,7 +170,8 @@ suspend fun PipelineContext<*, ApplicationCall>.respondError(code: HttpStatusCod
                 "code" to code.value,
                 "description" to code.description,
                 "info" to info,
-                "trace" to trace
+                "trace" to trace,
+                "redirectUrl" to redirectURI?.appendQuery("msg=$info&code=${code.value}&description=${code.description}")
         )))
     } else {
         call.respond(code, CommonJsonResult(status = code.value, info = info,
