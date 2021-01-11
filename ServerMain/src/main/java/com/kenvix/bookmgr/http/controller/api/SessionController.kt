@@ -15,6 +15,7 @@ import io.ktor.util.*
 import io.ktor.util.date.*
 import io.ktor.util.pipeline.*
 import org.mindrot.jbcrypt.BCrypt
+import java.net.URI
 
 @OptIn(KtorExperimentalAPI::class, KtorExperimentalLocationsAPI::class)
 object SessionController : ApiBaseController() {
@@ -50,7 +51,7 @@ object SessionController : ApiBaseController() {
             expires = GMTDate(CheckUserToken.getExpiration(isRemembered).time)
         ))
 
-        respondJson(user.toUserDTO(token))
+        respondSuccess("登录成功", user.toUserDTO(token), URI("/"))
     }
 
     /**
@@ -65,6 +66,6 @@ object SessionController : ApiBaseController() {
             maxAge = 0,
             expires = GMTDate.START
         ))
-        respondSuccess("注销成功，再见，${user.realName}")
+        respondSuccess("注销成功，再见，${user.realName}", redirectURI = URI("/user/login"))
     }
 }

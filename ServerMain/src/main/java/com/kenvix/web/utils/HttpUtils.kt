@@ -14,8 +14,6 @@ import io.ktor.features.NotFoundException
 import io.ktor.freemarker.FreeMarkerContent
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
-import io.ktor.http.content.PartData
-import io.ktor.http.content.streamProvider
 import io.ktor.request.header
 import io.ktor.request.userAgent
 import io.ktor.response.respond
@@ -24,7 +22,6 @@ import io.ktor.routing.Route
 import io.ktor.routing.route
 import io.ktor.util.pipeline.PipelineContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.asContextElement
 import kotlinx.coroutines.withContext
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.FilenameUtils
@@ -32,6 +29,7 @@ import org.apache.tika.config.TikaConfig
 import org.apache.tika.metadata.Metadata
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.net.URI
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.sql.Timestamp
@@ -108,16 +106,45 @@ suspend fun PipelineContext<*, ApplicationCall>.respondJsonText(jsonText: String
     call.respondText(jsonText, ContentType.Application.Json, status)
 }
 
-suspend fun PipelineContext<*, ApplicationCall>.respondSuccess(info: String? = null) {
-    respondJson(null, info)
+/**
+ * Respond a success message to user
+ * @param msg message
+ * @param data return data. If data is [URI] it will be equals to redirectUrl
+ * @param redirectURI Redirect user to this url. Only available if useragent is a valid user browser
+ */
+suspend fun PipelineContext<*, ApplicationCall>.respondSuccess(msg: String? = null, data: Any? = null, redirectURI: URI? = null) {
+    if (isUserBrowserRequest()) {
+        val redirectTo: URI? = if (redirectURI == null && data != null && data is URI) data else redirectURI
+        if (redirectTo != null) {
+            call.respond(
+                HttpStatusCode.TemporaryRedirect, FreeMarkerContent("redirect.ftl", mapOf(
+                    "msg" to (msg ?: "请稍候"),
+                    "redirectUrl" to redirectTo.appendQuery("msg=$msg").toString()
+                ))
+            )
+        } else {
+            call.respond(
+                HttpStatusCode.OK, FreeMarkerContent("success.ftl", mapOf(
+                    "msg" to (msg ?: "操作成功"),
+                ))
+            )
+        }
+    } else {
+        respondJson(data, msg)
+    }
 }
 
 fun businessException(description: String): Nothing {
     throw CommonBusinessException(description, HttpStatusCode.NotAcceptable.value)
 }
 
-suspend fun PipelineContext<*, ApplicationCall>.respondError(code: HttpStatusCode, exception: Throwable? = null) {
+fun PipelineContext<*, ApplicationCall>.isUserBrowserRequest(): Boolean {
     val userAgent = call.request.userAgent()
+    return userAgent != null && userAgent.contains("Mozilla", true) &&
+            call.request.header("X-Requested-With") == null
+}
+
+suspend fun PipelineContext<*, ApplicationCall>.respondError(code: HttpStatusCode, exception: Throwable? = null) {
     var info = ""
     var trace = ""
 
@@ -133,8 +160,7 @@ suspend fun PipelineContext<*, ApplicationCall>.respondError(code: HttpStatusCod
         }
     }
 
-    if (userAgent != null && userAgent.contains("Mozilla", true) &&
-            call.request.header("X-Requested-With") == null) {
+    if (isUserBrowserRequest()) {
         call.respond(code, FreeMarkerContent("error.ftl", mapOf(
                 "code" to code.value,
                 "description" to code.description,

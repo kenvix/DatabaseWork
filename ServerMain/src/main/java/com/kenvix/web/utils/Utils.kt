@@ -6,6 +6,7 @@ package com.kenvix.web.utils
 import org.apache.commons.lang3.math.NumberUtils
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
+import java.net.URI
 import java.nio.file.Path
 import java.text.SimpleDateFormat
 import java.time.Duration
@@ -16,6 +17,10 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.math.ln
 import kotlin.math.pow
+import java.net.URISyntaxException
+
+
+
 
 typealias DateTime = OffsetDateTime
 fun DateTime.toEpochMilli() = toInstant().toEpochMilli()
@@ -245,3 +250,13 @@ fun Int.toYuanMoneyString(): String {
 fun String.isNumeric() = NumberUtils.isParsable(this)
 
 operator fun Path.plus(another: String): Path = resolve(another)
+
+fun URI.appendQuery(appendQuery: String): URI {
+    return URI(
+        scheme,
+        authority,
+        path,
+        if (query == null) appendQuery else "$query&$appendQuery",
+        fragment
+    )
+}
