@@ -1,17 +1,13 @@
 <#import "../../common/layout.ftl" as layout />
 <@layout.layout title="标题">
     <!-- Begin Page code -->
-
-
             <div class="col-lg main" role="main">
                 <div class="card">
                     <div class="card-header">登录 ${siteName}</div>
                     <div class="card-body" id="loginData">
-
                         <div class="alert alert-info ajax-info" role="alert" style="display: none;">
                             <div class="ajax-info-text" id="prompt-text">提示信息</div>
                         </div>
-
                         <form id="login-form" action="/user/login/action" method="post" enctype="application/x-www-form-urlencoded">
                             <div class="alert alert-info ajax-info" role="alert">
                                 <div class="ajax-info-text"></div>
@@ -70,7 +66,5 @@
             </div>
         </div>
     </div>
-
-
     <!-- End of page code -->
 </@layout.layout>
