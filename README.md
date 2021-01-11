@@ -1,4 +1,4 @@
-<p style="text-align: center; font-weight:bold; font-size:2em;">
+<p style="text-align: center; font-weight:bold; font-size:2.3em;">
 高级图书管理系统
 详细设计说明书
 </p>
@@ -21,7 +21,7 @@
 | msg | String? | 原样包含用户通过 URL Query String 传入的 msg 变量（ i.e. `/user/login?msg=密码错误`）。一般用于展示某个信息，例如登录页面上通知用户密码错误。此字段已经经过编码确保不会发生 XSS。此处展示的信息应简洁易懂，只允许纯文本，不允许超过 256 个字。 |
 | page | Int? | 原样包含用户通过 URL Query String 传入的 page 变量，表示当前页码 ( i.e. /book?page=3 )。一般在包含多页的信息时出现，例如展示图书列表时 |
 
-**备注**：包 `com.kenvix.bookmgr.orm.tables.pojos` 下的所有类的均为对数据库对象的直接映射，命名和数据类型均和数据库对应，只是将 小写和下划线 的命名替换为 驼峰命名（表为大驼峰，字段为小驼峰）。
+**备注**：包 `com.kenvix.bookmgr.orm.tables.pojos` 下的所有类的均为对数据库对象的直接映射，命名和数据类型均和数据库对应，只是将 小写和下划线 的命名替换为 驼峰命名（表为大驼峰，字段为小驼峰）。此外，所有 POJO 和数据对象的访问都应该通过 `getXXX()`, `setXXX(value)` 进行
 
 **命名风格**：本模块中，URI 以 `/action` 结尾的一般表示对应功能的动作部分；不带 `/action` 的则为展示部分，用于展示前端页面。为防止用户重复执行操作，以 `/action` 结尾的动作部分没有前端页面，也不会停留，始终会通过跳转或JSON的形式转到展示部分。
 
@@ -114,6 +114,8 @@
 
 ## 读者图书借阅
 
+以下功能都需要登录使用。因此对未登录用户完全隐藏
+
 ### 列出所有图书（用户视角）
 
 **URI**：`/reader/book`
@@ -136,7 +138,7 @@
 
 | 变量名 | 类型 | 说明 |
 | ---- | ---------- | ---------------------- |
-| books | List\<Book\> | 符合条件的图书列表。完整名称为 `com.kenvix.bookmgr.orm.tables.pojos.Book` |
+| books | List\<BookForUser\> | 符合条件的图书列表。完整名称为 `com.kenvix.bookmgr.orm.tables.pojos.BookForUser` |
 
 ### 查看图书详情
 
@@ -150,14 +152,95 @@
 | ---- | ----- | ---------- | ---------------------- |
 | bookId | URL Path | Long | 图书 ID |
 
+**输出变量表**
+
+| 变量名 | 类型 | 说明 |
+| ---- | ---------- | ---------------------- |
+| book | BookForUserAndAuthors | 图书和作者信息，完整名称为 `com.kenvix.bookmgr.contacts.generic.BookForUserAndAuthors` |
+
+**数据对象 BookForUserAndAuthors**
+
+| 字段 | 类型 | 说明 |
+| ---- | ---------- | ---------------------- |
+| book | BookForUser | 图书信息，完整名称为 `com.kenvix.bookmgr.orm.tables.pojos.BookForUser` |
+| authors | List\<BookAuthor\> | 所有作者信息，完整名称为 `com.kenvix.bookmgr.orm.tables.pojos.generic.BookAuthor` |
+
+### 列出已借图书
+
+> 前端实现注意：此功能可以和读者图书借阅的列出图书共享同一套前端模板
+
+**URI**：`/reader/borrow`
+
+无输入
+
+**输出变量表**
+
+| 变量名 | 类型 | 说明 |
+| ---- | ---------- | ---------------------- |
+| books | List\<BookBorrowForAdmin\> | 符合条件的图书列表，包含借书信息。完整名称为 `com.kenvix.bookmgr.orm.tables.pojos.BookBorrowForAdmin` |
+
 ### 借书
+
+**URI**：`/reader/borrow/borrow`
+
+**输入方式**：HTTP POST /user/borrow/borrow (MIME application/x-www-form-urlencoded)
+
+**输入变量表**
+
+| 变量名 | 类型 | 说明 |
+| ---- | ---------- | ---------------------- |
+| borrow_id | Long | 借书 ID |
+
+**输出行为**：始终跳转到 *列出已借图书*，并附加 `msg` 参数告知结果
+
+| 变量名 | 形式 | 类型 | 说明 |
+| ---- | ---------- | ---------- | ---------------------- |
+| msg | URL Query String | String | 用户操作结果说明 | 
 
 
 ### 还书
 
+**URI**：`/reader/borrow/return`
+
+**输入方式**：HTTP POST /user/borrow/return (MIME application/x-www-form-urlencoded)
+
+**输入变量表**
+
+| 变量名 | 类型 | 说明 |
+| ---- | ---------- | ---------------------- |
+| borrow_id | Long | 借书 ID |
+
+**输出行为**：始终跳转到 *列出已借图书*，并附加 `msg` 参数告知结果
+
+| 变量名 | 形式 | 类型 | 说明 |
+| ---- | ---------- | ---------- | ---------------------- |
+| msg | URL Query String | String | 用户操作结果说明 | 
+
 ### 图书续期
 
+**URI**：`/reader/borrow/renew`
+
+**输入方式**：HTTP POST /user/borrow/renew (MIME application/x-www-form-urlencoded)
+
+**输入变量表**
+
+| 变量名 | 类型 | 说明 |
+| ---- | ---------- | ---------------------- |
+| borrow_id | Long | 借书 ID |
+
+**输出行为**：始终跳转到 *列出已借图书*，并附加 `msg` 参数告知结果
+
+| 变量名 | 形式 | 类型 | 说明 |
+| ---- | ---------- | ---------- | ---------------------- |
+| msg | URL Query String | String | 用户操作结果说明 | 
+
+###  
+
 ## 图书管理
+
+以下功能都需要登录且必须具有管理权限 (`user.getAccessLevel() >= 100`) 使用。因此对未登录用户完全隐藏
+
+列出所有作者、列出所有出版社功能和上节一致，管理模块只是提供增删改功能。
 
 ### 列出所有图书（管理员视角）
 
@@ -168,3 +251,7 @@
 ### 编辑图书
 
 ### 删除图书
+
+# API 模块
+
+API 模块用于系统和其他第三方程序交互
