@@ -27,6 +27,10 @@ object UserController : HomeBaseController() {
                 call.respondText("ASSDFSD ")
             }
 
+            post("/asshole") {
+                call.respondText("asdwerrerererereffre ")
+            }
+
             post("/login/action") {
                 createSession()
             }

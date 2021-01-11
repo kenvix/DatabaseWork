@@ -200,7 +200,9 @@ fun Application.module() {
                 HttpStatusCode.MethodNotAllowed, HttpStatusCode.NotAcceptable, HttpStatusCode.RequestTimeout,
                 HttpStatusCode.Gone, HttpStatusCode.UnsupportedMediaType, HttpStatusCode.BadGateway,
                 HttpStatusCode.PayloadTooLarge, HttpStatusCode.NotImplemented, HttpStatusCode.ServiceUnavailable,
-                HttpStatusCode.UpgradeRequired, HttpStatusCode.Locked) { respondError(it) }
+                HttpStatusCode.UpgradeRequired, HttpStatusCode.Locked) {
+            respondError(it)
+        }
     }
 
     WebServer.registerRoutes(this, isTesting)

@@ -55,7 +55,7 @@
                             <div class="ajax-info-text" id="prompt-text">提示信息</div>
                         </div>
 
-                        <form id="login-form" action="/user/login/action" method="post">
+                        <form id="login-form" action="/user/login/action" method="post" enctype="application/x-www-form-urlencoded">
                             <div class="alert alert-info ajax-info" role="alert">
                                 <div class="ajax-info-text"></div>
                             </div>
