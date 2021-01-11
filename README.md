@@ -3,20 +3,23 @@
 详细设计说明书
 </p>
 
-**用词说明**：以下说明文档中的 *输入*，对于 Web后端模块，均指通过 URL Query String、Cookie 或以 HTML `application/x-www-form-urlencoded` 或 `multipart/form-data` 形式提交的表单；对于 API，则指通过 API 请求，配合所需 HTTP 谓词提交的 `application/x-www-form-urlencoded` 或 `multipart/form-data`  表单。以下说明文档中的 *输出*，对于Web后端模块，均指通过模板变量向前端传送的对象；对于 API，则指 JSON 对象。
+**用词说明**：以下说明文档中的 *输入*，对于 Web后端模块，均指通过 [URL Query String](https://en.wikipedia.org/wiki/Query_string)、[Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 或以 HTML `application/x-www-form-urlencoded` 或 `multipart/form-data` 形式提交的表单；对于 API，则指通过 API 请求，配合所需 HTTP 谓词提交的 `application/x-www-form-urlencoded` 或 `multipart/form-data`  [表单](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form)。以下说明文档中的 *输出*，对于Web后端模块，均指通过模板变量向前端传送的对象；对于 API，则指 [JSON](https://en.wikipedia.org/wiki/JSON) 对象。
+
+以上说明中的名词均是链接，可点击查看详细
 
 # Web 后端模块
 
 ## 本模块全局模板变量
 
-**说明**：以下所有变量表中，类型后面带有问号 `?` 表示这个变量的值可能为 `null`，不带有问号表示不可能为 `null`。`Any` 类型表示可以为任何值，但是不可为 `null`，`Any?` 类型表示可以为任何值，也可为 `null`
+**说明**：以下所有变量表中，类型后面带有问号 `?` 表示这个变量的值可能为 `null`，不带有问号表示不可能为 `null`。`Any` 类型表示可以为任何值，但是不可为 `null`，`Any?` 类型表示可以为任何值，也可为 `null`。输入变量表的类型有问号还意味着这个输入是可选的。
 
 | 变量名 | 类型 | 说明 |
 | ---- | ---------- | ---------------------- |
 | public | String | 公共静态资源文件所在路径，值一般为 /public |
 | siteName | String | 站点名称，取决于数据库中 Setting 表同名项的值 |
 | user | User? | 当用户登录后，此变量指向包含当前用户所有基本信息的对象。若未登录则为 `null`。完整名称为 `com.kenvix.bookmgr.orm.tables.pojos.User` |
-| msg | String? | 原样包含用户通过 URL Query String 传入的 msg 变量（ i.e. `/user/login?msg=密码错误`）。一般用于展示某个信息，例如登录页面上通知用户密码错误。此字段已经经过编码确保不会发生 XSS |
+| msg | String? | 原样包含用户通过 URL Query String 传入的 msg 变量（ i.e. `/user/login?msg=密码错误`）。一般用于展示某个信息，例如登录页面上通知用户密码错误。此字段已经经过编码确保不会发生 XSS。此处展示的信息应简洁易懂，只允许纯文本，不允许超过 256 个字。 |
+| page | Int? | 原样包含用户通过 URL Query String 传入的 page 变量，表示当前页码 ( i.e. /book?page=3 )。一般在包含多页的信息时出现，例如展示图书列表时 |
 
 **备注**：包 `com.kenvix.bookmgr.orm.tables.pojos` 下的所有类的均为对数据库对象的直接映射，命名和数据类型均和数据库对应，只是将 小写和下划线 的命名替换为 驼峰命名（表为大驼峰，字段为小驼峰）。
 

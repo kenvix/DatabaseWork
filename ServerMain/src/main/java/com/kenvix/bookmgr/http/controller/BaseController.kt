@@ -26,16 +26,14 @@ abstract class BaseController : Controller {
     open val baseTemplatePath: String
         get() = "./"
 
+    open fun newTemplateVariableMap(pipeline: PipelineContext<*, ApplicationCall>): MutableMap<String, Any?> = HashMap()
+
     suspend fun PipelineContext<*, ApplicationCall>.respondTemplate(
         templateName: String,
         statusCode: HttpStatusCode = HttpStatusCode.OK,
         extraConfig: ((vars: MutableMap<String, Any?>) -> Unit)? = null
     ) = withContext(Dispatchers.IO) {
-        val baseVars: MutableMap<String, Any?> = mutableMapOf(
-            "user" to middlewareResultOrNull(CheckUserToken),
-            "page" to (middlewareResultOrNull(Paginate)?.currentPage ?: 0),
-            "siteName" to SettingModel.get<String>("site_name")
-        )
+        val baseVars: MutableMap<String, Any?> = newTemplateVariableMap(this@respondTemplate)
         extraConfig?.invoke(baseVars)
 
         call.respond(

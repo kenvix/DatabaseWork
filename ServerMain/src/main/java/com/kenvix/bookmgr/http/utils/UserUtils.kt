@@ -153,15 +153,15 @@ internal object UserControllerUtils {
     /**
      * Update user
      */
-    internal suspend fun PipelineContext<Unit, ApplicationCall>.updateUserInfo(userLocation: UserIDLocation) {
+    internal suspend fun PipelineContext<Unit, ApplicationCall>.updateUserInfo(userLocation: UserIDLocation? = null) {
         val postParameters: Parameters = call.receiveParameters()
 
         val callerUser = middleware(CheckUserToken)
-        if (userLocation.id != callerUser.uid)
+        if (userLocation != null && userLocation.id != callerUser.uid)
             middleware(CheckSuperAdminToken)
 
         val user = callerUser.apply {
-            uid = userLocation.id
+            uid = userLocation?.id ?: callerUser.uid
 
             postParameters["email"].ifNotNull { email = it.validateEmail() }
             postParameters["password"].ifNotNull { password = it.toPasswordHash() }

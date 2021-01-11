@@ -6,6 +6,7 @@ import com.kenvix.bookmgr.http.utils.SessionControllerUtils.createSession
 import com.kenvix.bookmgr.http.utils.SessionControllerUtils.deleteSession
 import com.kenvix.bookmgr.http.utils.*
 import com.kenvix.bookmgr.http.utils.UserControllerUtils.createUser
+import com.kenvix.bookmgr.http.utils.UserControllerUtils.updateUserInfo
 import com.kenvix.web.utils.middleware
 import io.ktor.routing.*
 import java.nio.file.Path
@@ -61,16 +62,12 @@ object UserController : HomeBaseController() {
             }
 
             post("/profile/action") {
-
+                updateUserInfo()
             }
 
             get("/personalize") {
                 middleware(CheckUserToken)
                 respondTemplate("personalize")
-            }
-
-            post("/personalize/action") {
-
             }
         }
     }

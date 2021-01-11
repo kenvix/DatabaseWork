@@ -96,6 +96,7 @@ dependencies {
     implementation("io.github.cdimascio:java-dotenv:5.1.4")
 
     implementation("commons-io:commons-io:2.6")
+    implementation("org.apache.commons:commons-text:1.9")
     implementation("org.apache.tika:tika-core:1.24.1")
     // implementation("org.apache.tika:tika-parsers:1.24.1")
 
