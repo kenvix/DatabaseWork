@@ -53,8 +53,8 @@ object ServerEnv : ManagedEnvFile() {
     @Description("API 签名验证密钥")
     val AuthSecretKey by envOf("ExampleAuthSecretKey")
     val AuthIssuer by envOf("MoeNet Co,. Ltd")
-    val AuthValidityTimeMills: Long by envOf(60 * 60 * 24 * 30L)
-    val AuthValidityTimeMillsShort: Long by envOf(60 * 60 * 12)
+    val AuthValidityTimeMills: Long by envOf(60 * 60 * 24 * 30 * 1000L)
+    val AuthValidityTimeMillsShort: Long by envOf(60 * 60 * 12 * 1000L)
 
     @Description("是否启用 XForwardedHeaders 支持，若没有反向代理务必为 false")
     val XForwardedHeadersSupport by envOf(false)

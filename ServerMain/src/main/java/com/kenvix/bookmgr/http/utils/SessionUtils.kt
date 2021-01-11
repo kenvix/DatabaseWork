@@ -36,14 +36,14 @@ internal object SessionControllerUtils {
 
         UserModel.update(user)
         val token = CheckUserToken.generateToken(user, isRemembered)
-        call.response.cookies.append(
-            Cookie(
-                name = CheckUserToken.TokenKey,
-                value = token,
-                maxAge = ((if (isRemembered) CheckUserToken.validityTimeMills else CheckUserToken.validityTimeMills) / 1000).toInt(),
-                expires = GMTDate(CheckUserToken.getExpiration(isRemembered).time)
-            )
+        val cookie = Cookie(
+            name = CheckUserToken.TokenKey,
+            value = token,
+            maxAge = ((if (isRemembered) CheckUserToken.validityTimeMills else CheckUserToken.validityTimeMillsShort) / 1000).toInt(),
+            expires = GMTDate(CheckUserToken.getExpiration(isRemembered).time),
+            path = "/"
         )
+        call.response.cookies.append(cookie)
 
         respondSuccess("登录成功", user.toUserDTO(token), URI("/"))
     }

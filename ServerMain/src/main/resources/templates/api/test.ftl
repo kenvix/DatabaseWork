@@ -7,9 +7,8 @@
 <body>
     <h1>OK:${name}</h1>
     <form action="/api/v1/tools/test" method="post">
-        <input type="hidden" name="_method" value="delete" />
         <input type="text" name="test_in" value="114514">
-        <input type="submit" />
+        <input type="submit" value="Set Cookie" />
     </form>
     <p><img src="${public}/ktor_logo.svg"></p>
 </body>

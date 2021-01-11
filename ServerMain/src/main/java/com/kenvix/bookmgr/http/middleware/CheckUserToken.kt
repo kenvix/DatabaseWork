@@ -113,7 +113,8 @@ object CheckUserToken : Middleware<User>(), Cached {
                 .sign(algorithm)
     }
 
-    fun getExpiration(useLongLifeTime: Boolean = false) = Date(System.currentTimeMillis() + if (useLongLifeTime) validityTimeMills else validityTimeMillsShort)
+    fun getExpiration(useLongLifeTime: Boolean = false) =
+        Date(System.currentTimeMillis() + if (useLongLifeTime) validityTimeMills else validityTimeMillsShort)
 
     override fun invalidateAll() {
         userTokenCheckCache.invalidateAll()
