@@ -5,7 +5,7 @@
 
 **用词说明**：以下说明文档中的 *输入*，对于 Web后端模块，均指通过 [URL Query String](https://en.wikipedia.org/wiki/Query_string)、[Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 或以 HTML `application/x-www-form-urlencoded` 或 `multipart/form-data` 形式提交的表单；对于 API，则指通过 API 请求，配合所需 HTTP 谓词提交的 `application/x-www-form-urlencoded` 或 `multipart/form-data`  [表单](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form)。以下说明文档中的 *输出*，对于Web后端模块，均指通过模板变量向前端传送的对象；对于 API，则指 [JSON](https://en.wikipedia.org/wiki/JSON) 对象。
 
-以上说明中的名词均是链接，可点击查看详细
+以上说明中的名词均是链接，可点击查看详细。[URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
 
 # Web 后端模块
 
@@ -112,8 +112,59 @@
 
 此功能没有 `/action` 动作后端
 
-# 读者图书借阅
+## 读者图书借阅
+
+### 列出所有图书（用户视角）
+
+**URI**：`/reader/book`
+
+**输入方式**： URL Query String
+
+**输入变量表**
+
+| 变量名 | 类型 | 说明 |
+| ---- | ---------- | ---------------------- |
+| filter_title | String? | 按标题过滤图书 |
+| filter_publisher | String? 或 Long? | 按出版社名称或者出版社ID过滤图书 |
+| filter_description | String? | 按图书描述过滤图书 |
+| filter_available | Any? | 按图书是否可以借阅过滤图书，非 Null 表示只显示可借阅图书 |
+| filter_type | String? | 按图书类型名过滤图书 |
+| filter_author | String? 或 Long? | 按作者名或作者ID过滤图书 |
+| page | Int? | 图书列表页码 |
+
+**输出变量表**
+
+| 变量名 | 类型 | 说明 |
+| ---- | ---------- | ---------------------- |
+| books | List\<Book\> | 符合条件的图书列表。完整名称为 `com.kenvix.bookmgr.orm.tables.pojos.Book` |
+
+### 查看图书详情
+
+**URI**：`/reader/book/{bookId}` （**注：** `{bookId}` 表示此处为变量 bookId）
+
+**输入方式**：URL Path
+
+**输入变量表**
+
+| 变量名 | 形式 | 类型 | 说明 |
+| ---- | ----- | ---------- | ---------------------- |
+| bookId | URL Path | Long | 图书 ID |
+
+### 借书
 
 
+### 还书
 
-# 图书管理
+### 图书续期
+
+## 图书管理
+
+### 列出所有图书（管理员视角）
+
+> 前端实现注意：此功能可以和读者图书借阅的列出图书共享同一套前端模板
+
+### 增加图书
+
+### 编辑图书
+
+### 删除图书

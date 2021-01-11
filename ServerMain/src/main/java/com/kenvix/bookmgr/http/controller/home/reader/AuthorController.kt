@@ -2,6 +2,7 @@ package com.kenvix.bookmgr.http.controller.home.reader
 
 import com.kenvix.bookmgr.http.controller.home.HomeBaseController
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
+import com.kenvix.bookmgr.http.utils.AuthorControllerUtils.getAuthor
 import com.kenvix.bookmgr.http.utils.AuthorIDLocation
 import com.kenvix.web.utils.middleware
 import io.ktor.locations.*
@@ -16,9 +17,9 @@ object AuthorController : HomeBaseController() {
     override fun route(route: Route) {
         route {
             get<AuthorIDLocation> { authorId ->
-                middleware(CheckUserToken)
+                val author = getAuthor(authorId.id)
                 respondTemplate("author_detail") {
-                    it["author_id"] = authorId.id
+                    it["author"] = author
                 }
             }
         }

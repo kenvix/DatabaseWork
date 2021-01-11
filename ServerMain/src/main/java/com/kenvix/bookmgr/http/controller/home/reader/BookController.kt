@@ -3,6 +3,9 @@ package com.kenvix.bookmgr.http.controller.home.reader
 import com.kenvix.bookmgr.http.controller.home.HomeBaseController
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
 import com.kenvix.bookmgr.http.middleware.Paginate
+import com.kenvix.bookmgr.http.utils.BookBorrowControllerUtils.getAllBookBorrowsForCurrentUser
+import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBook
+import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBooksForUser
 import com.kenvix.bookmgr.http.utils.BookIDLocation
 import com.kenvix.web.utils.middleware
 import io.ktor.locations.*
@@ -23,15 +26,17 @@ object BookController : HomeBaseController() {
              * 支持使用 , 进行多作者同时筛选
              */
             get("/") {
-                val user = middleware(CheckUserToken)
-                val page = middleware(Paginate)
-
-                respondTemplate("book_list")
+                val books = getBooksForUser()
+                respondTemplate("book_list") {
+                    it["books"] = books
+                }
             }
 
             get("/borrow") {
-                middleware(CheckUserToken)
-                respondTemplate("book_borrow_list")
+                val books = getAllBookBorrowsForCurrentUser()
+                respondTemplate("book_borrow_list") {
+                    it["books"] = books
+                }
             }
 
             get("/search") {
@@ -40,9 +45,9 @@ object BookController : HomeBaseController() {
             }
 
             get<BookIDLocation> { bookId ->
-                middleware(CheckUserToken)
+                val book = getBook(bookId.id)
                 respondTemplate("book_detail") {
-                    it["book_id"] = bookId.id
+                    it["book"] = book
                 }
             }
         }
