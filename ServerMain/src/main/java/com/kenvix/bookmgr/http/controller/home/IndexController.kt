@@ -13,10 +13,6 @@ object IndexController : HomeBaseController() {
             get("/") {
                 respondTemplate("index")
             }
-
-            get("/asshole") {
-                call.respondText("ASSHOLE ${Instant.now()}")
-            }
         }
     }
 }

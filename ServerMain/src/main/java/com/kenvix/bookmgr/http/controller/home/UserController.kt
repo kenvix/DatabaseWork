@@ -1,18 +1,12 @@
 package com.kenvix.bookmgr.http.controller.home
 
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
-import com.kenvix.bookmgr.http.utils.*
 import com.kenvix.bookmgr.http.utils.SessionControllerUtils.createSession
 import com.kenvix.bookmgr.http.utils.SessionControllerUtils.deleteSession
-import com.kenvix.bookmgr.http.utils.*
 import com.kenvix.bookmgr.http.utils.UserControllerUtils.createUser
 import com.kenvix.bookmgr.http.utils.UserControllerUtils.updateUserInfo
 import com.kenvix.web.utils.middleware
 import io.ktor.routing.*
-import java.nio.file.Path
-import com.kenvix.web.utils.plus
-import io.ktor.application.*
-import io.ktor.response.*
 
 object UserController : HomeBaseController() {
     override val baseTemplatePath: String
@@ -22,14 +16,6 @@ object UserController : HomeBaseController() {
         route {
             get("/login") {
                 respondTemplate("login")
-            }
-
-            get("/login/action"){
-                call.respondText("ASSDFSD ")
-            }
-
-            post("/asshole") {
-                call.respondText("asdwerrerererereffre ")
             }
 
             post("/login/action") {
@@ -53,7 +39,7 @@ object UserController : HomeBaseController() {
             }
 
             post("/password/reset/action") {
-
+                TODO()
             }
 
             get("/profile") {

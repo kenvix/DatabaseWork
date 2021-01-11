@@ -44,6 +44,11 @@ fun <T: Any> PipelineContext<*, ApplicationCall>.middlewareResultOrNull(clazz: B
     return clazz.getMiddlewareValueOrNull(this)
 }
 
+data class Result2<T, U>(val component1: T, val component2: U)
+data class Result3<T, U, V>(val component1: T, val component2: U, val component3: V)
+data class Result4<T, U, V, W>(val component1: T, val component2: U, val component3: V, val component4: W)
+data class Result5<T, U, V, W, X>(val component1: T, val component2: U, val component3: V, val component4: W, val component5: X)
+
 fun <T: Any> PipelineContext<*, ApplicationCall>.middleware(clazz: Middleware<T>): T {
     return clazz.callMiddleware(this)
 }
