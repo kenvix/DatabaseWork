@@ -43,7 +43,7 @@
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link pr-0 bg-transparent dropdown-toggle" data-toggle="dropdown"
                            role="button" aria-haspopup="true" aria-expanded="false">
-                            安全选项 &emsp; admin <img src="img/usericon.png" class="rounded-circle align-top ml-1"
+                            安全选项 &emsp; admin <img src="/img/usericon.png" class="rounded-circle align-top ml-1"
                                                    width="20" height="20" />
                         </a>
                         <div class="dropdown-menu">

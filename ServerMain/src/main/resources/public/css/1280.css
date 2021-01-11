@@ -1,0 +1,47 @@
+
+*+html .mbtx_toolbar{width:1187px;}/*ie6 7*/
+.mbtx_toolbar .toolbar_content{width:1187px;}
+.LiquidContainer{width:1187px!important;/*1237**/}
+
+.nav{width:1187px;}
+
+.leftspan{width:845px;/*895*/}
+.pin-code h3{background:url(../images/titbg1280.jpg) no-repeat 0 100%;}
+/*.pin-img img{max-width:850px;width:expression(this.width > 850 ? '850px' : this.width);}*/
+/*.breadcrumbs{width:885px;}*/
+.nav0 .box{width:1006px!important;}
+.sublist li{width:168px!important;}
+.zygg li {width:290px!important;}
+
+#howdy{width:1187px;/*1237**/}
+#mintbar{width:1187px;/*1237**/}
+#mintbar .mintbar-content{width:1187px;/*1237*/}
+#zSlider{width:1000px}
+#picshow,#picshow_img,#picshow_img li,#picshow_img img,#picshow_tx{width:680px;}
+#picshow_img img{width:335px;}
+#picshow_img img.one{width:680px;}
+.breadCrumb,.Crumbbread{width:1176px;/*1226*/}
+
+.tab_search{width:820px;}
+.tab_search .title-list li{ width: 126px;}
+.tab_search .title-list p{ width: 126px;}
+.fr{margin-left:100px}
+.search_item-wrap .search_item li.ml1{margin-left:25px; width: 760px;}
+.search-form {margin-left:20px;}
+
+/****resource search*********/
+.search_menu{width:820px;}
+.nav_con_icon{width:820px;}
+.nav_con1{width:820px;background:url(images/resoursesearch/line_select_001.gif)}
+.nav_con2{width:818px;}
+
+/*.container{width:1258px}*/
+#wxshare li{width:350px;}
+.fwzx1{height:350px}
+.dxxb1{height:240px}
+.xxk{width:820px;/*885*/}
+/*.xxk .xxktit ul li{width:440px}*/
+#khxgd{width:800px}
+#kmtbd{width:800px}
+.main1_r_l{width:630px}
+.ul_tabs{width:830px;/*background:url(../images/tab/bg02.gif);*/}

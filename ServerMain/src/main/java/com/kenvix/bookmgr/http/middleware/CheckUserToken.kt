@@ -61,7 +61,11 @@ object CheckUserToken : Middleware<User>(), Cached {
         if (token != null)
             return token
 
-        return call.request.cookies[TokenKey].assertNotNull()
+        token = call.request.cookies[TokenKey]
+        if (token != null)
+            return token;
+
+        throw InvalidAuthorizationException("您必须先登录")
     }
 
     fun check(call: ApplicationCall): User {

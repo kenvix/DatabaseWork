@@ -117,7 +117,7 @@
                                     <input type="submit" class="btn btn-success" style="margin-top: 10px;" value="立即创建">
                                 </div>
                                 <div class="col ml-auto pl-0 text-right">
-                                    <img src="img/genVerifyCode.gif" id="changePwdVC" onclick="this.src = this.src;" title="点击更换验证码"
+                                    <img src="${public}/img/genVerifyCode.gif" id="changePwdVC" onclick="this.src = this.src;" title="点击更换验证码"
                                          width="220" height="62" class="img-thumbnail ajax-code-img">
                                 </div>
                             </div>

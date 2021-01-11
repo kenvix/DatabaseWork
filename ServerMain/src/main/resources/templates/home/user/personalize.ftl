@@ -9,7 +9,6 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
@@ -44,7 +43,7 @@
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link pr-0 bg-transparent dropdown-toggle" data-toggle="dropdown"
                        role="button" aria-haspopup="true" aria-expanded="false">
-                        安全选项 &emsp; admin <img src="img/usericon.png" class="rounded-circle align-top ml-1"
+                        安全选项 &emsp; admin <img src="${public}/img/usericon.png" class="rounded-circle align-top ml-1"
                                                width="20" height="20" />
                     </a>
                     <div class="dropdown-menu">
@@ -58,12 +57,10 @@
         </div>
     </div>
 </nav>
-
 <script type="text/javascript">
     page = 1;
     totalPage = 10;
 </script>
-
 <div class="container container-main flex-grow-1">
     <div class="row">
         <!-- 侧边导航，宽屏设备可见 -->
@@ -116,7 +113,6 @@
                     }
                 }
             </script>
-
             <!-- Modal -->
             <div class="modal fade" id="createInviteCodeModal" tabindex="-1" role="dialog" aria-labelledby="createInviteCodeModalLabel">
                 <div class="modal-dialog" role="document">
@@ -139,7 +135,6 @@
                                         <input class="form-control" type="number" value="1" disabled>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">继续创建</button>
@@ -148,8 +143,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div><!-- .main -->
     </div><!-- .row -->
 </div><!-- .container-main -->

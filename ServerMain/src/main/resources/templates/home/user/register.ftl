@@ -44,7 +44,7 @@
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link pr-0 bg-transparent dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-haspopup="true" aria-expanded="false">
-                        安全选项 &emsp; admin <img src="img/usericon.png" class="rounded-circle align-top ml-1" width="20"
+                        安全选项 &emsp; admin <img src="${public}/img/usericon.png" class="rounded-circle align-top ml-1" width="20"
                                                height="20" />
                     </a>
                     <div class="dropdown-menu">
@@ -118,7 +118,7 @@
                                 <input type="submit" class="btn btn-success" style="margin-top: 10px;" value="立即创建">
                             </div>
                             <div class="col ml-auto pl-0 text-right">
-                                <img src="img/genVerifyCode.gif" id="changePwdVC" onclick="this.src = this.src;" title="点击更换验证码"
+                                <img src="${public}/img/genVerifyCode.gif" id="changePwdVC" onclick="this.src = this.src;" title="点击更换验证码"
                                      width="220" height="62" class="img-thumbnail ajax-code-img">
                             </div>
                         </div>

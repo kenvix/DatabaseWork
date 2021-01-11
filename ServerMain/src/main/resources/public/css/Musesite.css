@@ -1,0 +1,220 @@
+﻿.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#header {
+    background-image: url(../images/HeaderBG.jpg);
+    height: 120px;
+    width: 100%;
+    clear: both;
+}
+
+
+.branding {
+    background: transparent url(.../LogoBg.png) top left no-repeat;
+    height: 120px;
+    min-width: 950px;
+    width: auto;
+    display: block;
+}
+
+    .branding img {
+    
+        padding: 0;
+        display: inline;
+    }
+
+
+#main {
+    display: flex;
+    margin-top: -20px;
+}
+
+#main_main {
+    padding: 0em 1em ;
+    margin: 0em 1em ;
+    flex: 1;
+    width: auto;
+}
+
+#main_left {
+    width: 180px;
+    border-right: 1px solid blue;
+    padding-left: 1em;
+    margin-left: 1em;
+    padding-top: 1em;
+}
+
+#main_right {
+    flex: 1;
+    width: auto;
+    padding-left: 1em;
+    padding-right: 1em;
+    min-height: 500px;
+    height: 100%;
+    padding-bottom: 1em;
+}
+
+#foot {
+    margin: 0 auto;
+    padding: 1em 0px;
+    display: flex;
+    background-color: darkgrey;
+    background-image: url(../images/FooterBG.jpg);
+    background-size: cover;
+}
+
+#foot_left {
+    width: 300px;
+    padding-left: 1em;
+    margin-left: 1em;
+    text-align: left;
+}
+
+#foot_right {
+    flex: 1;
+    width: auto;
+    padding-left: 1em;
+    padding-right: 1em;
+    text-align: right;
+}
+
+#simpleQueryMain {
+    margin: 0 auto;
+    padding: 1em 0px;
+    display: flex;
+}
+
+    #simpleQueryMain .left {
+        margin: 0 auto;
+        width: 200px;
+    }
+
+    #simpleQueryMain .right {
+        flex: 1;
+        width: auto;
+        height: 100%;
+    }
+
+
+.Row3em {
+    vertical-align: middle;
+    height: 3em;
+}
+
+
+.tdborder1 {
+    background-color: #efefef;
+    border: 1px solid rgb(204,204,204);
+    padding: 4px;
+}
+
+.tdborder1a {
+    border: 1px solid rgb(204,204,204);
+    padding: 4px;
+}
+
+.tdborder2 {
+    background-color: #efefef;
+    BORDER-top: 1px solid rgb(204,204,204);
+    BORDER-bottom: 1px solid rgb(204,204,204);
+    BORDER-right: 1px solid rgb(204,204,204);
+    padding: 4px;
+}
+
+.tdborder2a {
+    BORDER-top: 1px solid rgb(204,204,204);
+    BORDER-bottom: 1px solid rgb(204,204,204);
+    BORDER-right: 1px solid rgb(204,204,204);
+    padding: 4px;
+}
+
+.tdborder3 {
+    BORDER-bottom: 1px solid rgb(204,204,204);
+    BORDER-left: 1px solid rgb(204,204,204);
+    BORDER-right: 1px solid rgb(204,204,204);
+    padding: 4px;
+}
+
+.tdborder3a {
+    background-color: #efefef;
+    BORDER-bottom: 1px solid rgb(204,204,204);
+    BORDER-left: 1px solid rgb(204,204,204);
+    BORDER-right: 1px solid rgb(204,204,204);
+    padding: 4px;
+}
+
+.tdborder4 {
+    BORDER-bottom: 1px solid rgb(204,204,204);
+    BORDER-right: 1px solid rgb(204,204,204);
+    padding: 4px;
+}
+
+.tdborder4a {
+    background-color: #efefef;
+    BORDER-bottom: 1px solid rgb(204,204,204);
+    BORDER-right: 1px solid rgb(204,204,204);
+    padding: 4px;
+}
+
+INPUT.smallInput {
+    FONT-SIZE: 9pt;
+    FONT-STYLE: normal;
+    FONT-VARIANT: normal;
+    FONT-WEIGHT: normal;
+    HEIGHT: 18px;
+    LINE-HEIGHT: normal;
+    border: 1px solid #999999;
+}
+
+
+INPUT.buttonface {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #428bca;
+    border-color: #357ebd;
+    color: #fff;
+    cursor: hand;
+}
+
+INPUT.buttonfaceStrong {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #428bca;
+    border-color: #357ebd;
+    color: #fff;
+    cursor: hand;
+}
+
+nav a {
+    color: white;
+}
+
+#foot_right a {
+    color: white;
+}
+
+.AlignRight{
+    text-align:right;
+}
