@@ -38,7 +38,7 @@ object AuthorController : ApiBaseController() {
                 }
 
                 AuthorModel.insert(data)
-                respondJson(data)
+                respondSuccess("添加作者成功", data)
             }
 
             put<AuthorIDLocation> { authorId ->
@@ -52,14 +52,14 @@ object AuthorController : ApiBaseController() {
                 }
 
                 AuthorModel.insert(data)
-                respondJson(data)
+                respondSuccess("修改作者信息成功", data)
             }
 
             delete<AuthorIDLocation> { authorId ->
                 middleware(CheckCommonAdminToken)
 
                 AuthorModel.deleteById(authorId.id)
-                respondSuccess("Deleted")
+                respondSuccess("删除作者成功")
             }
         }
     }

@@ -45,59 +45,67 @@
                     $(".nav-link[href$='/Home/User/login']").addClass('active');
                 </script>
             </div>
+
             <div class="col-lg main" role="main">
                 <div class="card">
-                    <div class="card-header">登录 Library 用户中心</div>
+                    <div class="card-header">登录 ${siteName}</div>
                     <div class="card-body" id="loginData">
-                        <form id="login-form" method="post">
+
+                        <div class="alert alert-info ajax-info" role="alert" style="display: none;">
+                            <div class="ajax-info-text" id="prompt-text">提示信息</div>
+                        </div>
+
+                        <form id="login-form" action="/user/login/action" method="post">
                             <div class="alert alert-info ajax-info" role="alert">
                                 <div class="ajax-info-text"></div>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="name" required maxlength="25"
-                                       placeholder="昵称或邮箱">
+                                <input type="text" class="form-control" name="username" id="login-username" required maxlength="25" placeholder="学号或邮箱">
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" name="pw" id="pw" required placeholder="密码">
+                                <input type="password" class="form-control" name="password" id="login-password" required placeholder="密码">
                             </div>
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input class="custom-control-input" type="checkbox" name="rem" id="rem" value="1">
-                                    <label class="custom-control-label" for="rem">记住我 [ 7天内有效 ]</label>
-                                </div>
-                            </div>
+                            <label>
+                                <input type="checkbox" name="remember" id="login-remember" value="1">
+                                记住我 [ 30 天内有效 ]
+                            </label>
                             <p><input type="submit" class="btn btn-primary" value="立即登录" id="submitBtn"></p>
                             <a href="/user/register">没有账号？点击注册</a>
-                            <input type="hidden" name="MOERCEXTREDG"
-                                   value="78fb64ba92c1d179f22bf9301603b094_0f17a73d26a4447b57e3fba226c46523" />
                             <script>
-                                $(document).ready(function() {
-                                    $("#login-form").submit(function(e) {
-                                        e.preventDefault();
-                                        var obj = $(this);
-                                        var name = $("input[name='username']").val();
-                                        var passwd = $("input[name='password']").val();
-                                        var data = new FormData(form);
-                                        // If you want to add an extra field for the FormData
-                                        data.append("username", name);
-                                        data.append("password", passwd);
-                                        $.ajax({
-                                            url : "/api/v1/session",
-                                            type : "POST",
-                                            contentType: "application/json;charset=utf-8",
-                                            enctype: 'multipart/form-data',
-                                            data : data,
-                                            dataType : "text",
-                                            success : function(result) {
-                                                obj.parents('form').submit();
-                                            },
-                                            error:function(msg){
-                                                $(".notice").html('Error:'+msg);
-                                            }
-                                        })
-                                        return false;
-                                    })
-                                })(jQuery);
+                                // $(document).ready(function() {
+                                //     $("#login-form").submit(function(e) {
+                                //         e.preventDefault();
+                                //         var obj = $(this);
+                                //
+                                //         var username = $("#login-username").val();
+                                //         var password = $("#login-password").val();
+                                //         var remember = $("#login-remember").is(":checked");
+                                //         var data = new FormData();
+                                //
+                                //         // If you want to add an extra field for the FormData
+                                //         data.append("username", username);
+                                //         data.append("password", password);
+                                //         data.append("remember", remember);
+                                //
+                                //         $.ajax({
+                                //             url: "/api/v1/session",
+                                //             type: "POST",
+                                //             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                                //             enctype: 'multipart/form-data',
+                                //             data: data,
+                                //             dataType: "application/json; charset=UTF-8",
+                                //             success: function(result) {
+                                //                 $("#prompt-text").append(result.info);
+                                //                 window.location = "/"; //跳转
+                                //             },
+                                //
+                                //             error: function(result){
+                                //                 $("#prompt-text").append(result.info);
+                                //             }
+                                //         })
+                                //         return false;
+                                //     })
+                                // });
                             </script>
                         </form>
                     </div>

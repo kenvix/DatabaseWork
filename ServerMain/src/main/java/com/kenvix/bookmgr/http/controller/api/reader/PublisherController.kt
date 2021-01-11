@@ -30,7 +30,7 @@ object PublisherController : ApiBaseController() {
                 }
 
                 PublisherModel.insert(data)
-                respondJson(data)
+                respondSuccess("添加出版社成功", data)
             }
 
             get<PublisherIDLocation> { publisherId ->
@@ -49,13 +49,14 @@ object PublisherController : ApiBaseController() {
                 }
 
                 PublisherModel.update(data)
+                respondSuccess("更新出版社信息成功", data)
             }
 
             delete<PublisherIDLocation> { publisherId ->
                 middleware(CheckCommonAdminToken)
 
                 PublisherModel.deleteById(publisherId.id)
-                respondSuccess("Deleted")
+                respondSuccess("删除出版社成功")
             }
         }
     }

@@ -10,6 +10,8 @@ import com.kenvix.web.utils.middleware
 import io.ktor.routing.*
 import java.nio.file.Path
 import com.kenvix.web.utils.plus
+import io.ktor.application.*
+import io.ktor.response.*
 
 object UserController : HomeBaseController() {
     override val baseTemplatePath: String
@@ -19,6 +21,10 @@ object UserController : HomeBaseController() {
         route {
             get("/login") {
                 respondTemplate("login")
+            }
+
+            get("/login/action"){
+                call.respondText("ASSDFSD ")
             }
 
             post("/login/action") {
