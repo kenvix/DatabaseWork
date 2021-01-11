@@ -31,7 +31,7 @@ object ServerEnv : ManagedEnvFile() {
     val PublicDirUrl by envOf("/public")
     val PublicDirPath by envOf("public")
     val RequestCacheSize by envOf(10240000L)
-    val CorsOriginAnyHost by envOf(false)
+    val CorsOriginAnyHost by envOf(true)
     val CorsOriginHosts by envOf("")
 
     @Description("HTTP 数据库地址")
