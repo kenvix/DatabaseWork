@@ -1,7 +1,8 @@
 package com.kenvix.bookmgr.http.controller.api
 
-import com.kenvix.bookmgr.http.utils.createSession
-import com.kenvix.bookmgr.http.utils.deleteSession
+import com.kenvix.bookmgr.http.utils.*
+import com.kenvix.bookmgr.http.utils.SessionControllerUtils.createSession
+import com.kenvix.bookmgr.http.utils.SessionControllerUtils.deleteSession
 import io.ktor.locations.*
 import io.ktor.routing.*
 import io.ktor.util.*

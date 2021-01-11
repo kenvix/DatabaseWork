@@ -1,8 +1,11 @@
 package com.kenvix.bookmgr.http.controller.home
 
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
-import com.kenvix.bookmgr.http.utils.createSession
-import com.kenvix.bookmgr.http.utils.deleteSession
+import com.kenvix.bookmgr.http.utils.*
+import com.kenvix.bookmgr.http.utils.SessionControllerUtils.createSession
+import com.kenvix.bookmgr.http.utils.SessionControllerUtils.deleteSession
+import com.kenvix.bookmgr.http.utils.*
+import com.kenvix.bookmgr.http.utils.UserControllerUtils.createUser
 import com.kenvix.web.utils.middleware
 import io.ktor.routing.*
 import java.nio.file.Path
@@ -22,19 +25,23 @@ object UserController : HomeBaseController() {
                 createSession()
             }
 
+            post("/logout/action") {
+                deleteSession()
+            }
+
             get("/register") {
                 respondTemplate("register")
             }
 
             post("/register/action") {
-                deleteSession()
+                createUser()
             }
 
             get("/password/reset") {
                 respondTemplate("password_reset")
             }
 
-            post("/password/action") {
+            post("/password/reset/action") {
 
             }
 
