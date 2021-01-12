@@ -2,6 +2,7 @@ package com.kenvix.bookmgr.http.utils
 
 import com.kenvix.bookmgr.AppConstants
 import com.kenvix.bookmgr.contacts.generic.BookForUserAndAuthors
+import com.kenvix.bookmgr.http.middleware.CheckCommonAdminToken
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
 import com.kenvix.bookmgr.model.mysql.AuthorModel
 import com.kenvix.bookmgr.model.mysql.BookForUserModel
@@ -50,9 +51,18 @@ internal object BookControllerUtils {
     /**
      * 获取某图书详细信息
      */
-    internal suspend fun PipelineContext<Unit, ApplicationCall>.getBook(bookId: Long, fetchAllInfo: Boolean = false) = withContext(Dispatchers.IO) {
+    internal suspend fun PipelineContext<Unit, ApplicationCall>.getBook(bookId: Long) = withContext(Dispatchers.IO) {
         middleware(CheckUserToken)
-        val book = BookForUserModel.getBooksForUser(listOf(BookForUser.BOOK_FOR_USER.ID.equal(bookId)), fetchAllInfo).assertNotEmpty()
+        val book = BookForUserModel.getBooksForUser(listOf(BookForUser.BOOK_FOR_USER.ID.equal(bookId))).assertNotEmpty()
+        val authors = AppConstants.dslContext.select().from(com.kenvix.bookmgr.orm.tables.BookAuthor.BOOK_AUTHOR)
+            .where(com.kenvix.bookmgr.orm.tables.BookAuthor.BOOK_AUTHOR.BOOK_ID.eq(bookId)).fetchInto(BookAuthor::class.java)
+
+        BookForUserAndAuthors(book[0], authors)
+    }
+
+    internal suspend fun PipelineContext<Unit, ApplicationCall>.getBookAdmin(bookId: Long) = withContext(Dispatchers.IO) {
+        middleware(CheckCommonAdminToken)
+        val book = BookForUserModel.getBooksForAdmin(listOf(BookForUser.BOOK_FOR_USER.ID.equal(bookId))).assertNotEmpty()
         val authors = AppConstants.dslContext.select().from(com.kenvix.bookmgr.orm.tables.BookAuthor.BOOK_AUTHOR)
             .where(com.kenvix.bookmgr.orm.tables.BookAuthor.BOOK_AUTHOR.BOOK_ID.eq(bookId)).fetchInto(BookAuthor::class.java)
 
