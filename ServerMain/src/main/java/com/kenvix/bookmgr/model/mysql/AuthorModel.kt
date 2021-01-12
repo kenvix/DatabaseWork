@@ -19,7 +19,7 @@ object AuthorModel : AuthorDao(), BaseModel {
     }
 
     fun fetchOneIdByName(name: String): Long? =
-        dsl.select(AUTHOR.ID).from(AUTHOR).where(AUTHOR.NAME.eq(name)).fetchOne().value1()
+        dsl.select(AUTHOR.ID).from(AUTHOR).where(AUTHOR.NAME.eq(name)).fetchOne()?.value1()
 
     fun fetchAll() = dsl.select().from(AUTHOR).fetchInto(Author::class.java)
 }

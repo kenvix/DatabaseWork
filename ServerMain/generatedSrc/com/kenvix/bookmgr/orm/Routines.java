@@ -4,6 +4,7 @@
 package com.kenvix.bookmgr.orm;
 
 
+import com.kenvix.bookmgr.orm.routines.BookAuthorMapDelete;
 import com.kenvix.bookmgr.orm.routines.BookBorrow;
 import com.kenvix.bookmgr.orm.routines.BookBorrowRenew;
 import com.kenvix.bookmgr.orm.routines.BookBorrowReturn;
@@ -13,6 +14,7 @@ import com.kenvix.bookmgr.orm.routines.GetLastInsertId;
 import com.kenvix.bookmgr.orm.routines.GetSetting;
 import com.kenvix.bookmgr.orm.routines.RaiseError;
 import com.kenvix.bookmgr.orm.routines.Test;
+import com.kenvix.bookmgr.orm.routines.TruncateArchiveTable;
 import com.kenvix.bookmgr.orm.routines.UserAdd;
 import com.kenvix.bookmgr.orm.routines.UserDelete;
 
@@ -36,6 +38,17 @@ import org.jooq.Field;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Routines {
+
+    /**
+     * Call <code>book_author_map_delete</code>
+     */
+    public static void bookAuthorMapDelete(Configuration configuration, Long bookId, Long authorId) {
+        BookAuthorMapDelete p = new BookAuthorMapDelete();
+        p.setBookId(bookId);
+        p.setAuthorId(authorId);
+
+        p.execute(configuration);
+    }
 
     /**
      * Call <code>book_borrow</code>
@@ -203,6 +216,16 @@ public class Routines {
 
         p.execute(configuration);
         return p.getMaxRenewNum();
+    }
+
+    /**
+     * Call <code>truncate_archive_table</code>
+     */
+    public static void truncateArchiveTable(Configuration configuration, String tableName) {
+        TruncateArchiveTable p = new TruncateArchiveTable();
+        p.setTableName(tableName);
+
+        p.execute(configuration);
     }
 
     /**

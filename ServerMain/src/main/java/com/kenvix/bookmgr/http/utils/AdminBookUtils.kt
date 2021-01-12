@@ -2,6 +2,7 @@ package com.kenvix.bookmgr.http.utils
 
 import com.kenvix.bookmgr.http.middleware.CheckCommonAdminToken
 import com.kenvix.bookmgr.model.mysql.*
+import com.kenvix.bookmgr.orm.tables.pojos.Author
 import com.kenvix.bookmgr.orm.tables.pojos.Book
 import com.kenvix.bookmgr.orm.tables.pojos.BookAuthorMap
 import com.kenvix.web.utils.*
@@ -33,7 +34,7 @@ object AdminBookControllerUtils {
             book
         }
 
-        respondSuccess("添加图书 ${book.title} 成功", book, URI("/admin/book"))
+        respondSuccess("添加图书 ${book.title} 成功", book, URI("/admin/book/edit/${book.id}"))
     }
 
     internal suspend fun PipelineContext<Unit, ApplicationCall>.updateBook(bookId: Long) = withContext(Dispatchers.IO) {
@@ -46,12 +47,16 @@ object AdminBookControllerUtils {
         BookModel.transactionThreadLocal {
             book.applyBookFromParams(params, user.uid)
             BookModel.update(book)
-            (newAuthorIds - oldAuthorIds).forEach { authorId -> BookAuthorMapModel.insert(BookAuthorMap(book.id, authorId)) }
-            (oldAuthorIds - newAuthorIds).forEach { authorId -> BookAuthorMapModel.deleteByBookAndAuthorId(book.id, authorId) }
+            (newAuthorIds - oldAuthorIds).forEach { authorId ->
+                BookAuthorMapModel.insert(BookAuthorMap(book.id, authorId))
+            }
+            (oldAuthorIds - newAuthorIds).forEach { authorId ->
+                BookAuthorMapModel.deleteByBookAndAuthorId(book.id, authorId)
+            }
             book
         }
 
-        respondSuccess("修改图书 ${book.title} 成功", book, URI("/admin/book"))
+        respondSuccess("修改图书 ${book.title} 成功", book, URI("/admin/book/edit/$bookId"))
     }
 
     internal suspend fun PipelineContext<Unit, ApplicationCall>.deleteBook(bookId: Long) = withContext(Dispatchers.IO) {
@@ -67,8 +72,19 @@ object AdminBookControllerUtils {
                 .asSequence()
                 .map { it.trim() }
                 .filter { it.isNotBlank() }
-                .map { AuthorModel.fetchOneIdByName(it) }
-                .filterNotNull()
+                .map { it to AuthorModel.fetchOneIdByName(it) }
+                .map {
+                    if (it.second == null) {
+                        val author = Author().apply {
+                            name = it.first
+                            fullname = it.first
+                        }
+                        AuthorModel.insert(author)
+                        author.id
+                    } else {
+                        it.second!!
+                    }
+                }
                 .toList()
         } else {
             params.getAll("author[]")?.map { it.toLong() } ?: emptyList()
@@ -79,7 +95,7 @@ object AdminBookControllerUtils {
         title = params["title"].validateValue { it.length in 1..120 }
         description = params["description"] ?: ""
         createdAt = params["created_at"]?.runCatching {
-            Timestamp(dateMilliFormatter.get().parse(replace('T', ' ')).time)
+            Timestamp(dateDefaultFormatter.get().parse(replace('T', ' ')).time)
         }?.getOrDefault(Timestamp(System.currentTimeMillis())) ?: Timestamp(System.currentTimeMillis())
         creatorUid = uid
         numTotal = params["num_total"]?.run { toInt() }?.validateValue { it >= 0 } ?: 0

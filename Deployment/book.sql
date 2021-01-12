@@ -10,7 +10,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 08/01/2021 16:06:30
+ Date: 12/01/2021 16:47:07
 */
 
 SET NAMES utf8mb4;
@@ -37,6 +37,7 @@ INSERT INTO `author` VALUES (1, '莎士比亚', '威廉·莎士比亚', 'UK', '�
 INSERT INTO `author` VALUES (2, '毛泽东', '毛泽东', 'CN', '毛泽东（1893年12月26日-1976年9月9日），字润之（原作咏芝，后改润芝），笔名子任。湖南湘潭人。中国人民的领袖，伟大的马克思主义者，无产阶级革命家、战略家和理论家，中国共产党、中国人民解放军和中华人民共和国的主要缔造者和领导人，政治家 [1]  ，军事家 [2]  ，诗人，书法家。 [3] \r\n1949至1976年，毛泽东担任中华人民共和国最高领导人。他对马克思列宁主义的发展、军事理论的贡献以及对共产党的理论贡献被称为毛泽东思想。因毛泽东担任过的主要职务几乎全部称为主席，所以也被人们尊称为“毛主席”。\r\n毛泽东被视为现代世界历史中最重要的人物之一，《时代》杂志也将他评为20世纪最具影响100人之一。');
 INSERT INTO `author` VALUES (3, '王珊', '王珊', 'CN', '王珊，女，1944，中国人民大学二级岗位教授 [1]  、博士生导师，国家有突出贡献的中青年专家，享受国务院政府特殊津贴。\r\n1962年考入北京大学物理系本科，1968年毕业。1981年获中国人民大学信息系计算机应用与技术工学硕士学位。1984至1986年应姚诗斌教授邀请赴美国马里兰大学合作研究，开发关系数据库管理系统XDB。中国人民大学信息学院教授、博士生导师。中国计算机学会副理事长，中国计算机学会数据库专委会主任，教育部第五届科学技术委员会委员，中国科学技术协会第六届全国委员会委员等。');
 INSERT INTO `author` VALUES (4, '萨师煊', '萨师煊', 'CN', '萨师煊（1922年12月27日—2010年7月11日）计算机科学家。是中国人民大学经济信息管理系的创建人，是我国数据库学科的奠基人之一，数据库学术活动的积极倡导者和组织者。原中国计算机学会常务理事、软件专业委员会常务委员兼数据库学组组长，中国计算机学会数据库专业委员会名誉主任委员，原中国人民大学经济信息管理系主任、名誉系主任。因病医治无效，于2010年7月11日在北京逝世，享年88岁。');
+INSERT INTO `author` VALUES (5, 'Kenvix', 'Kenvix', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for book
@@ -67,7 +68,7 @@ CREATE TABLE `book`  (
 -- ----------------------------
 -- Records of book
 -- ----------------------------
-INSERT INTO `book` VALUES (1, 1, 4, '仲夏夜之梦', '《仲夏夜之夢》，是威廉·莎士比亞在約1590年－1596年間創作的浪漫喜劇。它描繪了以雅典大公忒修斯和希波呂忒婚禮為中心的一系列故事。包括四名​​雅典戀人和六個業餘演員的冒險經歷，而森林裡的仙子們則在背後操作它們的命運。本戲劇是莎士比亞最流行的劇本之一，在全世界都有上演。', 1, '2021-01-03 16:12:55', 100, 100, 5);
+INSERT INTO `book` VALUES (1, 1, 4, '仲夏夜之梦', '《仲夏夜之梦》，是威廉·莎士比亚在约1590年－1596年间创作的浪漫喜剧。它描绘了以雅典大公忒修斯和希波吕忒婚礼为中心的一系列故事。包括四名​​雅典恋人和六个业余演员的冒险经历，而森林里的仙子们则在背后操作它们的命运。本戏剧是莎士比亚最流行的剧本之一，在全世界都有上演。', 1, '2021-01-02 16:46:04', 1000, 100, 5);
 INSERT INTO `book` VALUES (2, 1, 5, '毛泽东选集', '《毛泽东选集》是1951年人民出版社出版的图书，作者是毛泽东。该书是毛泽东思想的重要载体，是毛泽东思想的集中展现，亦是对20世纪的中国影响最大的书籍之一。\r\n建国后出版的两个版本均由人民出版社负责。该书在建国前即有大量出版，1944年于邯郸创建的晋察冀日报社出版首版《毛泽东选集》。建国后共出版了五卷，编入的是毛泽东同志在新民主主义革命时期、社会主义革命和社会主义建设时期的主要著作。1991年7月1日，《毛泽东选集》一至四卷第二版出版发行。', 2, '2021-01-04 16:13:59', 20, 20, 5);
 INSERT INTO `book` VALUES (3, 1, 4, '哈姆雷特', '《哈姆雷特（Hamlet）》是由英国剧作家威廉·莎士比亚创作于1599年至1602年间的一部悲剧作品。戏剧讲述了叔叔克劳狄斯谋害了哈姆雷特的父亲，篡取了王位，并娶了国王的遗孀乔特鲁德；哈姆雷特王子因此为父王向叔叔复仇。\r\n《哈姆雷特》是莎士比亚所有戏剧中篇幅最长的一部， [1]  也是莎士比亚最负盛名的剧本，具有深刻的悲剧意义。复杂的人物性格以及丰富完美的悲剧艺术手法，代表着整个西方文艺复兴时期文学的最高成就。同《麦克白》、《李尔王》和《奥赛罗》一起组成莎士比亚“四大悲剧”。', 1, '2021-01-04 16:15:26', 1, 1, 4);
 INSERT INTO `book` VALUES (4, 1, 6, '数据库系统概论（第5版', '《数据库系统概论（第5版）“十二五”普通高等教育本科国家级规划教材》第1版于1983年出版，至今已修订至第5版。第5版被列入“十二五”普通高等教育本科国家级规划教材。相应课程于2004年被评为北京市精品课程，2005年被评为国家精品课程，2014年被批准为国家级精品资源共享课。\r\n\r\n《数据库系统概论（第5版）“十二五”普通高等教育本科国家级规划教材》系统全面地阐述了数据库系统的基础理论、基本技术和基本方法。全书分为4篇16章。第一篇基础篇，包括绪论、关系数据库、关系数据库标准语言SQL、数据库安全性和数据库完整性，共5章；第二篇设计与应用开发篇，包括关系数据理论、数据库设计和数据库编程，共3章；第三篇系统篇，包括关系查询处理和查询优化、数据库恢复技术、并发控制和数据库管理系统，共4章', 3, '2021-01-04 16:22:13', 50, 50, 5);
@@ -92,6 +93,7 @@ INSERT INTO `book_author_map` VALUES (1, 1);
 INSERT INTO `book_author_map` VALUES (2, 2);
 INSERT INTO `book_author_map` VALUES (3, 3);
 INSERT INTO `book_author_map` VALUES (3, 4);
+INSERT INTO `book_author_map` VALUES (1, 5);
 
 -- ----------------------------
 -- Table structure for book_borrow
@@ -154,10 +156,14 @@ CREATE TABLE `book_type`  (
 -- ----------------------------
 INSERT INTO `book_type` VALUES (0, '无类别', 0);
 INSERT INTO `book_type` VALUES (1, '人文', 0);
-INSERT INTO `book_type` VALUES (3, '工学', 0);
+INSERT INTO `book_type` VALUES (3, '工业技术', 0);
 INSERT INTO `book_type` VALUES (4, '戏剧', 1);
 INSERT INTO `book_type` VALUES (5, '政治', 1);
 INSERT INTO `book_type` VALUES (6, '计算机科学', 3);
+INSERT INTO `book_type` VALUES (7, '传记', 0);
+INSERT INTO `book_type` VALUES (8, '工具书', 0);
+INSERT INTO `book_type` VALUES (9, '字典', 8);
+INSERT INTO `book_type` VALUES (10, '法律', 1);
 
 -- ----------------------------
 -- Table structure for invoice
@@ -333,6 +339,8 @@ INSERT INTO `setting` VALUES ('book_borrow_max_borrow_num', '10', '最多允许�
 INSERT INTO `setting` VALUES ('book_borrow_max_renew_num', '7', '借书最大续期次数');
 INSERT INTO `setting` VALUES ('book_borrow_period_millis', '2592000000', '每次借书/续期时长（毫秒）');
 INSERT INTO `setting` VALUES ('book_expire_penalty_cents_a_day', '15', '超期罚款（每天，罚款单位为分）');
+INSERT INTO `setting` VALUES ('default_user_pagination_num', '30', '默认单页分页数值');
+INSERT INTO `setting` VALUES ('max_user_pagination_num', '150', '用户最大可设置单页分页数值');
 INSERT INTO `setting` VALUES ('site_name', '高级图书文献管理系统', '站点名称');
 
 -- ----------------------------
@@ -382,7 +390,7 @@ CREATE TABLE `user`  (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES (0, '0', 'example@example.com', '[系统]', '', 0, '0000-00-00 00:00:00', 'localhost', 'localhost');
-INSERT INTO `user` VALUES (1, '114514', 'kenvix@qq.com', 'Kenvix', '-', 127, '2021-01-02 12:04:44', 'localhost', 'localhost');
+INSERT INTO `user` VALUES (1, '114514', 'kenvix@qq.com', 'Kenvix', '$2a$10$GAnr1fQRo.gzs7g9TZa8suP.fY90PGFFTKiTAHAvZAM52UV7f.ABC', 127, '2021-01-02 12:04:44', 'localhost', 'localhost4');
 
 -- ----------------------------
 -- Table structure for user_access_level
@@ -446,7 +454,7 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_borrow_for_admin` A
 -- View structure for book_for_user
 -- ----------------------------
 DROP VIEW IF EXISTS `book_for_user`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_for_user` AS select `book`.`id` AS `id`,`book`.`title` AS `title`,`book`.`description` AS `description`,`book`.`publisher_id` AS `publisher_id`,`book`.`created_at` AS `created_at`,`book`.`num_total` AS `num_total`,`book`.`num_available` AS `num_available`,`book`.`status` AS `status`,`publisher`.`name` AS `publisher_name`,`book_author_map`.`author_id` AS `author_id`,group_concat(`author`.`name` separator ', ') AS `author_name`,group_concat(`author`.`fullname` separator ', ') AS `author_fullname`,group_concat(`author`.`country` separator ', ') AS `author_country`,`book`.`creator_uid` AS `creator_uid`,`book`.`type_id` AS `type_id`,`book_type`.`name` AS `type_name` from ((((`book` join `publisher` on((`book`.`publisher_id` = `publisher`.`id`))) left join `book_author_map` on((`book_author_map`.`book_id` = `book`.`id`))) join `author` on((`book_author_map`.`author_id` = `author`.`id`))) join `book_type` on((`book`.`type_id` = `book_type`.`id`))) where (`book`.`status` >= 4) group by `book`.`id`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_for_user` AS select `book`.`id` AS `id`,`book`.`title` AS `title`,`book`.`description` AS `description`,`book`.`publisher_id` AS `publisher_id`,`book`.`created_at` AS `created_at`,`book`.`num_total` AS `num_total`,`book`.`num_available` AS `num_available`,`book`.`status` AS `status`,`publisher`.`name` AS `publisher_name`,`book_author_map`.`author_id` AS `author_id`,group_concat(`author`.`name` separator ', ') AS `author_name`,group_concat(`author`.`fullname` separator ', ') AS `author_fullname`,group_concat(`author`.`country` separator ', ') AS `author_country`,`book`.`creator_uid` AS `creator_uid`,`book`.`type_id` AS `type_id`,`book_type`.`name` AS `type_name` from ((((`book` join `publisher` on((`book`.`publisher_id` = `publisher`.`id`))) left join `book_author_map` on((`book_author_map`.`book_id` = `book`.`id`))) left join `author` on((`book_author_map`.`author_id` = `author`.`id`))) join `book_type` on((`book`.`type_id` = `book_type`.`id`))) where (`book`.`status` >= 4) group by `book`.`id`;
 
 -- ----------------------------
 -- View structure for invoice_for_user
@@ -471,6 +479,19 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `log_user_login_for_admin
 -- ----------------------------
 DROP VIEW IF EXISTS `user_for_admin`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `user_for_admin` AS select `user`.`uid` AS `uid`,`user`.`serial_id` AS `serial_id`,`user`.`email` AS `email`,`user`.`real_name` AS `real_name`,`user`.`password` AS `password`,`user`.`access_level` AS `access_level`,`user_access_level`.`description` AS `access_level_description`,`user`.`created_at` AS `created_at`,`user_extra`.`phone` AS `phone`,`user_extra`.`money` AS `money`,`user_extra`.`card_serial_id` AS `card_serial_id`,`user_extra`.`start_year` AS `start_year`,`user_extra`.`department` AS `department`,`user_extra`.`comment` AS `comment`,`user`.`ip_creation` AS `ip_creation`,`user`.`ip_login` AS `ip_login` from ((`user` left join `user_extra` on((`user`.`uid` = `user_extra`.`uid`))) join `user_access_level` on((`user`.`access_level` = `user_access_level`.`id`)));
+
+-- ----------------------------
+-- Procedure structure for book_author_map_delete
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `book_author_map_delete`;
+delimiter ;;
+CREATE PROCEDURE `book_author_map_delete`(`book_id` bigint,`author_id` bigint)
+BEGIN
+	#Routine body goes here...
+	 DELETE FROM `book_author_map` WHERE `book_author_map`.`book_id` = book_id AND `book_author_map`.`author_id` = author_id;
+END
+;;
+delimiter ;
 
 -- ----------------------------
 -- Procedure structure for book_borrow
@@ -661,7 +682,7 @@ delimiter ;;
 CREATE PROCEDURE `raise_error`(IN error_message varchar(255), IN error_id smallint)
 BEGIN
 	#Routine body goes here...
-	SIGNAL SQLSTATE '45233' SET MESSAGE_TEXT = `error_message`, MYSQL_ERRNO = error_id;
+	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = `error_message`, MYSQL_ERRNO = error_id;
 	ROLLBACK WORK;
 END
 ;;
@@ -677,6 +698,27 @@ BEGIN
 	#Routine body goes here...
 	SELECT `value` INTO max_renew_num FROM setting WHERE `key` = 'book_borrow_max_renew_num';
 	
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for truncate_archive_table
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `truncate_archive_table`;
+delimiter ;;
+CREATE PROCEDURE `truncate_archive_table`(`table_name` varchar(100))
+BEGIN
+	#Routine body goes here...
+	SET @tname = table_name;
+	SET @sql_1 = concat('ALTER TABLE `', @tname, '` ENGINE = BLACKHOLE;');
+	SET @sql_2 = concat('ALTER TABLE `', @tname, '` ENGINE = ARCHIVE;');
+	PREPARE exec_1 FROM @sql_1;
+	PREPARE exec_2 FROM @sql_2;
+	EXECUTE exec_1;
+	EXECUTE exec_2;
+	DEALLOCATE prepare exec_1;
+	DEALLOCATE prepare exec_2;
 END
 ;;
 delimiter ;

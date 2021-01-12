@@ -76,12 +76,12 @@
 
                     <div class="form-group">
                         <label for="book-num_total">馆藏数目</label>
-                        <input type="number" class="form-control" name="num_total" min="0" id="book-num_total" value="<#if book??>${book.getNumTotal()}</#if>" placeholder="必填" required="required">
+                        <input type="number" class="form-control" name="num_total" min="0" id="book-num_total" value="<#if book??>${book.getNumTotal()?long?c}</#if>" placeholder="必填" required="required">
                     </div>
 
                     <div class="form-group">
                         <label for="book-num_available">可供读者借阅数</label>
-                        <input type="number" class="form-control" name="num_available" min="0" id="book-num_available" value="<#if book??>${book.getNumAvailable()}</#if>" placeholder="必填" required="required">
+                        <input type="number" class="form-control" name="num_available" min="0" id="book-num_available" value="<#if book??>${book.getNumAvailable()?long?c}</#if>" placeholder="必填" required="required">
                     </div>
 
                     <div class="form-group">
@@ -102,24 +102,22 @@
                 </form>
             </div>
         </div>
-    </div>
 
-
-    <#if book??>
-        <div class="col-lg main" role="main" >
+        <#if book??>
             <div class="card">
-            <div class="card-header">
-                危险操作
-            </div>
+                <div class="card-header">
+                    危险操作
+                </div>
 
-            <div class="card-body" id="loginData">
-                <form action="/admin/book/delete" enctype="application/x-www-form-urlencoded" method="post" onsubmit="return confirm('是否确实要删除此图书？此操作不可逆，并且系统将不再追踪借书情况。通常情况下您可以将图书设为隐藏');">
-                    <input type="hidden" name="book_id" value="${book.getId()}">
-                    <button type="submit" class="btn btn-danger">删除图书</button>
-                </form>
+                <div class="card-body" id="loginData">
+                    <form action="/admin/book/delete" enctype="application/x-www-form-urlencoded" method="post" onsubmit="return confirm('是否确实要删除此图书？此操作不可逆，并且系统将不再追踪借书情况。通常情况下您可以将图书设为隐藏');">
+                        <input type="hidden" name="book_id" value="${book.getId()}">
+                        <button type="submit" class="btn btn-danger">删除图书</button>
+                    </form>
+                </div>
             </div>
-        </div>
-    </#if>
+        </#if>
 
+    </div>
     <!-- End of page code -->
 </@layout.layout>

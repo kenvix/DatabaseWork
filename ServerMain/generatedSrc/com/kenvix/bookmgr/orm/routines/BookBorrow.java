@@ -55,6 +55,7 @@ public class BookBorrow extends AbstractRoutine<java.lang.Void> {
      */
     public BookBorrow() {
         super("book_borrow", DefaultSchema.DEFAULT_SCHEMA);
+
         addInParameter(BOOK_ID_V);
         addInParameter(BORROWER_UID_V);
         addInParameter(EXPECTED_RETURNED_AT_V);
@@ -67,6 +68,7 @@ public class BookBorrow extends AbstractRoutine<java.lang.Void> {
     public void setBookIdV(Long value) {
         setValue(BOOK_ID_V, value);
     }
+
     /**
      * Set the <code>borrower_uid_v</code> parameter IN value to the routine
      */
