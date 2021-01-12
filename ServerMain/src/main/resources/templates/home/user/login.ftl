@@ -1,7 +1,7 @@
 <#import "../../common/layout.ftl" as layout />
 <@layout.layout title="登录页面">
     <!-- Begin Page code -->
-    <div class="col-lg main" role="main">
+
         <div class="card">
             <div class="card-header">登录 Library 用户中心</div>
             <div class="card-body" id="loginData">
@@ -58,6 +58,6 @@
                 </form>
             </div>
         </div>
-    </div>
+
     <!-- End of page code -->
 </@layout.layout>

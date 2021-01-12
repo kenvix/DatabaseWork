@@ -2,7 +2,7 @@
 <@layout.layout title="系统简介">
     <!-- Begin Page code -->
     <!-- Begin Page code -->
-            <div class="col-lg main" role="main">
+
                 <div class="alert alert-info" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
@@ -36,6 +36,6 @@
                         </form>
                     </div>
                 </div>
-            </div>
+
     <!-- End of page code -->
 </@layout.layout>

@@ -3,7 +3,7 @@
     <!-- Begin Page code -->
 
 
-            <div class="col-lg main" role="main">
+
                 <div class="card">
                     <div class="card-body" id="aboutInfo">
                         <img title="你的 Gravatar 头像" src="img/usericon.png" width="100" height="100"
@@ -145,11 +145,7 @@
                         </div>
                     </div>
                 </div><!-- .main -->
-            </div><!-- .row -->
-        </div><!-- .container-main -->
 
-
-    </div>
 
 
         <!-- End of page code -->

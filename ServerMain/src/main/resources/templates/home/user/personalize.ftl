@@ -4,7 +4,7 @@
 
             <!-- 侧边导航，宽屏设备可见 -->
 
-        <div class="col-lg main" role="main">
+
             <div class="card">
                 <div class="card-header">邀请其他读者注册 library ${siteName}</div>
                 <div class="card-body" id="aboutInfo">
@@ -67,6 +67,6 @@
                     </div>
                 </div>
             </div>
-        </div><!-- .main -->
+
     <!-- End of page code -->
 </@layout.layout>
