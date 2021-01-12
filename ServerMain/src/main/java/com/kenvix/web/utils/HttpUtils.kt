@@ -25,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.FilenameUtils
+import org.apache.commons.text.StringEscapeUtils
 import org.apache.tika.config.TikaConfig
 import org.apache.tika.metadata.Metadata
 import org.slf4j.LoggerFactory
@@ -177,7 +178,7 @@ suspend fun PipelineContext<*, ApplicationCall>.respondError(code: HttpStatusCod
         call.respond(code, FreeMarkerContent("error.ftl", mapOf(
                 "code" to code.value,
                 "description" to code.description,
-                "info" to info,
+                "info" to StringEscapeUtils.escapeHtml4(info),
                 "trace" to trace,
                 "redirectUrl" to redirectURI?.appendQuery("msg=$info&code=${code.value}&description=${code.description}")
         )))
@@ -281,7 +282,7 @@ inline fun <T: Any> T?.validateValue(errorMessage: String, passCondition: (check
 }
 
 inline fun <T: Any> T?.validateValue(passCondition: (check: T) -> Boolean): T
-        = validateValue("Illegal input data.", passCondition)
+        = validateValue("Illegal input data: $this", passCondition)
 
 
 fun <T: Any> T?.assertNotNull(): T {

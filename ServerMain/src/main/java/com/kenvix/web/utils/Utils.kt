@@ -103,11 +103,11 @@ fun String.replacePlaceholders(placeholdersMap: Map<String, String>): String {
 
 fun String.replacePlaceholders(placeholder: Pair<String, String>) = this.replacePlaceholders(mapOf(placeholder))
 
-private val dateDefaultFormatter = threadLocal {
+val dateDefaultFormatter = threadLocal {
     SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 }
 
-private val dateMilliFormatter = threadLocal {
+val dateMilliFormatter = threadLocal {
     SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
 }
 
