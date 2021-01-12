@@ -23,10 +23,11 @@
 <div class="container container-main flex-grow-1">
     <div class="row">
         <#include "sidebar.ftl" />
-        
+
         <div class="col-lg main" role="main" >
         <#if msg??>
-            <div class="alert alert-info" role="alert" style="display: block;">
+            <div class="alert alert-info alert-dismissible" role="alert" style="display: block;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <div class="ajax-info-text">${msg}</div>
             </div>
         </#if>
