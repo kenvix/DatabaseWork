@@ -4,6 +4,7 @@ import com.kenvix.bookmgr.http.middleware.CheckCommonAdminToken
 import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBook
 import com.kenvix.bookmgr.http.utils.BookIDLocation
 import com.kenvix.bookmgr.model.mysql.BookStatusModel
+import com.kenvix.bookmgr.model.mysql.PublisherModel
 import com.kenvix.web.utils.middleware
 import io.ktor.locations.*
 import io.ktor.routing.*
@@ -22,6 +23,7 @@ object BookController : AdminHomeBaseController() {
                 middleware(CheckCommonAdminToken)
                 respondTemplate("book_edit") {
                     it["bookStatusMap"] = BookStatusModel.bookStatusMap
+                    it["publisherMap"] = PublisherModel.publisherMap
                 }
             }
 
@@ -31,6 +33,7 @@ object BookController : AdminHomeBaseController() {
                     respondTemplate("book_edit") {
                         it["book"] = book
                         it["bookStatusMap"] = BookStatusModel.bookStatusMap
+                        it["publisherMap"] = PublisherModel.publisherMap
                     }
                 }
 

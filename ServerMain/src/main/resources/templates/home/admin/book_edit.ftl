@@ -20,10 +20,14 @@
                         <input type="text" class="form-control" name="title" id="book-title" value="" placeholder="必填" required="required">
                     </div>
 
-
                     <div class="form-group">
                         <label for="book-description">图书简述</label>
                         <textarea name="description" class="form-control" id="book-description" placeholder="拖动文本框右下角可改变大小"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="book-description">图书类目</label>
+
                     </div>
 
                     <div class="form-group">
@@ -33,6 +37,20 @@
                                 <option value="${id}">${description}</option>
                             </#list>
                         </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="book-publisher_id">出版社</label>
+                        <select class="form-control" name="publisher_id" id="book-publisher_id" required="required">
+                            <#list publisherMap as id, publisher>
+                                <option value="${id}">${publisher.getName()}</option>
+                            </#list>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="book-created_at">入馆时间</label>
+                        <input type="datetime-local" class="form-control" name="created_at" id="book-created_at" value="" placeholder="默认为当前时间" title="入馆时间，默认为当前时间">
                     </div>
 
                     <div class="form-group">
