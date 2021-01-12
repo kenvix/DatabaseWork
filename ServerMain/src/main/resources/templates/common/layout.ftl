@@ -23,7 +23,15 @@
 <div class="container container-main flex-grow-1">
     <div class="row">
         <#include "sidebar.ftl" />
+        
+        <div class="col-lg main" role="main" >
+        <#if msg??>
+            <div class="alert alert-info" role="alert" style="display: block;">
+                <div class="ajax-info-text">${msg}</div>
+            </div>
+        </#if>
         <#nested />
+        </div>
     </div>
 </div>
 
