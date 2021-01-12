@@ -4,13 +4,17 @@ import com.kenvix.bookmgr.http.middleware.CheckCommonAdminToken
 import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBook
 import com.kenvix.bookmgr.http.utils.AdminBookControllerUtils.addBook
 import com.kenvix.bookmgr.http.utils.AdminBookControllerUtils.updateBook
+import com.kenvix.bookmgr.http.utils.AdminBookControllerUtils.deleteBook
 import com.kenvix.bookmgr.http.utils.BookIDLocation
 import com.kenvix.bookmgr.model.mysql.BookStatusModel
 import com.kenvix.bookmgr.model.mysql.BookTypeModel
 import com.kenvix.bookmgr.model.mysql.PublisherModel
+import com.kenvix.web.utils.assertNotNull
 import com.kenvix.web.utils.middleware
+import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.locations.*
+import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.routing.get
 
@@ -53,6 +57,11 @@ object BookController : AdminHomeBaseController() {
                 post<BookIDLocation> { bookId ->
                     updateBook(bookId.id)
                 }
+            }
+
+            post("/delete") {
+                val params: Parameters = call.receiveParameters()
+                deleteBook(params["book_id"].assertNotNull().toLong())
             }
         }
     }

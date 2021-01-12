@@ -164,11 +164,15 @@ internal object UserControllerUtils {
             uid = userLocation?.id ?: callerUser.uid
 
             postParameters["email"].ifNotNull { email = it.validateEmail() }
-            postParameters["password"].ifNotNull { password = it.toPasswordHash() }
-            //postParameters["phone"].ifNotNull { phone = it.validatePhoneNumber() }
+            postParameters["password"].ifNotNull {
+                password = it.toPasswordHash()
+            }
         }
 
-        UserModel.update(user)
+        UserModel.transactionThreadLocal {
+            UserModel.update(user)
+        }
+
         respondSuccess("更新个人资料成功")
     }
 }

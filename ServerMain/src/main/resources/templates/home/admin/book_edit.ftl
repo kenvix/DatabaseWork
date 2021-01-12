@@ -96,7 +96,19 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-success">提交图书</button>
+                <button type="submit" class="btn btn-success">提交图书修改</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            相关操作
+        </div>
+
+        <div class="card-body" id="loginData">
+            <form action="/admin/book/stat/borrow" enctype="application/x-www-form-urlencoded" method="get">
+                <button type="submit" class="btn btn-primary">查询借书情况</button>
             </form>
         </div>
     </div>
