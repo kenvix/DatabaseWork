@@ -1,137 +1,64 @@
 <#import "../../common/layout.ftl" as layout />
-<@layout.layout title="搜索页面">
+<@layout.layout title="搜索图书">
+    <!-- Begin Page code -->
+    <!-- Notice: This front-end view is combined Add and Edit books        by:Kenvix -->
+    <div class="card">
+        <div class="card-header">
+            <#if book??>
+                搜索图书 #${book.getId()}
 
+            </#if>
+        </div>
 
-    <li class="header_2_1_8">
-        <a href="#">搜索页面<i class="fas fa-angle-down"></i></a>
-        <ul style="z-index: 9999; position: relative">
-            <div class="dh">
-                <div class="sc_1">
-                    <li class="zt" >标题</li>
-                    <ul  >
-                        <li ><a href="#">大人书</a></li>
-                        <li><a href="#">小孩书</a></li>
-                        <li><a href="#">教材书</a></li>
-                        <li><a href="#">老年书</a></li>
-                        <li><a href="#">科普书</a></li>
-                        <li><a href="#">专业书</a></li>
-                        <li><a href="#">课外书</a></li>
+        <div class="card-body" id="loginData">
+            <form action="" method="post" enctype="application/x-www-form-urlencoded">
+                <#if book??>
+                    <!-- Edit Mode For book #${book.getId()} -->
+                    <input type="hidden" name="is_edit" value="1" />
+                </#if>
 
-                    </ul>
-
-                    <li class="zt_2" >
-                        <ul>
-                            <li><a href="#">爱情书</a></li>
-                            <li><a href="#">友情书</a></li>
-                            <li><a href="#">亲情书</a></li>
-
-                        </ul>
-                    </li>
-                    <li class="zt_3" >
-                        <ul>
-                            <li><a href="#">物理</a></li>
-                            <li><a href="#">数学</a></li>
-                            <li><a href="#">化学</a></li>
-                            <li><a href="#">语文</a></li>
-                            <li><a href="#">计算机</a></li>
-
-                        </ul>
-                    </li>
+                <div class="form-group">
+                    <label for="filter_title">按标题过滤图书</label>
+                    <input type="String?" class="form-control" name="filter_title" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
                 </div>
-                <div class="sc_2">
-                    <li class="zt_4">出版社名称或者出版社ID
-                        <ul>
-                            <li><a href="#">清华大学出版社</a></li>
-                            <li><a href="#">中北大学出版社</a></li>
-                            <li><a href="#">北京大学出版社</a></li>
-                            <li><a href="#">山西大学出版社</a></li>
-                            <li><a href="#">太原理工大学出版社</a></li>
 
-                        </ul>
-                    </li>
-                    <li class="zt_5">
-                        <ul>
-                            <li><a href="#">纽约大学出版社</a></li>
-                            <li><a href="#">伦敦大学出版社</a></li>
-                            <li><a href="#">巴黎大学出版社</a></li>
-
-                        </ul>
-                    </li>
-                    <li class="zt_6">
-                        <ul>
-                            <li><a href="#">人民日报出版社</a></li>
-                            <li><a href="#">光明日报出版社</a></li>
-                            <li><a href="#">新华社出版社</a></li>
-
-                        </ul>
-                    </li>
+                <div class="form-group">
+                    <label for="filter_publisher">按出版社名称或者出版社ID过滤图书</label>
+                    <input type="String?" class="form-control" name="filter_publisher" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
                 </div>
-                <div class="sc_3">
-                    <li class="zt_7">图书描述
-                        <ul>
-                            <li><a href="#">10-50页</a></li>
-                            <li><a href="#">50-500页</a></li>
-                            <li><a href="#">500-5000页</a></li>
 
-                        </ul>
-                    </li>
-                    <li class="zt_8">
-                        <ul>
-                            <li><a href="#">红皮书</a></li>
-                            <li><a href="#">白皮书</a></li>
-                            <li><a href="#">花皮书</a></li>
-
-                        </ul>
-                    </li>
-                    <li class="zt_9">
-                        <ul>
-                            <li><a href="#">古代书</a></li>
-                            <li><a href="#">当代书</a></li>
-                            <li><a href="#">现代书</a></li>
-
-                        </ul>
-                    </li>
+                <div class="form-group">
+                    <label for="filter_description">按图书描述过滤图书</label>
+                    <input type="String?" class="form-control" name="filter_description" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
                 </div>
-                <div class="sc_4">
-                    <li class="zt_10">图书类型
-                        <ul>
-                            <li><a href="#">计算机书</a></li>
-                            <li><a href="#">物理书</a></li>
-                            <li><a href="#">数学书</a></li>
 
-                        </ul>
-                    </li>
-                    <li class="zt_11">
-                        <ul>
-                            <li><a href="#">小说</a></li>
-                            <li><a href="#">档案典籍</a></li>
-                            <li><a href="#">自然科学</a></li>
-
-                        </ul>
-                    </li>
+                <div class="form-group">
+                    <label for="filter_available">按图书是否可以借阅过滤图书，非 Null 表示只显示可借阅图书</label>
+                    <input type="String?" class="form-control" name="filter_available" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
                 </div>
-                <div class="sc_5">
-                    <li class="zt_12">作者
-                        <ul>
-                            <li><a href="#">女</a></li>
-                            <li><a href="#">男</a></li>
 
-                        </ul>
-                    </li>
-                    <li class="zt_13">
-                        <ul>
-                            <li><a href="#">中国作家</a></li>
-                            <li><a href="#">外国作家</a></li>
+                <div class="form-group">
+                    <label for="filter_type">按图书类型名过滤图书</label>
+                    <input type="String?" class="form-control" name="filter_type" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
+                </div>
 
-                        </ul>
-                    </li>
+                <div class="form-group">
+                    <label for="filter_author">按作者名或作者ID过滤图书</label>
+                    <input type="String?" class="form-control" name="filter_author" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
+                </div>
+
+                <div class="form-group">
+                    <label for="page">按图书列表页码过滤图书</label>
+                    <input type="Int?" class="form-control" name="page" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
                 </div>
 
 
-            </div>
-        </ul>
-    </li>
 
+
+
+            </form>
+        </div>
+    </div>
 
 
     <!-- End of page code -->
