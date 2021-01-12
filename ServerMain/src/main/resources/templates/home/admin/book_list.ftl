@@ -1,91 +1,65 @@
 <#import "../../common/layout.ftl" as layout />
-<@layout.layout title="管理图书">
+<@layout.layout title="搜索图书">
     <!-- Begin Page code -->
-    <style>
-        .detail-text {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            -webkit-line-clamp: 4;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-        }
-    </style>
-
+    <!-- Notice: This front-end view is combined Add and Edit books        by:Kenvix -->
     <div class="card">
-        <div class="card-header">图书管理</div>
-        <td class="panel panel-primary">
+        <div class="card-header">
+            <#if book??>
+                搜索图书 #${book.getId()}
 
-            <p style="margin-top: 20px;margin-left: 20px;margin-right: 20px;">
-                <button onclick="window.location = '/admin/book/add'" style="float: right" class="btn btn-outline-success btn-xs">+ 添加图书</button>
-                当前共有图书 ${bookTotalCount} 本
-            </p>
-            <div class="panel-body">
-                <div>
-                    <table id="Table1" class="admintable03 table table-condensed table-bordered table-hover table-striped">
-                        <thead>
-                        <tr>
-                            <th width="1%">#</th>
-                            <th width="20%">书目</th>
-                            <th width="35%">详情</th>
-                            <th width="10%">作者</th>
-                            <th width="10%">出版社</th>
-                            <th>到馆时间/数目</th>
-                            <th class="text-center" width="1%">操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <#list books as book>
-                            <tr>
-                                <td style="margin-left: 100px;">${book.getId()?long?c}</td>
-                                <td>
-                                    <a href="#">
-                                    <span class="detail-text">
-                                       《${book.getTitle()!"无"}》
-                                    </span>
-                                    </a>
-                                    ${book.getTypeName()!"无"}
-                                </td>
-                                <td>
-                                <span class="detail-text">
-                                     ${book.getDescription()!"无"}
-                                </span>
-                                </td>
-                                <td>
-                                <span class="detail-text">
-                                     ${book.getAuthorName()!"（不详）"}
-                                </span>
-                                </td>
-                                <td>
-                                <span class="detail-text">
-                                    ${book.getPublisherName()!"（未知）"}
-                                </span>
-                                </td>
-                                <td>
-                                    ${book.getCreatedAt()?string["yyyy-dd-MM HH:mm"]}
-                                    <br/>
-                                    ${book.getNumAvailable()?int?c}/${book.getNumTotal()?int?c}
-                                    <br/>
-                                    ${book.getStatusDescription()}
-                                </td>
-                                <td class="text-center">
-                                    <p><button onclick="window.location = '/admin/book/edit/${book.getId()?long?c}'" class="btn btn-outline-primary btn-xs">详</button></p>
-                                    <p> <button onclick="window.location = '/admin/book/edit/${book.getId()?long?c}'" class="btn btn-outline-success btn-xs">改</button></p>
-                                </td>
-                            </tr>
-                        </#list>
-                        </tbody>
-                    </table>
+            </#if>
+        </div>
 
+        <div class="card-body" id="loginData">
+            <form action="" method="post" enctype="application/x-www-form-urlencoded">
+                <#if book??>
+                    <!-- Edit Mode For book #${book.getId()} -->
+                    <input type="hidden" name="is_edit" value="1" />
+                </#if>
+
+                <div class="form-group">
+                    <label for="filter_title">按标题过滤图书</label>
+                    <input type="String?" class="form-control" name="filter_title" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
                 </div>
-                <div class="btn-toolbar" role="toolbar">
-                    <div class="btn-group" style="text-align:center">
-                        <nav aria-label="Page navigation" class="text-center">
-                            <button type="button" class="btn btn-default">1</button>
-                        </nav>
-                    </div>
+
+                <div class="form-group">
+                    <label for="filter_publisher">按出版社名称或者出版社ID过滤图书</label>
+                    <input type="String?" class="form-control" name="filter_publisher" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
                 </div>
-            </div>
-            <!-- End of page code -->
-        </td>
+
+                <div class="form-group">
+                    <label for="filter_description">按图书描述过滤图书</label>
+                    <input type="String?" class="form-control" name="filter_description" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
+                </div>
+
+                <div class="form-group">
+                    <label for="filter_available">按图书是否可以借阅过滤图书，非 Null 表示只显示可借阅图书</label>
+                    <input type="String?" class="form-control" name="filter_available" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
+                </div>
+
+                <div class="form-group">
+                    <label for="filter_type">按图书类型名过滤图书</label>
+                    <input type="String?" class="form-control" name="filter_type" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
+                </div>
+
+                <div class="form-group">
+                    <label for="filter_author">按作者名或作者ID过滤图书</label>
+                    <input type="String?" class="form-control" name="filter_author" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
+                </div>
+
+                <div class="form-group">
+                    <label for="page">按图书列表页码过滤图书</label>
+                    <input type="Int?" class="form-control" name="page" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
+                </div>
+
+
+
+
+
+            </form>
+        </div>
     </div>
+
+
+    <!-- End of page code -->
 </@layout.layout>
