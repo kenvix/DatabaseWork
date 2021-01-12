@@ -1,7 +1,7 @@
 <#import "../../common/layout.ftl" as layout />
 <@layout.layout title="系统用户">
     <!-- Begin Page code -->
-    <div class="col-lg main" role="main">
+
                 <div class="card">
                     <div class="card-header">创建 library 账户</div>
                     <div class="card-body" id="aboutInfo">
@@ -50,7 +50,7 @@
                     </div>
                 </div>
 
-            </div><!-- .main -->
+
 
     <!-- End of page code -->
 </@layout.layout>

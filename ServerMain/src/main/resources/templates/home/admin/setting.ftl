@@ -1,7 +1,7 @@
 <#import "../../common/layout.ftl" as layout />
 <@layout.layout title="系统设置">
     <!-- Begin Page code -->
-        <div class="col-lg main" role="main">
+
             <div class="card">
                 <div class="card-header">更改 library 用户中心 密码 ${siteName}</div>
                 <div class="card-body" id="aboutInfo">
@@ -56,7 +56,7 @@
                     }
                 }
             </script>
-        </div><!-- .main -->
+
 
 
     <!-- End of page code -->

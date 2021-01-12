@@ -1,7 +1,7 @@
 <#import "../../common/layout.ftl" as layout />
 <@layout.layout title="图书展示">
     <!-- Begin Page code -->
-    <div class="col-lg main" role="main">
+
         <div class="card">
             <div class="card-header">图书展示 library用户中心</div>
             <td class="panel panel-primary">
@@ -109,5 +109,5 @@
                 <!-- End of page code -->
             </td>
         </div>
-    </div>
+
 </@layout.layout>
