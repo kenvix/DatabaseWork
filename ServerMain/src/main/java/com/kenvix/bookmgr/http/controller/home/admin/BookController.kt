@@ -6,7 +6,10 @@ import com.kenvix.bookmgr.http.utils.AdminBookControllerUtils.addBook
 import com.kenvix.bookmgr.http.utils.AdminBookControllerUtils.updateBook
 import com.kenvix.bookmgr.http.utils.AdminBookControllerUtils.deleteBook
 import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBookAdmin
+import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBooksForAdmin
+import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBooksForUser
 import com.kenvix.bookmgr.http.utils.BookIDLocation
+import com.kenvix.bookmgr.model.mysql.BookModel
 import com.kenvix.bookmgr.model.mysql.BookStatusModel
 import com.kenvix.bookmgr.model.mysql.BookTypeModel
 import com.kenvix.bookmgr.model.mysql.PublisherModel
@@ -25,7 +28,13 @@ object BookController : AdminHomeBaseController() {
         route {
             get("/") {
                 middleware(CheckCommonAdminToken)
-                respondTemplate("book_list")
+
+                val books = getBooksForAdmin()
+                respondTemplate("book_list") {
+                    it["books"] = books
+                    it["bookStatusMap"] = BookStatusModel.bookStatusMap
+                    it["bookTotalCount"] = BookModel.getTableApproximateCount()
+                }
             }
 
             get("/add") {

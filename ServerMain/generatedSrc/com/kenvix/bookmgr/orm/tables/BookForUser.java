@@ -15,7 +15,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row16;
+import org.jooq.Row17;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -37,7 +37,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BookForUser extends TableImpl<BookForUserRecord> {
 
-    private static final long serialVersionUID = -1089220921;
+    private static final long serialVersionUID = 994476496;
 
     /**
      * The reference instance of <code>book_for_user</code>
@@ -133,6 +133,11 @@ public class BookForUser extends TableImpl<BookForUserRecord> {
     public final TableField<BookForUserRecord, String> TYPE_NAME = createField(DSL.name("type_name"), org.jooq.impl.SQLDataType.VARCHAR(50).nullable(false), this, "类目名称");
 
     /**
+     * The column <code>book_for_user.status_description</code>.
+     */
+    public final TableField<BookForUserRecord, String> STATUS_DESCRIPTION = createField(DSL.name("status_description"), org.jooq.impl.SQLDataType.VARCHAR(10), this, "");
+
+    /**
      * Create a <code>book_for_user</code> table reference
      */
     public BookForUser() {
@@ -158,7 +163,7 @@ public class BookForUser extends TableImpl<BookForUserRecord> {
     }
 
     private BookForUser(Name alias, Table<BookForUserRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `book_for_user` as select `book`.`book`.`id` AS `id`,`book`.`book`.`title` AS `title`,`book`.`book`.`description` AS `description`,`book`.`book`.`publisher_id` AS `publisher_id`,`book`.`book`.`created_at` AS `created_at`,`book`.`book`.`num_total` AS `num_total`,`book`.`book`.`num_available` AS `num_available`,`book`.`book`.`status` AS `status`,`book`.`publisher`.`name` AS `publisher_name`,`book`.`book_author_map`.`author_id` AS `author_id`,group_concat(`book`.`author`.`name` separator ', ') AS `author_name`,group_concat(`book`.`author`.`fullname` separator ', ') AS `author_fullname`,group_concat(`book`.`author`.`country` separator ', ') AS `author_country`,`book`.`book`.`creator_uid` AS `creator_uid`,`book`.`book`.`type_id` AS `type_id`,`book`.`book_type`.`name` AS `type_name` from ((((`book`.`book` join `book`.`publisher` on((`book`.`book`.`publisher_id` = `book`.`publisher`.`id`))) left join `book`.`book_author_map` on((`book`.`book_author_map`.`book_id` = `book`.`book`.`id`))) join `book`.`author` on((`book`.`book_author_map`.`author_id` = `book`.`author`.`id`))) join `book`.`book_type` on((`book`.`book`.`type_id` = `book`.`book_type`.`id`))) where (`book`.`book`.`status` >= 4) group by `book`.`book`.`id`"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `book_for_user` as select `book`.`book`.`id` AS `id`,`book`.`book`.`title` AS `title`,`book`.`book`.`description` AS `description`,`book`.`book`.`publisher_id` AS `publisher_id`,`book`.`book`.`created_at` AS `created_at`,`book`.`book`.`num_total` AS `num_total`,`book`.`book`.`num_available` AS `num_available`,`book`.`book`.`status` AS `status`,`book`.`publisher`.`name` AS `publisher_name`,`book`.`book_author_map`.`author_id` AS `author_id`,group_concat(`book`.`author`.`name` separator ', ') AS `author_name`,group_concat(`book`.`author`.`fullname` separator ', ') AS `author_fullname`,group_concat(`book`.`author`.`country` separator ', ') AS `author_country`,`book`.`book`.`creator_uid` AS `creator_uid`,`book`.`book`.`type_id` AS `type_id`,`book`.`book_type`.`name` AS `type_name`,`book`.`book_status`.`description` AS `status_description` from (((((`book`.`book` join `book`.`publisher` on((`book`.`book`.`publisher_id` = `book`.`publisher`.`id`))) left join `book`.`book_author_map` on((`book`.`book_author_map`.`book_id` = `book`.`book`.`id`))) left join `book`.`author` on((`book`.`book_author_map`.`author_id` = `book`.`author`.`id`))) join `book`.`book_type` on((`book`.`book`.`type_id` = `book`.`book_type`.`id`))) join `book`.`book_status` on((`book`.`book`.`status` = `book`.`book_status`.`id`))) group by `book`.`book`.`id`"));
     }
 
     public <O extends Record> BookForUser(Table<O> child, ForeignKey<O, BookForUserRecord> key) {
@@ -197,11 +202,11 @@ public class BookForUser extends TableImpl<BookForUserRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row16 type methods
+    // Row17 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row16<Long, String, String, Long, Timestamp, Integer, Integer, Byte, String, Long, String, String, String, Long, Integer, String> fieldsRow() {
-        return (Row16) super.fieldsRow();
+    public Row17<Long, String, String, Long, Timestamp, Integer, Integer, Byte, String, Long, String, String, String, Long, Integer, String, String> fieldsRow() {
+        return (Row17) super.fieldsRow();
     }
 }
