@@ -2,25 +2,6 @@
 <@layout.layout title="首页">
     <!-- Begin Page code -->
 
-    <div class="container container-main flex-grow-1">
-        <div class="row">
-            <!-- 侧边导航，宽屏设备可见 -->
-            <div class="col-lg-3">
-                <div class="card hidden-print d-none d-lg-block nav-side" role="complementary">
-                    <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link" href="#">首页</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">账户资料</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">口令修改</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">个性化设置</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">邀请注册</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">资料库&帮助</a></li>
-                        <!--<li class="nav-item"><a class="nav-link" href="/Home/Mc/about">关于</a></li>-->
-                    </ul>
-                </div>
-                <script type="text/javascript">
-                    $(".nav-link[href$='/Home/Index/index']").addClass('active');
-                </script>
-            </div>
 
             <div class="col-lg main" role="main">
                 <div class="card">

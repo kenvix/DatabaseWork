@@ -1,25 +1,6 @@
 <#import "../../common/layout.ftl" as layout />
-<@layout.layout title="标题">
+<@layout.layout title="注册页面">
     <!-- Begin Page code -->
-<div class="container container-main flex-grow-1">
-    <div class="row">
-        <!-- 侧边导航，宽屏设备可见 -->
-        <div class="col-lg-3">
-            <div class="card hidden-print d-none d-lg-block nav-side" role="complementary">
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link" href="#">首页</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">账户资料</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">口令修改</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">个性化设置</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">邀请注册</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">资料库&帮助</a></li>
-                    <!--<li class="nav-item"><a class="nav-link" href="/Home/Mc/about">关于</a></li>-->
-                </ul>
-            </div>
-            <script type="text/javascript">
-                $(".nav-link[href$='#']").addClass('active');
-            </script>
-        </div>
         <div class="col-lg main" role="main">
             <div class="card">
                 <div class="card-header">创建 library 账户</div>
@@ -31,9 +12,8 @@
                     <p>备用密码仅用于紧急情况，不是用户密码，登录系统应使用用户中心登录密码</p>
                 </div>
             </div>
-
             <div class="card">
-                <div class="card-header">创建/修改数字图书馆系统账户</div>
+                <div class="card-header">创建/修改系统账户</div>
                 <div class="card-body" id="aboutData">
                     <form ajax="true"  class="clearfix"id="register-form" action="/user/login/action" method="post" enctype="application/x-www-form-urlencoded">
                         <div class="alert alert-info ajax-info" role="alert">
@@ -63,18 +43,11 @@
                                value="3a8fa4e50bd8a0208fbb777893d9727e_c4f689d67d1c0850de6a37bd46956973" />
                     </form>
                     <p>用户名称不能带有中文，只能包含英文字母、数字或下划线，不能有其他的特殊符号。</p>
-                    <p>创建账户后即可进入游戏，用户名为你的用户中心<b>邮箱</b>，密码为你的用户中心登录密码</p>
-                    <p>如果你是library正版用户并打算使用正版数字化信息系统名，但是数字化信息系统名称已经被占用，请联系我们。</p>
+                    <p>创建账户后即可进入系统，用户名为你的用户中心<b>邮箱</b>，密码为你的用户中心登录密码</p>
                     <p><b>禁止使用下列名称</b>：null [sponge] op administrator operator system server notch buildcraft [buildcraft]
                         console caller admin library HookEvent TickRate ClientAA AntiAim</p>
                 </div>
             </div>
-
         </div><!-- .main -->
-
-    </div><!-- .row -->
-</div><!-- .container-main -->
-
-
     <!-- End of page code -->
 </@layout.layout>
