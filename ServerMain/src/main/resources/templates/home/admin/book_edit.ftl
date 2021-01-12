@@ -59,12 +59,13 @@
 
                     <div class="form-group">
                         <label for="book-authors_text">作者（每行一个）</label>
-                        <textarea name="authors_text" style="height: 6em;" class="form-control" id="book-authors_text" placeholder="每行一个作者名称。拖动文本框右下角可改变大小"></textarea>
+                        <textarea name="authors_text" style="height: 6em;" class="form-control" id="book-authors_text" placeholder="每行一个作者名称。拖动文本框右下角可改变大小"><#if book??><#list authors as author>${author.getAuthorName()}
+</#list></#if></textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="book-created_at">入馆时间</label>
-                        <input type="datetime-local" class="form-control" name="created_at" id="book-created_at" value="" placeholder="默认为当前时间" title="入馆时间，默认为当前时间">
+                        <input type="datetime-local" class="form-control" name="created_at" id="book-created_at" value="${book_created_at!""}" placeholder="默认为当前时间" title="入馆时间，默认为当前时间">
                     </div>
 
                     <div class="form-group">
