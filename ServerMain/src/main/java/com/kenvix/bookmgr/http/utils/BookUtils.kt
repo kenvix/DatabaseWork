@@ -50,9 +50,9 @@ internal object BookControllerUtils {
     /**
      * 获取某图书详细信息
      */
-    internal suspend fun PipelineContext<Unit, ApplicationCall>.getBook(bookId: Long) = withContext(Dispatchers.IO) {
+    internal suspend fun PipelineContext<Unit, ApplicationCall>.getBook(bookId: Long, fetchAllInfo: Boolean = false) = withContext(Dispatchers.IO) {
         middleware(CheckUserToken)
-        val book = BookForUserModel.getBooksForUser(listOf(BookForUser.BOOK_FOR_USER.ID.equal(bookId))).assertNotEmpty()
+        val book = BookForUserModel.getBooksForUser(listOf(BookForUser.BOOK_FOR_USER.ID.equal(bookId)), fetchAllInfo).assertNotEmpty()
         val authors = AppConstants.dslContext.select().from(com.kenvix.bookmgr.orm.tables.BookAuthor.BOOK_AUTHOR)
             .where(com.kenvix.bookmgr.orm.tables.BookAuthor.BOOK_AUTHOR.BOOK_ID.eq(bookId)).fetchInto(BookAuthor::class.java)
 

@@ -11,5 +11,5 @@ sealed class BookType {
     abstract val name: String
 }
 
-data class TopBookType(override val id: Int, override val name: String, val childMap: LinkedHashMap<Int, TopBookType>) : BookType()
+data class TopBookType(override val id: Int, override val name: String, val childMap: MutableMap<Int, BookType> = LinkedHashMap()) : BookType()
 data class SecondBookType(override val id: Int, override val name: String, val top: TopBookType) : BookType()

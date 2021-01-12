@@ -2,6 +2,8 @@ package com.kenvix.bookmgr.model.mysql
 
 import com.kenvix.bookmgr.AppConstants
 import com.kenvix.bookmgr.contacts.generic.BookType
+import com.kenvix.bookmgr.contacts.generic.SecondBookType
+import com.kenvix.bookmgr.contacts.generic.TopBookType
 import com.kenvix.bookmgr.orm.tables.daos.BookTypeDao
 import com.kenvix.bookmgr.orm.tables.BookType.BOOK_TYPE
 import com.kenvix.web.server.KeyValueCache
@@ -15,9 +17,13 @@ object BookTypeModel : BookTypeDao(), BaseModel {
         val allTypes = getAll()
 
         LinkedHashMap<Int, BookType>().apply {
+            // Must be ordered by parent id !
             allTypes.forEach {
                 if (it.parentId == 0) {
-                    TODO()
+                    put(it.id, TopBookType(it.id, it.name))
+                } else {
+                    val parent = get(it.parentId) as TopBookType
+                    parent.childMap[it.id] = SecondBookType(it.id, it.name, parent)
                 }
             }
         }
@@ -27,7 +33,7 @@ object BookTypeModel : BookTypeDao(), BaseModel {
         return AppConstants.jooqConfiguration
     }
 
-    fun getTypeIdByName(name: String): Int {
+    fun getTypeIdByNameUncached(name: String): Int {
         return dsl.select(BOOK_TYPE.ID).from(BOOK_TYPE).where(BOOK_TYPE.NAME.eq(name)).fetchOne()?.value1() ?: 0
     }
 
