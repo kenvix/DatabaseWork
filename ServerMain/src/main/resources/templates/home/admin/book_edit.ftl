@@ -15,6 +15,11 @@
 
             <div class="card-body" id="loginData">
                 <form action="" method="post" enctype="application/x-www-form-urlencoded">
+                    <#if book??>
+                        <!-- Edit Mode For book #${book.getId()} -->
+                        <input type="hidden" name="is_edit" value="1" />
+                    </#if>
+
                     <div class="form-group">
                         <label for="book-title">书名</label>
                         <input type="text" class="form-control" name="title" id="book-title" value="<#if book??>${book.getTitle()}</#if>" placeholder="必填" required="required">
@@ -36,7 +41,7 @@
 
                     <div class="form-group">
                         <label for="book-status">图书状态</label>
-                        <select class="form-control" name="num_total" id="book-status" required="required">
+                        <select class="form-control" name="status" id="book-status" required="required">
                             <#list bookStatusMap as id, description>
                                 <option value="${id}" <#if (book?? && book.getStatus() == id)>selected</#if>>${description}</option>
                             </#list>
@@ -59,6 +64,7 @@
 
                     <div class="form-group">
                         <label for="book-authors_text">作者（每行一个）</label>
+                        <input type="hidden" name="use_author_name_text_list" value="1">
                         <textarea name="authors_text" style="height: 6em;" class="form-control" id="book-authors_text" placeholder="每行一个作者名称。拖动文本框右下角可改变大小"><#if book??><#list authors as author>${author.getAuthorName()}
 </#list></#if></textarea>
                     </div>
@@ -80,15 +86,15 @@
 
                     <div class="form-group">
                         <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox" name="remember" id="rem" value="1">
-                            <label class="custom-control-label" for="rem">自动创建尚不存在的作者</label>
+                            <input class="custom-control-input" type="checkbox" name="auto_create_author" id="book-auto_create_author" value="1">
+                            <label class="custom-control-label" for="book-auto_create_author">自动创建尚不存在的作者</label>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox" name="remember" id="rem" value="1">
-                            <label class="custom-control-label" for="rem">自动创建尚不存在的出版社</label>
+                            <input class="custom-control-input" type="checkbox" name="auto_create_publisher" id="book-auto_create_publisher" value="1">
+                            <label class="custom-control-label" for="book-auto_create_publisher">自动创建尚不存在的出版社</label>
                         </div>
                     </div>
 
@@ -98,6 +104,22 @@
         </div>
     </div>
 
+
+    <#if book??>
+        <div class="col-lg main" role="main" >
+            <div class="card">
+            <div class="card-header">
+                危险操作
+            </div>
+
+            <div class="card-body" id="loginData">
+                <form action="/admin/book/delete" enctype="application/x-www-form-urlencoded" method="post" onsubmit="return confirm('是否确实要删除此图书？此操作不可逆，并且系统将不再追踪借书情况。通常情况下您可以将图书设为隐藏');">
+                    <input type="hidden" name="book_id" value="${book.getId()}">
+                    <button type="submit" class="btn btn-danger">删除图书</button>
+                </form>
+            </div>
+        </div>
+    </#if>
 
     <!-- End of page code -->
 </@layout.layout>

@@ -8,6 +8,7 @@ package com.kenvix.bookmgr.model.mysql
 
 import com.kenvix.bookmgr.AppConstants
 import org.jooq.Configuration
+import org.jooq.exception.DataAccessException
 import org.slf4j.LoggerFactory
 
 @SingletonModel
@@ -38,10 +39,19 @@ interface BaseModel {
     /**
      * Run transaction for current thread.
      * Please note that codes in lambda should NOT call any ThreadPool or Coroutines.
+     *
+     * @throws Throwable Any exception wrapped by DataAccessException or DataAccessException itself if it has no wrapped exception
      */
     fun <R> transactionThreadLocal(then: ((Configuration) -> R)): R {
-        return dsl.transactionResult { config ->
-            config.use { then(it) }
+        return try {
+            dsl.transactionResult { config ->
+                config.use { then(it) }
+            }
+        } catch (e: DataAccessException) {
+            if (e.cause != null)
+                throw e.cause!!
+            else
+                throw e
         }
     }
 

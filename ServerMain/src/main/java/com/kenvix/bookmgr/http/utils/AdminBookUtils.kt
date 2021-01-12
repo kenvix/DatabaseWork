@@ -1,9 +1,7 @@
 package com.kenvix.bookmgr.http.utils
 
 import com.kenvix.bookmgr.http.middleware.CheckCommonAdminToken
-import com.kenvix.bookmgr.model.mysql.BookAuthorMapModel
-import com.kenvix.bookmgr.model.mysql.BookModel
-import com.kenvix.bookmgr.model.mysql.PublisherModel
+import com.kenvix.bookmgr.model.mysql.*
 import com.kenvix.bookmgr.orm.tables.pojos.Book
 import com.kenvix.bookmgr.orm.tables.pojos.BookAuthorMap
 import com.kenvix.web.utils.*
@@ -15,13 +13,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.URI
 import java.sql.Timestamp
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.stream.Collectors
+
 
 object AdminBookControllerUtils {
+    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss.SSS")
 
     internal suspend fun PipelineContext<Unit, ApplicationCall>.addBook() = withContext(Dispatchers.IO) {
         val user = middleware(CheckCommonAdminToken)
         val params: Parameters = call.receiveParameters()
-        val authorIds: List<Long> = params.getAll("author[]")?.map { it.toLong() } ?: emptyList()
+        val authorIds: List<Long> = getAuthorIds(params)
 
         val book = BookModel.transactionThreadLocal {
             val book = Book().applyBookFromParams(params, user.uid)
@@ -36,7 +39,7 @@ object AdminBookControllerUtils {
     internal suspend fun PipelineContext<Unit, ApplicationCall>.updateBook(bookId: Long) = withContext(Dispatchers.IO) {
         val user = middleware(CheckCommonAdminToken)
         val params: Parameters = call.receiveParameters()
-        val newAuthorIds: List<Long> = params.getAll("author[]")?.map { it.toLong() } ?: emptyList()
+        val newAuthorIds: List<Long> = getAuthorIds(params)
         val book = BookModel.fetchOneById(bookId).assertExist()
         val oldAuthorIds: List<Long> = BookAuthorMapModel.fetchAuthorIdListByBook(bookId)
 
@@ -57,18 +60,42 @@ object AdminBookControllerUtils {
         respondSuccess("删除图书成功")
     }
 
-    internal fun Book.applyBookFromParams(params: Parameters, uid: Long) = apply {
+    private fun getAuthorIds(params: Parameters): List<Long> {
+        return if (params["use_author_name_text_list"] != null) {
+            (params["authors_text"] ?: "")
+                .split("\n")
+                .asSequence()
+                .map { it.trim() }
+                .filter { it.isNotBlank() }
+                .map { AuthorModel.fetchOneIdByName(it) }
+                .filterNotNull()
+                .toList()
+        } else {
+            params.getAll("author[]")?.map { it.toLong() } ?: emptyList()
+        }
+    }
+
+    private fun Book.applyBookFromParams(params: Parameters, uid: Long) = apply {
         title = params["title"].validateValue { it.length in 1..120 }
         description = params["description"] ?: ""
-        createdAt = Timestamp(System.currentTimeMillis())
+        createdAt = params["created_at"]?.runCatching {
+            Timestamp(dateMilliFormatter.get().parse(replace('T', ' ')).time)
+        }?.getOrDefault(Timestamp(System.currentTimeMillis())) ?: Timestamp(System.currentTimeMillis())
         creatorUid = uid
         numTotal = params["num_total"]?.run { toInt() }?.validateValue { it >= 0 } ?: 0
         numAvailable = params["num_available"]?.run { toInt() }?.validateValue { it <= numTotal } ?: 0
+        publisherId = params["publisher_id"]?.let {
+            if (it.isNumeric()) {
+                it.toLong()
+            } else {
+                PublisherModel.fetchOneByName(it)?.id?.toLong() ?: businessException("无此出版社")
+            }
+        } ?: 0
         typeId = params["type_id"]?.let {
             if (it.isNumeric()) {
                 it.toInt()
             } else {
-                PublisherModel.fetchOneByName(it)?.id?.toInt() ?: businessException("无此出版社")
+                BookTypeModel.fetchByName(it)[0]?.id?.toInt() ?: businessException("无此书目类别")
             }
         } ?: 0
         status = params["status"]?.toByte() ?: 1

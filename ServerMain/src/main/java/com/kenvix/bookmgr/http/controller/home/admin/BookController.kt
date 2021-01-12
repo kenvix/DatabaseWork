@@ -2,6 +2,8 @@ package com.kenvix.bookmgr.http.controller.home.admin
 
 import com.kenvix.bookmgr.http.middleware.CheckCommonAdminToken
 import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBook
+import com.kenvix.bookmgr.http.utils.AdminBookControllerUtils.addBook
+import com.kenvix.bookmgr.http.utils.AdminBookControllerUtils.updateBook
 import com.kenvix.bookmgr.http.utils.BookIDLocation
 import com.kenvix.bookmgr.model.mysql.BookStatusModel
 import com.kenvix.bookmgr.model.mysql.BookTypeModel
@@ -30,6 +32,10 @@ object BookController : AdminHomeBaseController() {
                 }
             }
 
+            post("/add") {
+                addBook()
+            }
+
             route("/edit") {
                 get<BookIDLocation> { bookId ->
                     val book = getBook(bookId.id, true)
@@ -45,7 +51,7 @@ object BookController : AdminHomeBaseController() {
                 }
 
                 post<BookIDLocation> { bookId ->
-
+                    updateBook(bookId.id)
                 }
             }
         }

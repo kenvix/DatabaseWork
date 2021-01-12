@@ -185,7 +185,7 @@ fun Application.module() {
 
         exception<DataAccessException> {
             if (it.cause != null && it.cause is SQLException && (it.cause as SQLException?)?.sqlState == "45233") {
-
+                handleSQLException(it.cause as SQLException)
             } else {
                 com.kenvix.web.utils.error("MySQL Database failed!", it, WebServerBasicRoutes.logger)
                 respondError(HttpStatusCode.InternalServerError, it)
