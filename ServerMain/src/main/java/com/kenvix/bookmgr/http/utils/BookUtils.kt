@@ -14,6 +14,7 @@ import com.kenvix.web.utils.ifNotNull
 import com.kenvix.web.utils.middleware
 import com.kenvix.web.utils.strictSqlSafe
 import io.ktor.application.*
+import io.ktor.http.*
 import io.ktor.locations.*
 import io.ktor.util.pipeline.*
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +34,17 @@ internal object BookControllerUtils {
         middleware(CheckUserToken)
 
         val params = call.request.queryParameters
-        val conditions = sequenceOf(
+        BookForUserModel.getBooksForUser(buildFilter(params))
+    }
+
+    internal suspend fun PipelineContext<Unit, ApplicationCall>.getBooksForAdmin() = withContext(Dispatchers.IO) {
+        middleware(CheckUserToken)
+
+        val params = call.request.queryParameters
+        BookForUserModel.getBooksForAdmin(buildFilter(params))
+    }
+
+    private fun PipelineContext<Unit, ApplicationCall>.buildFilter(params: Parameters) = sequenceOf(
             params["filter_title"].ifNotNull { BookForUser.BOOK_FOR_USER.TITLE.likeIgnoreCase("%" + it.strictSqlSafe() + "%") },
             params["filter_publisher"].ifNotNull { BookForUser.BOOK_FOR_USER.PUBLISHER_NAME.likeIgnoreCase("%" + it.strictSqlSafe() + "%") },
             params["filter_description"].ifNotNull { BookForUser.BOOK_FOR_USER.DESCRIPTION.likeIgnoreCase("%" + it.strictSqlSafe() + "%") },
@@ -44,9 +55,6 @@ internal object BookControllerUtils {
                 BookAuthorMap.BOOK_AUTHOR_MAP.AUTHOR_ID.`in`(authors)
             }
         ).filterNotNull().toList()
-
-        BookForUserModel.getBooksForUser(conditions)
-    }
 
     /**
      * 获取某图书详细信息

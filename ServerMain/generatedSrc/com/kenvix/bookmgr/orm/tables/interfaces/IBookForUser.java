@@ -183,6 +183,16 @@ public interface IBookForUser extends Serializable {
      */
     public String getTypeName();
 
+    /**
+     * Setter for <code>book_for_user.status_description</code>.
+     */
+    public IBookForUser setStatusDescription(String value);
+
+    /**
+     * Getter for <code>book_for_user.status_description</code>.
+     */
+    public String getStatusDescription();
+
     // -------------------------------------------------------------------------
     // FROM and INTO
     // -------------------------------------------------------------------------
