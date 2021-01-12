@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-header">邀请其他读者注册 library ${siteName}</div>
                 <div class="card-body" id="aboutInfo">
-                    <p>当你注册达到 10 天后，你可以通过生成邀请码来邀请其他玩家游戏</p>
+                    <p>当你注册达到 10 天后，你可以通过生成邀请码来邀请其他读者</p>
                     <p>
                         每隔 4 天可以获得1个邀请码，			每成功邀请一次获得 450 萌币
                     </p>
