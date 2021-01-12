@@ -14,6 +14,7 @@ import com.kenvix.web.utils.middlewareResultOrNull
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.util.pipeline.*
+import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.text.StringEscapeUtils
 import java.nio.file.Path
 
@@ -23,7 +24,10 @@ abstract class HomeBaseController : BaseController() {
 
     override fun newTemplateVariableMap(pipeline: PipelineContext<*, ApplicationCall>): MutableMap<String, Any?> {
         return super.newTemplateVariableMap(pipeline).apply {
-            put("user", pipeline.middlewareResultOrNull(CheckUserToken))
+            pipeline.middlewareResultOrNull(CheckUserToken)?.also {
+                put("user", it)
+                put("userEmailMd5", DigestUtils.md5Hex(it.email))
+            }
             put("page", pipeline.middlewareResultOrNull(Paginate)?.currentPage ?: 0)
             put("siteName", SettingModel.get<String>("site_name"))
             put("msg", pipeline.call.request.queryParameters["msg"]?.run { StringEscapeUtils.escapeHtml4(this) })

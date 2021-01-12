@@ -37,19 +37,30 @@
                 <!--<li class="nav-item"><a class="nav-link" href="/Home/Mc/about">关于</a></li>-->
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link pr-0 bg-transparent dropdown-toggle" data-toggle="dropdown"
-                       role="button" aria-haspopup="true" aria-expanded="false">
-                        安全选项 &emsp; admin <img src="img/usericon.png" class="rounded-circle align-top ml-1"
-                                               width="20" height="20" />
+                <li class="nav-item">
+                    <a href="javascript:window.history.go(-1);" class="nav-link" role="button">
+                        <i class="bi bi-skip-backward-fill"></i>
+                        返回上页
                     </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#"> 注销</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">修改密码</a>
-                        <a class="dropdown-item" href="#">修改邮箱</a>
-                    </div>
                 </li>
+
+                <#if user??>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link pr-0 bg-transparent dropdown-toggle" data-toggle="dropdown"
+                           role="button" aria-haspopup="true" aria-expanded="false">
+                            安全选项 &emsp; ${user.getRealName()} <img src="https://cn.gravatar.com/avatar/${userEmailMd5}?s=128&d=mm" class="rounded-circle align-top ml-1" width="20" height="20" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="javascript:;"> 学号: ${user.getSerialId()}</a>
+                            <a class="dropdown-item" href="javascript:;"> 姓名: ${user.getRealName()}</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"> 注销</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">修改密码</a>
+                            <a class="dropdown-item" href="#">修改邮箱</a>
+                        </div>
+                    </li>
+                </#if>
             </ul>
         </div>
     </div>

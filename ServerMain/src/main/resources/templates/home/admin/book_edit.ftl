@@ -64,7 +64,7 @@
                     <label for="book-authors_text">作者（每行一个）</label>
                     <input type="hidden" name="use_author_name_text_list" value="1">
                     <textarea name="authors_text" style="height: 6em;" class="form-control" id="book-authors_text" placeholder="每行一个作者名称。拖动文本框右下角可改变大小"><#if book??><#list authors as author>${author.getAuthorName()}
-                        </#list></#if></textarea>
+</#list></#if></textarea>
                 </div>
 
                 <div class="form-group">

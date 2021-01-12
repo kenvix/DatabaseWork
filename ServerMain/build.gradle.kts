@@ -106,6 +106,7 @@ dependencies {
 
     implementation("com.google.protobuf:protobuf-java:3.12.4")
     implementation("org.apache.commons:commons-lang3:3.11")
+    implementation("commons-codec:commons-codec:1.15")
 
     // https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api
     implementation(group = "javax.persistence", name = "javax.persistence-api", version = "2.2")
