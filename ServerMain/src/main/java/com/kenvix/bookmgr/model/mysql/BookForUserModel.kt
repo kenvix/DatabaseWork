@@ -32,6 +32,8 @@ object BookForUserModel : BaseModel {
                 BOOK_FOR_USER.NUM_TOTAL,
                 BOOK_FOR_USER.NUM_AVAILABLE,
                 BOOK_FOR_USER.STATUS,
+                BOOK_FOR_USER.STATUS_DESCRIPTION,
+                BOOK_FOR_USER.TYPE_NAME,
                 BOOK_FOR_USER.PUBLISHER_NAME,
                 BOOK_FOR_USER.PUBLISHER_ID,
                 BOOK_FOR_USER.AUTHOR_NAME,

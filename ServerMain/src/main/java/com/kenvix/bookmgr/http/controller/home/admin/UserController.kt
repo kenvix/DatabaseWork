@@ -1,6 +1,7 @@
 package com.kenvix.bookmgr.http.controller.home.admin
 
 import com.kenvix.bookmgr.http.controller.home.HomeBaseController
+import com.kenvix.bookmgr.http.middleware.CheckCommonAdminToken
 import com.kenvix.bookmgr.http.middleware.CheckSuperAdminToken
 import com.kenvix.bookmgr.http.utils.UserControllerUtils.updateUserInfo
 import com.kenvix.bookmgr.http.utils.UserIDLocation
@@ -28,6 +29,7 @@ object UserController : AdminHomeBaseController() {
 
             route("/edit") {
                 get<UserIDLocation> { userId ->
+                    middleware(CheckCommonAdminToken)
                     if (userId.id <= 0)
                         throw IllegalArgumentException("不能编辑系统保留用户")
 
@@ -39,6 +41,7 @@ object UserController : AdminHomeBaseController() {
                 }
 
                 post<UserIDLocation> { userId ->
+                    middleware(CheckCommonAdminToken)
                     if (userId.id <= 0)
                         throw IllegalArgumentException("不能编辑系统保留用户")
                     updateUserInfo(userId)

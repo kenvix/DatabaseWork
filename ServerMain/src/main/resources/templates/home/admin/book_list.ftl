@@ -17,6 +17,7 @@
 
             <p style="margin-top: 20px;margin-left: 20px;margin-right: 20px;">
                 <button onclick="window.location = '/admin/book/add'" style="float: right" class="btn btn-outline-success btn-xs">+ 添加图书</button>
+                <button onclick="window.location = '/admin/book/search'" style="float: right; margin: 0 1em 0 1em;" class="btn btn-outline-primary btn-xs">检索图书</button>
                 当前共有图书 ${bookTotalCount} 本
             </p>
             <div class="panel-body">
@@ -29,8 +30,8 @@
                             <th width="35%">详情</th>
                             <th width="10%">作者</th>
                             <th width="10%">出版社</th>
-                            <th>到馆时间/数目</th>
-                            <th class="text-center" width="1%">操作</th>
+                            <th width="15%">到馆时间/数目</th>
+                            <th class="text-center" width="8%">操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -38,7 +39,7 @@
                             <tr>
                                 <td style="margin-left: 100px;">${book.getId()?long?c}</td>
                                 <td>
-                                    <a href="#">
+                                    <a href="/reader/book/${book.getId()?long?c}">
                                     <span class="detail-text">
                                        《${book.getTitle()!"无"}》
                                     </span>
@@ -68,7 +69,7 @@
                                     ${book.getStatusDescription()}
                                 </td>
                                 <td class="text-center">
-                                    <p><button onclick="window.location = '/admin/book/edit/${book.getId()?long?c}'" class="btn btn-outline-primary btn-xs">详</button></p>
+                                    <p><button onclick="window.location = '/reader/book/${book.getId()?long?c}'" class="btn btn-outline-primary btn-xs">详</button></p>
                                     <p> <button onclick="window.location = '/admin/book/edit/${book.getId()?long?c}'" class="btn btn-outline-success btn-xs">改</button></p>
                                 </td>
                             </tr>

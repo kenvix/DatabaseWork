@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white navbar-main">
     <div class="container">
-        <a class="navbar-brand" href="#">高级图书文献管理系统</a>
+        <a class="navbar-brand" href="#">${siteName}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -8,48 +8,57 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-haspopup="true" aria-expanded="false">
-                        账号管理
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">账户资料</a>
-                        <a class="dropdown-item" href="#">皮肤管理</a>
-                        <a class="dropdown-item" href="#">个性化设置</a>
-                        <a class="dropdown-item" href="#">邀请注册</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-haspopup="true" aria-expanded="false">
-                        借阅信息
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">借阅历史</a>
-                        <a class="dropdown-item" href="#">预约图书</a>
-                        <a class="dropdown-item" href="#">新书浏览</a>
-                        <a class="dropdown-item" href="#">常见问题疑难解答</a>
-                        <a class="dropdown-item" href="#">资料库&帮助</a>
+                <#if user??>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">
+                            读者工具
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/reader/book">图书列表</a>
+                            <a class="dropdown-item" href="/reader/book/search">检索图书</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/reader/borrow">我的借阅</a>
+                        </div>
+                    </li>
 
-                    </div>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">
+                            设置和资料
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">账户资料</a>
+                            <a class="dropdown-item" href="#">个性化设置</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">常见问题疑难解答</a>
+                            <a class="dropdown-item" href="#">资料库&帮助</a>
+                        </div>
+                    </li>
 
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-haspopup="true" aria-expanded="false">
-                        管理工具
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/admin/book">图书管理</a>
-                        <a class="dropdown-item" href="/admin/book/add">添加新图书</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/admin/user">用户管理</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/admin/setting">系统设置</a>
-                    </div>
-                </li>
-                <!--<li class="nav-item"><a class="nav-link" href="/Home/Mc/about">关于</a></li>-->
+                    <#if user.getAccessLevel() gte 100>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">
+                                管理工具
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/admin/book">图书管理</a>
+                                <a class="dropdown-item" href="/admin/book/search">检索图书</a>
+                                <a class="dropdown-item" href="/admin/book/add">添加新图书</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/admin/user">用户管理</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/admin/setting">系统设置</a>
+                            </div>
+                        </li>
+                    </#if>
+                    <!--<li class="nav-item"><a class="nav-link" href="/Home/Mc/about">关于</a></li>-->
+                <#else>
+                    <li class="nav-item"><a class="nav-link" href="/user/login">登录</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/register">注册</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/password/reset"> 忘记密码</a></li>
+                </#if>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
@@ -63,7 +72,9 @@
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link pr-0 bg-transparent dropdown-toggle" data-toggle="dropdown"
                            role="button" aria-haspopup="true" aria-expanded="false">
-                            安全选项 &emsp; ${user.getRealName()} <img src="https://cn.gravatar.com/avatar/${userEmailMd5}?s=128&d=mm" class="rounded-circle align-top ml-1" width="20" height="20" />
+                            安全选项 &emsp; ${user.getRealName()} <img
+                                    src="https://cn.gravatar.com/avatar/${userEmailMd5}?s=128&d=mm"
+                                    class="rounded-circle align-top ml-1" width="20" height="20"/>
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="javascript:;"> 学号: ${user.getSerialId()}</a>

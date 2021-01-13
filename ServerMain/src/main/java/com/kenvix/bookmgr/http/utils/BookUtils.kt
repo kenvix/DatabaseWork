@@ -6,13 +6,11 @@ import com.kenvix.bookmgr.http.middleware.CheckCommonAdminToken
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
 import com.kenvix.bookmgr.model.mysql.AuthorModel
 import com.kenvix.bookmgr.model.mysql.BookForUserModel
+import com.kenvix.bookmgr.orm.Tables.BOOK_FOR_USER
 import com.kenvix.bookmgr.orm.tables.BookAuthorMap
 import com.kenvix.bookmgr.orm.tables.BookForUser
 import com.kenvix.bookmgr.orm.tables.pojos.BookAuthor
-import com.kenvix.web.utils.assertNotEmpty
-import com.kenvix.web.utils.ifNotNull
-import com.kenvix.web.utils.middleware
-import com.kenvix.web.utils.strictSqlSafe
+import com.kenvix.web.utils.*
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.locations.*
@@ -45,14 +43,14 @@ internal object BookControllerUtils {
     }
 
     private fun PipelineContext<Unit, ApplicationCall>.buildFilter(params: Parameters) = sequenceOf(
-            params["filter_title"].ifNotNull { BookForUser.BOOK_FOR_USER.TITLE.likeIgnoreCase("%" + it.strictSqlSafe() + "%") },
-            params["filter_publisher"].ifNotNull { BookForUser.BOOK_FOR_USER.PUBLISHER_NAME.likeIgnoreCase("%" + it.strictSqlSafe() + "%") },
-            params["filter_description"].ifNotNull { BookForUser.BOOK_FOR_USER.DESCRIPTION.likeIgnoreCase("%" + it.strictSqlSafe() + "%") },
-            params["filter_available"].ifNotNull { BookForUser.BOOK_FOR_USER.NUM_AVAILABLE.greaterThan(0) },
-            params["filter_type"].ifNotNull { BookForUser.BOOK_FOR_USER.TYPE_NAME.eq(it.strictSqlSafe()) },
-            params["filter_author"].ifNotNull {
+            params["filter_title"].ifNotNullOrBlank { BookForUser.BOOK_FOR_USER.TITLE.likeIgnoreCase("%" + it.strictSqlSafe() + "%") },
+            params["filter_publisher"].ifNotNullOrBlank { BookForUser.BOOK_FOR_USER.PUBLISHER_NAME.likeIgnoreCase("%" + it.strictSqlSafe() + "%") },
+            params["filter_description"].ifNotNullOrBlank { BookForUser.BOOK_FOR_USER.DESCRIPTION.likeIgnoreCase("%" + it.strictSqlSafe() + "%") },
+            params["filter_available"].ifNotNullOrBlank { BookForUser.BOOK_FOR_USER.NUM_AVAILABLE.greaterThan(0) },
+            params["filter_type"].ifNotNullOrBlank { BookForUser.BOOK_FOR_USER.TYPE_NAME.eq(it.strictSqlSafe()) },
+            params["filter_author"].ifNotNullOrBlank {
                 val authors = AuthorModel.getAuthorsIdsConditionByName(it.split(','))
-                BookAuthorMap.BOOK_AUTHOR_MAP.AUTHOR_ID.`in`(authors)
+                BOOK_FOR_USER.AUTHOR_ID.`in`(authors)
             }
         ).filterNotNull().toList()
 

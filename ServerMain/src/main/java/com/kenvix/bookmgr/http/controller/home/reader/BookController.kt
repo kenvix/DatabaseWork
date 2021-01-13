@@ -11,6 +11,8 @@ import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBook
 import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBooksForUser
 import com.kenvix.bookmgr.http.utils.BookIDLocation
 import com.kenvix.bookmgr.http.utils.BorrowIDLocation
+import com.kenvix.bookmgr.model.mysql.BookModel
+import com.kenvix.bookmgr.model.mysql.BookStatusModel
 import com.kenvix.web.utils.middleware
 import io.ktor.application.*
 import io.ktor.locations.*
@@ -36,14 +38,17 @@ object BookController : HomeBaseController() {
                 val books = getBooksForUser()
                 respondTemplate("book_list") {
                     it["books"] = books
+                    it["bookStatusMap"] = BookStatusModel.bookStatusMap
+                    it["bookTotalCount"] = BookModel.getTableApproximateCount()
                 }
             }
 
             route("/borrow") {
                 get("/") {
                     val books = getAllBookBorrowsForCurrentUser()
-                    respondTemplate("book_borrow_list") {
+                    respondTemplate("book_list") {
                         it["books"] = books
+                        it["isBorrowList"] = true
                     }
                 }
 

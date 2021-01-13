@@ -10,7 +10,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 13/01/2021 11:13:09
+ Date: 13/01/2021 12:29:55
 */
 
 SET NAMES utf8mb4;
@@ -329,19 +329,25 @@ CREATE TABLE `setting`  (
   `key` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `value` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `type` char(6) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL COMMENT '类型',
   PRIMARY KEY (`key`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '设置表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of setting
 -- ----------------------------
-INSERT INTO `setting` VALUES ('book_borrow_max_borrow_num', '10', '最多允许同时借书数');
-INSERT INTO `setting` VALUES ('book_borrow_max_renew_num', '7', '借书最大续期次数');
-INSERT INTO `setting` VALUES ('book_borrow_period_millis', '2592000000', '每次借书/续期时长（毫秒）');
-INSERT INTO `setting` VALUES ('book_expire_penalty_cents_a_day', '15', '超期罚款（每天，罚款单位为分）');
-INSERT INTO `setting` VALUES ('default_user_pagination_num', '30', '默认单页分页数值');
-INSERT INTO `setting` VALUES ('max_user_pagination_num', '150', '用户最大可设置单页分页数值');
-INSERT INTO `setting` VALUES ('site_name', '高级图书文献管理系统', '站点名称');
+INSERT INTO `setting` VALUES ('allow_edit_card_serial_id', 'true', '允许用户自行修改借书卡片序列号', 'Bool');
+INSERT INTO `setting` VALUES ('allow_edit_department', 'true', '允许用户自行修改部门和入职年份', 'Bool');
+INSERT INTO `setting` VALUES ('allow_edit_real_name', 'true', '允许用户自行修改真实姓名', 'Bool');
+INSERT INTO `setting` VALUES ('allow_edit_serial_id', 'true', '允许用户自行修改学号', 'Bool');
+INSERT INTO `setting` VALUES ('book_borrow_max_borrow_num', '10', '最多允许同时借书数', 'Int');
+INSERT INTO `setting` VALUES ('book_borrow_max_renew_num', '7', '借书最大续期次数', 'Int');
+INSERT INTO `setting` VALUES ('book_borrow_period_millis', '2592000000', '每次借书/续期时长（单位：毫秒）', 'Long');
+INSERT INTO `setting` VALUES ('book_expire_penalty_cents_a_day', '15', '超期罚款（每天，罚款单位为分）', 'Int');
+INSERT INTO `setting` VALUES ('default_user_pagination_num', '30', '默认单页分页数值', 'Int');
+INSERT INTO `setting` VALUES ('max_user_pagination_num', '150', '用户最大可设置单页分页数值', 'Int');
+INSERT INTO `setting` VALUES ('site_name', '高级图书文献管理系统', '站点名称', 'String');
+INSERT INTO `setting` VALUES ('site_url', 'http://127.0.0.1:56447/', '站点地址', 'String');
 
 -- ----------------------------
 -- Table structure for task_queue
@@ -389,8 +395,9 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (0, '0', 'example@example.com', '[系统]', '', 0, '0000-00-00 00:00:00', 'localhost', 'localhost');
-INSERT INTO `user` VALUES (1, '114514', 'kenvix@qq.com', 'Kenvix', '$2a$10$GAnr1fQRo.gzs7g9TZa8suP.fY90PGFFTKiTAHAvZAM52UV7f.ABC', 127, '2021-01-02 12:04:44', 'localhost', 'localhost4');
+INSERT INTO `user` VALUES (0, '0', 'example@example.com', '[系统]', '', 0, '2000-01-13 11:57:14', 'localhost', 'localhost');
+INSERT INTO `user` VALUES (1, '114514', 'kenvix@qq.com', 'Kenvix', '$2a$10$SgMu/4Xofj5/0WP3g/ahBuwnsdhA2sVdoiIXXnIbok2I24ub3WLTW', 127, '2021-01-02 12:04:44', 'localhost', 'localhost4');
+INSERT INTO `user` VALUES (2, '1707004799', 'test@qq.com', '李田所', '$2a$10$zUYGIIRZNSmJ1vq61gG5BOOwm9q3SO6sBFhEwQLRv3dGiZ0iD0B2y', 10, '2021-01-13 12:05:47', '223.5.5.5', '223.5.5.5');
 
 -- ----------------------------
 -- Table structure for user_access_level
@@ -430,7 +437,8 @@ CREATE TABLE `user_extra`  (
 -- ----------------------------
 -- Records of user_extra
 -- ----------------------------
-INSERT INTO `user_extra` VALUES (1, 10086, 114514, 11515, 2018, '测试学院', '好');
+INSERT INTO `user_extra` VALUES (1, 13058968745, 114514, 11515, 2018, '测试学院', '这个好！');
+INSERT INTO `user_extra` VALUES (2, 1305896570, 0, 515115, 2012, '测试学院', '这个坏');
 
 -- ----------------------------
 -- View structure for book_author

@@ -47,11 +47,13 @@ object BookController : AdminHomeBaseController() {
             }
 
             post("/add") {
+                middleware(CheckCommonAdminToken)
                 addBook()
             }
 
             route("/edit") {
                 get<BookIDLocation> { bookId ->
+                    middleware(CheckCommonAdminToken)
                     val book = getBookAdmin(bookId.id)
 
                     respondTemplate("book_edit") {
@@ -65,11 +67,13 @@ object BookController : AdminHomeBaseController() {
                 }
 
                 post<BookIDLocation> { bookId ->
+                    middleware(CheckCommonAdminToken)
                     updateBook(bookId.id)
                 }
             }
 
             post("/delete") {
+                middleware(CheckCommonAdminToken)
                 val params: Parameters = call.receiveParameters()
                 deleteBook(params["book_id"].assertNotNull().toLong())
             }

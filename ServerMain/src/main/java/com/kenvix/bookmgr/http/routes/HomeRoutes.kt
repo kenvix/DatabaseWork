@@ -31,7 +31,7 @@ class HomeRoutes : KtorModule {
             controller("/user", UserController)
 
             route("/reader") {
-                controller("/reader", ReaderBookController)
+                controller("/book", ReaderBookController)
                 controller("/author", ReaderAuthorController)
                 controller("/publisher", ReaderPublisherController)
             }

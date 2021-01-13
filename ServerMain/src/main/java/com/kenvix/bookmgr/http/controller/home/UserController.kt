@@ -23,6 +23,10 @@ object UserController : HomeBaseController() {
                 createSession()
             }
 
+            get("/logout") {
+                deleteSession()
+            }
+
             post("/logout/action") {
                 deleteSession()
             }
