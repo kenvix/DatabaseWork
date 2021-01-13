@@ -1,5 +1,5 @@
 <#import "../../common/layout.ftl" as layout />
-<@layout.layout title="系统用户">
+<@layout.layout title="用户管理">
     <!-- Begin Page code -->
 
                 <div class="card">

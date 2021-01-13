@@ -2,18 +2,47 @@ package com.kenvix.bookmgr.http.controller.home.admin
 
 import com.kenvix.bookmgr.http.controller.home.HomeBaseController
 import com.kenvix.bookmgr.http.middleware.CheckSuperAdminToken
+import com.kenvix.bookmgr.model.mysql.SettingModel
 import com.kenvix.web.utils.middleware
+import com.kenvix.web.utils.respondSuccess
+import io.ktor.application.*
+import io.ktor.request.*
 import io.ktor.routing.*
+import java.net.URI
 
 object SettingController : AdminHomeBaseController() {
-    override val baseTemplatePath: String
-        get() = super.baseTemplatePath + "admin/"
 
     override fun route(route: Route) {
         route {
             get("/") {
                 middleware(CheckSuperAdminToken)
-                respondTemplate("setting")
+                val settings  = SettingModel.getAll()
+                respondTemplate("system_setting") {
+                    it["settings"] = settings
+                }
+            }
+
+            post("/") {
+                middleware(CheckSuperAdminToken)
+                val params = call.receiveParameters()
+                val settings  = SettingModel.getAll()
+
+                SettingModel.transactionThreadLocal {
+                    settings.forEach { option ->
+                        val newOptionValue = params[option.key] ?: ""
+                        when (option.type) {
+                            "Int" -> newOptionValue.toInt()
+                            "Double" -> newOptionValue.toDouble()
+                            "Float" -> newOptionValue.toFloat()
+                            "Long" -> newOptionValue.toLong()
+                            "Short" -> newOptionValue.toShort()
+                        }
+                        option.value = newOptionValue
+                        SettingModel.update(option)
+                    }
+                }
+
+                respondSuccess("修改设置成功", URI("/admin/setting"))
             }
         }
     }

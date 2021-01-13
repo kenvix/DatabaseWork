@@ -34,6 +34,21 @@
 
                     </div>
                 </li>
+
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+                        管理工具
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/admin/book">图书管理</a>
+                        <a class="dropdown-item" href="/admin/book/add">添加新图书</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/admin/user">用户管理</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/admin/setting">系统设置</a>
+                    </div>
+                </li>
                 <!--<li class="nav-item"><a class="nav-link" href="/Home/Mc/about">关于</a></li>-->
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -54,10 +69,9 @@
                             <a class="dropdown-item" href="javascript:;"> 学号: ${user.getSerialId()}</a>
                             <a class="dropdown-item" href="javascript:;"> 姓名: ${user.getRealName()}</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"> 注销</a>
+                            <a class="dropdown-item" href="/user/logout"> 注销</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">修改密码</a>
-                            <a class="dropdown-item" href="#">修改邮箱</a>
+                            <a class="dropdown-item" href="/user/profile">修改个人资料</a>
                         </div>
                     </li>
                 </#if>

@@ -10,7 +10,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 12/01/2021 16:47:07
+ Date: 13/01/2021 11:13:09
 */
 
 SET NAMES utf8mb4;
@@ -63,7 +63,7 @@ CREATE TABLE `book`  (
   CONSTRAINT `fk_book_type_id` FOREIGN KEY (`type_id`) REFERENCES `book_type` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_creator_uid` FOREIGN KEY (`creator_uid`) REFERENCES `user` (`uid`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_publisher_id` FOREIGN KEY (`publisher_id`) REFERENCES `publisher` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '书籍表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '书籍表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of book
@@ -135,8 +135,8 @@ INSERT INTO `book_status` VALUES (0, '未知异常状态');
 INSERT INTO `book_status` VALUES (1, '未公开（隐藏）');
 INSERT INTO `book_status` VALUES (2, '已全部损坏');
 INSERT INTO `book_status` VALUES (3, '已全部过期');
-INSERT INTO `book_status` VALUES (4, '已公开，不可借阅');
-INSERT INTO `book_status` VALUES (5, '已公开，可借阅');
+INSERT INTO `book_status` VALUES (4, '公开，不可借');
+INSERT INTO `book_status` VALUES (5, '公开，可借阅');
 
 -- ----------------------------
 -- Table structure for book_type
@@ -149,7 +149,7 @@ CREATE TABLE `book_type`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_book_type_parent_id`(`parent_id`) USING BTREE,
   CONSTRAINT `fk_book_type_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `book_type` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '图书类目' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '图书类目' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of book_type
@@ -188,7 +188,7 @@ CREATE TABLE `invoice`  (
   CONSTRAINT `fk_invocie_status` FOREIGN KEY (`status`) REFERENCES `invoice_status` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_owner_uid` FOREIGN KEY (`owner_uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_type` FOREIGN KEY (`type`) REFERENCES `invoice_type` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '账单，包括罚款' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '账单，包括罚款' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of invoice
@@ -207,7 +207,7 @@ CREATE TABLE `invoice_penalty`  (
   INDEX `fk_invoice_id_invoice_penalty`(`invoice_id`) USING BTREE,
   CONSTRAINT `fk_book_id_invoice_penalty` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_invoice_id_invoice_penalty` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '罚款型订单扩展信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '罚款型订单扩展信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of invoice_penalty
@@ -278,7 +278,7 @@ CREATE TABLE `log_system`  (
   `exception` varchar(20) CHARACTER SET ascii COLLATE ascii_general_ci NULL DEFAULT NULL COMMENT '日志异常类型（简化名）',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_log_system_type`(`exception`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of log_system
@@ -312,7 +312,7 @@ CREATE TABLE `publisher`  (
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '出版社简介',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '出版社' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '出版社' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of publisher
@@ -359,7 +359,7 @@ CREATE TABLE `task_queue`  (
   `result` json NULL COMMENT '任务结果（程序可读）',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_task`(`is_finished`, `is_success`, `is_doing`, `type`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '任务队列（程序可读）' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '任务队列（程序可读）' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of task_queue
@@ -384,7 +384,7 @@ CREATE TABLE `user`  (
   UNIQUE INDEX `unique_serial_id`(`serial_id`) USING BTREE,
   INDEX `fk_access_level`(`access_level`) USING BTREE,
   CONSTRAINT `fk_access_level` FOREIGN KEY (`access_level`) REFERENCES `user_access_level` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户基本信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户基本信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
@@ -454,7 +454,7 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_borrow_for_admin` A
 -- View structure for book_for_user
 -- ----------------------------
 DROP VIEW IF EXISTS `book_for_user`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_for_user` AS select `book`.`id` AS `id`,`book`.`title` AS `title`,`book`.`description` AS `description`,`book`.`publisher_id` AS `publisher_id`,`book`.`created_at` AS `created_at`,`book`.`num_total` AS `num_total`,`book`.`num_available` AS `num_available`,`book`.`status` AS `status`,`publisher`.`name` AS `publisher_name`,`book_author_map`.`author_id` AS `author_id`,group_concat(`author`.`name` separator ', ') AS `author_name`,group_concat(`author`.`fullname` separator ', ') AS `author_fullname`,group_concat(`author`.`country` separator ', ') AS `author_country`,`book`.`creator_uid` AS `creator_uid`,`book`.`type_id` AS `type_id`,`book_type`.`name` AS `type_name` from ((((`book` join `publisher` on((`book`.`publisher_id` = `publisher`.`id`))) left join `book_author_map` on((`book_author_map`.`book_id` = `book`.`id`))) left join `author` on((`book_author_map`.`author_id` = `author`.`id`))) join `book_type` on((`book`.`type_id` = `book_type`.`id`))) where (`book`.`status` >= 4) group by `book`.`id`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_for_user` AS select `book`.`id` AS `id`,`book`.`title` AS `title`,`book`.`description` AS `description`,`book`.`publisher_id` AS `publisher_id`,`book`.`created_at` AS `created_at`,`book`.`num_total` AS `num_total`,`book`.`num_available` AS `num_available`,`book`.`status` AS `status`,`publisher`.`name` AS `publisher_name`,`book_author_map`.`author_id` AS `author_id`,group_concat(`author`.`name` separator ', ') AS `author_name`,group_concat(`author`.`fullname` separator ', ') AS `author_fullname`,group_concat(`author`.`country` separator ', ') AS `author_country`,`book`.`creator_uid` AS `creator_uid`,`book`.`type_id` AS `type_id`,`book_type`.`name` AS `type_name`,`book_status`.`description` AS `status_description` from (((((`book` join `publisher` on((`book`.`publisher_id` = `publisher`.`id`))) left join `book_author_map` on((`book_author_map`.`book_id` = `book`.`id`))) left join `author` on((`book_author_map`.`author_id` = `author`.`id`))) join `book_type` on((`book`.`type_id` = `book_type`.`id`))) join `book_status` on((`book`.`status` = `book_status`.`id`))) group by `book`.`id`;
 
 -- ----------------------------
 -- View structure for invoice_for_user

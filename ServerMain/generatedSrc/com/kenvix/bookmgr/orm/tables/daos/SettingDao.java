@@ -95,4 +95,18 @@ public class SettingDao extends DAOImpl<SettingRecord, com.kenvix.bookmgr.orm.ta
     public List<com.kenvix.bookmgr.orm.tables.pojos.Setting> fetchByDescription(String... values) {
         return fetch(Setting.SETTING.DESCRIPTION, values);
     }
+
+    /**
+     * Fetch records that have <code>type BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.kenvix.bookmgr.orm.tables.pojos.Setting> fetchRangeOfType(String lowerInclusive, String upperInclusive) {
+        return fetchRange(Setting.SETTING.TYPE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>type IN (values)</code>
+     */
+    public List<com.kenvix.bookmgr.orm.tables.pojos.Setting> fetchByType(String... values) {
+        return fetch(Setting.SETTING.TYPE, values);
+    }
 }

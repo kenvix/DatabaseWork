@@ -52,6 +52,16 @@ public interface ISetting extends Serializable {
      */
     public String getDescription();
 
+    /**
+     * Setter for <code>setting.type</code>. 类型
+     */
+    public ISetting setType(String value);
+
+    /**
+     * Getter for <code>setting.type</code>. 类型
+     */
+    public String getType();
+
     // -------------------------------------------------------------------------
     // FROM and INTO
     // -------------------------------------------------------------------------

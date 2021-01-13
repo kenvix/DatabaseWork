@@ -3,6 +3,7 @@ package com.kenvix.bookmgr.model.mysql
 import com.google.common.cache.Cache
 import com.google.common.cache.CacheBuilder
 import com.kenvix.bookmgr.AppConstants
+import com.kenvix.bookmgr.orm.tables.Setting.SETTING
 import com.kenvix.bookmgr.orm.tables.daos.SettingDao
 import com.kenvix.bookmgr.orm.tables.pojos.Setting
 import org.jooq.Configuration
@@ -44,6 +45,8 @@ object SettingModel : SettingDao(), BaseModel {
     fun getKeyFromDatabase(key: String): String {
         return fetchOneByKey(key).value
     }
+
+    fun getAll() = dsl.select().from(SETTING).fetchInto(Setting::class.java)
 
     inline operator fun <reified T> set(key: String, value: T) {
         set(key, value, null)

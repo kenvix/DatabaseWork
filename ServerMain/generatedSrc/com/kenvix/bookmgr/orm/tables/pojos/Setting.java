@@ -22,11 +22,12 @@ import javax.annotation.processing.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Setting implements ISetting {
 
-    private static final long serialVersionUID = 1005922557;
+    private static final long serialVersionUID = -2040557066;
 
     private String key;
     private String value;
     private String description;
+    private String type;
 
     public Setting() {}
 
@@ -34,16 +35,19 @@ public class Setting implements ISetting {
         this.key = value.getKey();
         this.value = value.getValue();
         this.description = value.getDescription();
+        this.type = value.getType();
     }
 
     public Setting(
         String key,
         String value,
-        String description
+        String description,
+        String type
     ) {
         this.key = key;
         this.value = value;
         this.description = description;
+        this.type = type;
     }
 
     @Override
@@ -80,12 +84,24 @@ public class Setting implements ISetting {
     }
 
     @Override
+    public String getType() {
+        return this.type;
+    }
+
+    @Override
+    public Setting setType(String type) {
+        this.type = type;
+        return this;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Setting (");
 
         sb.append(key);
         sb.append(", ").append(value);
         sb.append(", ").append(description);
+        sb.append(", ").append(type);
 
         sb.append(")");
         return sb.toString();
@@ -100,6 +116,7 @@ public class Setting implements ISetting {
         setKey(from.getKey());
         setValue(from.getValue());
         setDescription(from.getDescription());
+        setType(from.getType());
     }
 
     @Override

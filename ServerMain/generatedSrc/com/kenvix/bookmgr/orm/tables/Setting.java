@@ -17,7 +17,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row3;
+import org.jooq.Row4;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Setting extends TableImpl<SettingRecord> {
 
-    private static final long serialVersionUID = 988016699;
+    private static final long serialVersionUID = -619023948;
 
     /**
      * The reference instance of <code>setting</code>
@@ -69,6 +69,11 @@ public class Setting extends TableImpl<SettingRecord> {
      * The column <code>setting.description</code>.
      */
     public final TableField<SettingRecord, String> DESCRIPTION = createField(DSL.name("description"), org.jooq.impl.SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>setting.type</code>. 类型
+     */
+    public final TableField<SettingRecord, String> TYPE = createField(DSL.name("type"), org.jooq.impl.SQLDataType.CHAR(6).nullable(false), this, "类型");
 
     /**
      * Create a <code>setting</code> table reference
@@ -145,11 +150,11 @@ public class Setting extends TableImpl<SettingRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row3 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<String, String, String> fieldsRow() {
-        return (Row3) super.fieldsRow();
+    public Row4<String, String, String, String> fieldsRow() {
+        return (Row4) super.fieldsRow();
     }
 }

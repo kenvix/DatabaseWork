@@ -9,6 +9,7 @@ import com.kenvix.bookmgr.contacts.generic.UserDTO
 import com.kenvix.bookmgr.contacts.generic.UserId
 import com.kenvix.bookmgr.http.middleware.CheckSuperAdminToken
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
+import com.kenvix.bookmgr.model.mysql.UserExtraModel
 import com.kenvix.bookmgr.model.mysql.UserModel
 import com.kenvix.bookmgr.orm.Routines
 import com.kenvix.bookmgr.orm.tables.pojos.User
@@ -160,19 +161,34 @@ internal object UserControllerUtils {
         if (userLocation != null && userLocation.id != callerUser.uid)
             middleware(CheckSuperAdminToken)
 
+        val uid = userLocation?.id ?: callerUser.uid
+        val userEx = UserExtraModel.fetchOneByUid(uid)
+
+        userEx.apply {
+            postParameters["phone"].ifNotNull { phone = it.toLong() }
+            postParameters["card_serial_id"].ifNotNull { cardSerialId = it.toLong() }
+            postParameters["start_year"].ifNotNull { startYear = it.toShort() }
+            postParameters["department"].ifNotNull { department = it }
+            postParameters["money"].ifNotNull {
+                if (callerUser.accessLevel >= 120)
+                    money = it.toInt()
+            }
+        }
+
         val user = callerUser.apply {
-            uid = userLocation?.id ?: callerUser.uid
+            this.uid = uid
 
             postParameters["email"].ifNotNull { email = it.validateEmail() }
             postParameters["password"].ifNotNull {
                 password = it.toPasswordHash()
             }
+            postParameters["real_name"].ifNotNull { realName = it }
         }
 
         UserModel.transactionThreadLocal {
             UserModel.update(user)
         }
 
-        respondSuccess("更新个人资料成功")
+        respondSuccess("更新个人资料成功", URI("/user/profile"))
     }
 }
