@@ -3,7 +3,9 @@ package com.kenvix.bookmgr.model.mysql
 import com.google.common.cache.CacheStats
 import com.kenvix.bookmgr.AppConstants
 import com.kenvix.bookmgr.orm.Tables.BOOK_STATUS
+import com.kenvix.bookmgr.orm.Tables.USER_FOR_ADMIN
 import com.kenvix.bookmgr.orm.tables.pojos.BookStatus
+import com.kenvix.bookmgr.orm.tables.pojos.UserForAdmin
 import com.kenvix.web.server.Cached
 import com.kenvix.web.server.KeyValueCache
 import org.jooq.Configuration
@@ -26,4 +28,22 @@ object BookStatusModel : BaseModel {
     fun invalidateCache() {
         KeyValueCache.invalidate("book_status_map")
     }
+}
+
+@OptIn(SingletonModel::class)
+object UserForAdminModel : BaseModel {
+    override fun configuration(): Configuration {
+        return AppConstants.jooqConfiguration
+    }
+
+    fun getOneByUid(uid: Long): UserForAdmin? = dsl
+        .select()
+        .from(USER_FOR_ADMIN)
+        .where(USER_FOR_ADMIN.UID.eq(uid))
+        .fetchOneInto(UserForAdmin::class.java)
+
+    fun getAll(): List<UserForAdmin> = dsl
+        .select()
+        .from(USER_FOR_ADMIN)
+        .fetchInto(UserForAdmin::class.java)
 }

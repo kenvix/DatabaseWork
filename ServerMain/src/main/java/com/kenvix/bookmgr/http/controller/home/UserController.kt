@@ -5,6 +5,7 @@ import com.kenvix.bookmgr.http.utils.SessionControllerUtils.createSession
 import com.kenvix.bookmgr.http.utils.SessionControllerUtils.deleteSession
 import com.kenvix.bookmgr.http.utils.UserControllerUtils.createUser
 import com.kenvix.bookmgr.http.utils.UserControllerUtils.updateUserInfo
+import com.kenvix.bookmgr.model.mysql.UserForAdminModel
 import com.kenvix.web.utils.middleware
 import io.ktor.routing.*
 
@@ -43,11 +44,13 @@ object UserController : HomeBaseController() {
             }
 
             get("/profile") {
-                middleware(CheckUserToken)
-                respondTemplate("profile")
+                val user = middleware(CheckUserToken)
+                respondTemplate("profile") {
+                    it["userExtra"] = UserForAdminModel.getOneByUid(user.uid)
+                }
             }
 
-            post("/profile/action") {
+            post("/profile") {
                 updateUserInfo()
             }
 
