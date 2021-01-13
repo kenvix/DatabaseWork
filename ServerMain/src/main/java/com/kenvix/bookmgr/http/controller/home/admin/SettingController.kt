@@ -3,6 +3,7 @@ package com.kenvix.bookmgr.http.controller.home.admin
 import com.kenvix.bookmgr.http.controller.home.HomeBaseController
 import com.kenvix.bookmgr.http.middleware.CheckSuperAdminToken
 import com.kenvix.bookmgr.model.mysql.SettingModel
+import com.kenvix.utils.exception.BadRequestException
 import com.kenvix.web.utils.middleware
 import com.kenvix.web.utils.respondSuccess
 import io.ktor.application.*
@@ -36,6 +37,8 @@ object SettingController : AdminHomeBaseController() {
                             "Float" -> newOptionValue.toFloat()
                             "Long" -> newOptionValue.toLong()
                             "Short" -> newOptionValue.toShort()
+                            "Bool" -> { if (newOptionValue != "true" && newOptionValue != "false") throw BadRequestException("你输入的设置有错误") }
+                            "Boolean" -> { if (newOptionValue != "true" && newOptionValue != "false") throw BadRequestException("你输入的设置有错误") }
                         }
                         option.value = newOptionValue
                         SettingModel.update(option)

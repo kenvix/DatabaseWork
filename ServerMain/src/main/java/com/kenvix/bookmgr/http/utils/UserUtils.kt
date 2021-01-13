@@ -9,6 +9,7 @@ import com.kenvix.bookmgr.contacts.generic.UserDTO
 import com.kenvix.bookmgr.contacts.generic.UserId
 import com.kenvix.bookmgr.http.middleware.CheckSuperAdminToken
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
+import com.kenvix.bookmgr.model.mysql.SettingModel
 import com.kenvix.bookmgr.model.mysql.UserExtraModel
 import com.kenvix.bookmgr.model.mysql.UserModel
 import com.kenvix.bookmgr.orm.Routines
@@ -158,37 +159,58 @@ internal object UserControllerUtils {
         val postParameters: Parameters = call.receiveParameters()
 
         val callerUser = middleware(CheckUserToken)
-        if (userLocation != null && userLocation.id != callerUser.uid)
+        val isAdmin = if (userLocation != null && userLocation.id != callerUser.uid) {
             middleware(CheckSuperAdminToken)
+            true
+        } else {
+            false
+        }
 
         val uid = userLocation?.id ?: callerUser.uid
         val userEx = UserExtraModel.fetchOneByUid(uid)
 
         userEx.apply {
             postParameters["phone"].ifNotNull { phone = it.toLong() }
-            postParameters["card_serial_id"].ifNotNull { cardSerialId = it.toLong() }
-            postParameters["start_year"].ifNotNull { startYear = it.toShort() }
-            postParameters["department"].ifNotNull { department = it }
-            postParameters["money"].ifNotNull {
-                if (callerUser.accessLevel >= 120)
+
+            if (isAdmin || SettingModel.get<Boolean>("allow_edit_card_serial_id")) {
+                postParameters["card_serial_id"].ifNotNull { cardSerialId = it.toLong() }
+            }
+
+            if (isAdmin || SettingModel.get<Boolean>("allow_edit_department")) {
+                postParameters["start_year"].ifNotNull { startYear = it.toShort() }
+                postParameters["department"].ifNotNull { department = it }
+            }
+
+            if (isAdmin) {
+                postParameters["money"].ifNotNull {
                     money = it.toInt()
+                }
             }
         }
 
-        val user = callerUser.apply {
-            this.uid = uid
-
+        val user = UserModel.fetchOneByUid(uid).apply {
             postParameters["email"].ifNotNull { email = it.validateEmail() }
             postParameters["password"].ifNotNull {
                 password = it.toPasswordHash()
             }
-            postParameters["real_name"].ifNotNull { realName = it }
+            if (isAdmin || SettingModel.get<Boolean>("allow_edit_real_name")) {
+                postParameters["real_name"].ifNotNull { realName = it }
+            }
+
+            if (isAdmin || SettingModel.get<Boolean>("allow_edit_serial_id")) {
+                postParameters["serial_id"].ifNotNull { serialId = it }
+            }
         }
 
         UserModel.transactionThreadLocal {
+            UserExtraModel.update(userEx)
             UserModel.update(user)
+            CheckUserToken.invalidateAll()
         }
 
-        respondSuccess("更新个人资料成功", URI("/user/profile"))
+        if (callerUser.uid == uid)
+            respondSuccess("更新个人资料成功", URI("/user/profile"))
+        else
+            respondSuccess("更新用户 #$uid 的资料成功", URI("/admin/user/edit/$uid"))
     }
 }

@@ -4,11 +4,13 @@ import com.google.common.cache.CacheStats
 import com.kenvix.bookmgr.AppConstants
 import com.kenvix.bookmgr.orm.Tables.BOOK_STATUS
 import com.kenvix.bookmgr.orm.Tables.USER_FOR_ADMIN
+import com.kenvix.bookmgr.orm.tables.Book
 import com.kenvix.bookmgr.orm.tables.pojos.BookStatus
 import com.kenvix.bookmgr.orm.tables.pojos.UserForAdmin
 import com.kenvix.web.server.Cached
 import com.kenvix.web.server.KeyValueCache
 import org.jooq.Configuration
+import org.jooq.impl.DSL
 
 @OptIn(SingletonModel::class)
 object BookStatusModel : BaseModel {
@@ -45,5 +47,10 @@ object UserForAdminModel : BaseModel {
     fun getAll(): List<UserForAdmin> = dsl
         .select()
         .from(USER_FOR_ADMIN)
+        .where(USER_FOR_ADMIN.UID.greaterThan(0))
+        .orderBy(USER_FOR_ADMIN.UID.asc())
         .fetchInto(UserForAdmin::class.java)
+
+    private val countQuery = DSL.query("SELECT count(*) from " + USER_FOR_ADMIN.name)
+    fun getTableApproximateCount(): Long = dsl.explain(countQuery).rows().toLong()
 }
