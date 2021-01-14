@@ -24,7 +24,7 @@ import javax.annotation.processing.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Book implements IBook {
 
-    private static final long serialVersionUID = 2144998304;
+    private static final long serialVersionUID = -1373738322;
 
     private Long      id;
     private Long      creatorUid;
@@ -35,6 +35,7 @@ public class Book implements IBook {
     private Timestamp createdAt;
     private Integer   numTotal;
     private Integer   numAvailable;
+    private String    isbn;
     private Byte      status;
 
     public Book() {}
@@ -49,6 +50,7 @@ public class Book implements IBook {
         this.createdAt = value.getCreatedAt();
         this.numTotal = value.getNumTotal();
         this.numAvailable = value.getNumAvailable();
+        this.isbn = value.getIsbn();
         this.status = value.getStatus();
     }
 
@@ -62,6 +64,7 @@ public class Book implements IBook {
         Timestamp createdAt,
         Integer   numTotal,
         Integer   numAvailable,
+        String    isbn,
         Byte      status
     ) {
         this.id = id;
@@ -73,6 +76,7 @@ public class Book implements IBook {
         this.createdAt = createdAt;
         this.numTotal = numTotal;
         this.numAvailable = numAvailable;
+        this.isbn = isbn;
         this.status = status;
     }
 
@@ -176,6 +180,17 @@ public class Book implements IBook {
     }
 
     @Override
+    public String getIsbn() {
+        return this.isbn;
+    }
+
+    @Override
+    public Book setIsbn(String isbn) {
+        this.isbn = isbn;
+        return this;
+    }
+
+    @Override
     public Byte getStatus() {
         return this.status;
     }
@@ -199,6 +214,7 @@ public class Book implements IBook {
         sb.append(", ").append(createdAt);
         sb.append(", ").append(numTotal);
         sb.append(", ").append(numAvailable);
+        sb.append(", ").append(isbn);
         sb.append(", ").append(status);
 
         sb.append(")");
@@ -220,6 +236,7 @@ public class Book implements IBook {
         setCreatedAt(from.getCreatedAt());
         setNumTotal(from.getNumTotal());
         setNumAvailable(from.getNumAvailable());
+        setIsbn(from.getIsbn());
         setStatus(from.getStatus());
     }
 

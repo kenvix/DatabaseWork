@@ -193,6 +193,16 @@ public interface IBookForUser extends Serializable {
      */
     public String getStatusDescription();
 
+    /**
+     * Setter for <code>book_for_user.isbn</code>. 国际标准书号 (International Standard Book Number)
+     */
+    public IBookForUser setIsbn(String value);
+
+    /**
+     * Getter for <code>book_for_user.isbn</code>. 国际标准书号 (International Standard Book Number)
+     */
+    public String getIsbn();
+
     // -------------------------------------------------------------------------
     // FROM and INTO
     // -------------------------------------------------------------------------

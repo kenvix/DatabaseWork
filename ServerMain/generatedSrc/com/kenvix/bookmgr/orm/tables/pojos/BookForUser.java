@@ -24,7 +24,7 @@ import javax.annotation.processing.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BookForUser implements IBookForUser {
 
-    private static final long serialVersionUID = 1037271346;
+    private static final long serialVersionUID = 1144234194;
 
     private Long      id;
     private String    title;
@@ -43,6 +43,7 @@ public class BookForUser implements IBookForUser {
     private Integer   typeId;
     private String    typeName;
     private String    statusDescription;
+    private String    isbn;
 
     public BookForUser() {}
 
@@ -64,6 +65,7 @@ public class BookForUser implements IBookForUser {
         this.typeId = value.getTypeId();
         this.typeName = value.getTypeName();
         this.statusDescription = value.getStatusDescription();
+        this.isbn = value.getIsbn();
     }
 
     public BookForUser(
@@ -83,7 +85,8 @@ public class BookForUser implements IBookForUser {
         Long      creatorUid,
         Integer   typeId,
         String    typeName,
-        String    statusDescription
+        String    statusDescription,
+        String    isbn
     ) {
         this.id = id;
         this.title = title;
@@ -102,6 +105,7 @@ public class BookForUser implements IBookForUser {
         this.typeId = typeId;
         this.typeName = typeName;
         this.statusDescription = statusDescription;
+        this.isbn = isbn;
     }
 
     @Override
@@ -292,6 +296,17 @@ public class BookForUser implements IBookForUser {
     }
 
     @Override
+    public String getIsbn() {
+        return this.isbn;
+    }
+
+    @Override
+    public BookForUser setIsbn(String isbn) {
+        this.isbn = isbn;
+        return this;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("BookForUser (");
 
@@ -312,6 +327,7 @@ public class BookForUser implements IBookForUser {
         sb.append(", ").append(typeId);
         sb.append(", ").append(typeName);
         sb.append(", ").append(statusDescription);
+        sb.append(", ").append(isbn);
 
         sb.append(")");
         return sb.toString();
@@ -340,6 +356,7 @@ public class BookForUser implements IBookForUser {
         setTypeId(from.getTypeId());
         setTypeName(from.getTypeName());
         setStatusDescription(from.getStatusDescription());
+        setIsbn(from.getIsbn());
     }
 
     @Override

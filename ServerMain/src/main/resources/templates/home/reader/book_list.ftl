@@ -83,6 +83,5 @@
                 </div>
             </div>
             <!-- End of page code -->
-        </td>
     </div>
 </@layout.layout>

@@ -182,6 +182,20 @@ public class BookDao extends DAOImpl<BookRecord, com.kenvix.bookmgr.orm.tables.p
     }
 
     /**
+     * Fetch records that have <code>isbn BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.kenvix.bookmgr.orm.tables.pojos.Book> fetchRangeOfIsbn(String lowerInclusive, String upperInclusive) {
+        return fetchRange(Book.BOOK.ISBN, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>isbn IN (values)</code>
+     */
+    public List<com.kenvix.bookmgr.orm.tables.pojos.Book> fetchByIsbn(String... values) {
+        return fetch(Book.BOOK.ISBN, values);
+    }
+
+    /**
      * Fetch records that have <code>status BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.kenvix.bookmgr.orm.tables.pojos.Book> fetchRangeOfStatus(Byte lowerInclusive, Byte upperInclusive) {

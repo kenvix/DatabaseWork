@@ -20,6 +20,9 @@ import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.routing.get
 import io.ktor.util.*
+import org.apache.commons.text.StringEscapeUtils
+import java.net.URLEncoder
+import java.nio.charset.Charset
 import java.nio.file.Path
 
 @KtorExperimentalLocationsAPI
@@ -79,7 +82,12 @@ object BookController : HomeBaseController() {
             get<BookIDLocation> { bookId ->
                 val book = getBook(bookId.id)
                 respondTemplate("book_detail") {
-                    it["book"] = book
+                    it["book"] = book.book
+                    it["authors"] = book.authors
+                    it["bookAndAuthorNameEncoded"] =  URLEncoder.encode(
+                        "${book.book.title} ${book.book.authorName}",
+                        Charsets.UTF_8
+                    )
                 }
             }
         }

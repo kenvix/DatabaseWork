@@ -24,6 +24,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="book-isbn">ISBN</label>
+                    <input type="text" class="form-control" name="isbn" id="book-isbn" value="<#if book??>${book.getIsbn()}</#if>" placeholder="国际标准书号 (International Standard Book Number)">
+                </div>
+
+                <div class="form-group">
                     <label for="book-type_id">图书类目</label>
                     <select class="form-control" name="type_id" id="book-type_id" required="required">
                         <#list bookTypeMap as topId, topBookType>

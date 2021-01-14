@@ -22,7 +22,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row10;
+import org.jooq.Row11;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -46,7 +46,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Book extends TableImpl<BookRecord> {
 
-    private static final long serialVersionUID = 1293381225;
+    private static final long serialVersionUID = -1327376190;
 
     /**
      * The reference instance of <code>book</code>
@@ -105,6 +105,11 @@ public class Book extends TableImpl<BookRecord> {
      * The column <code>book.num_available</code>. 可用书籍数
      */
     public final TableField<BookRecord, Integer> NUM_AVAILABLE = createField(DSL.name("num_available"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "可用书籍数");
+
+    /**
+     * The column <code>book.isbn</code>. 国际标准书号 (International Standard Book Number)
+     */
+    public final TableField<BookRecord, String> ISBN = createField(DSL.name("isbn"), org.jooq.impl.SQLDataType.VARCHAR(40).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "国际标准书号 (International Standard Book Number)");
 
     /**
      * The column <code>book.status</code>. 书籍状态
@@ -224,11 +229,11 @@ public class Book extends TableImpl<BookRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row10 type methods
+    // Row11 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<Long, Long, Integer, String, String, Long, Timestamp, Integer, Integer, Byte> fieldsRow() {
-        return (Row10) super.fieldsRow();
+    public Row11<Long, Long, Integer, String, String, Long, Timestamp, Integer, Integer, String, Byte> fieldsRow() {
+        return (Row11) super.fieldsRow();
     }
 }

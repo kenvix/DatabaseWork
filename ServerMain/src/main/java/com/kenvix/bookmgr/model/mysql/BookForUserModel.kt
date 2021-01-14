@@ -39,6 +39,7 @@ object BookForUserModel : BaseModel {
                 BOOK_FOR_USER.AUTHOR_NAME,
                 BOOK_FOR_USER.AUTHOR_FULLNAME,
                 BOOK_FOR_USER.AUTHOR_COUNTRY,
+                BOOK_FOR_USER.ISBN,
             )
             .from(BOOK_FOR_USER)
             .where(conditions).and(BOOK_FOR_USER.STATUS.greaterOrEqual(4))

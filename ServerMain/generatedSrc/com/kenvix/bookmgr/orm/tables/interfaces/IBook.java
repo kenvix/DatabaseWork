@@ -114,6 +114,16 @@ public interface IBook extends Serializable {
     public Integer getNumAvailable();
 
     /**
+     * Setter for <code>book.isbn</code>. 国际标准书号 (International Standard Book Number)
+     */
+    public IBook setIsbn(String value);
+
+    /**
+     * Getter for <code>book.isbn</code>. 国际标准书号 (International Standard Book Number)
+     */
+    public String getIsbn();
+
+    /**
      * Setter for <code>book.status</code>. 书籍状态
      */
     public IBook setStatus(Byte value);

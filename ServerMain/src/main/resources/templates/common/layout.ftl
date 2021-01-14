@@ -1,3 +1,7 @@
+<#setting date_format="yyyy-MM-dd">
+<#setting time_format="HH:mm:ss">
+<#setting datetime_format="yyyy-MM-dd HH:mm:ss">
+<#setting locale="zh_CN">
 <#macro layout title="[ERROR:NO TITLE]">
 <!DOCTYPE html>
 <html lang="zh">

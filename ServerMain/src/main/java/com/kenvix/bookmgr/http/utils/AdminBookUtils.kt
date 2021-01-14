@@ -94,6 +94,7 @@ object AdminBookControllerUtils {
     private fun Book.applyBookFromParams(params: Parameters, uid: Long) = apply {
         title = params["title"].validateValue { it.length in 1..120 }
         description = params["description"] ?: ""
+        isbn = params["isbn"] ?: ""
         createdAt = params["created_at"]?.runCatching {
             Timestamp(dateDefaultFormatter.get().parse(replace('T', ' ')).time)
         }?.getOrDefault(Timestamp(System.currentTimeMillis())) ?: Timestamp(System.currentTimeMillis())

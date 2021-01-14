@@ -1,11 +1,12 @@
 <footer>
     <div class="footer bg-white">
         <div class="container">
-            <p>HTTPS Enabled.</p>
-            <p>Copyright © 2020~2021 library. All Rights Reserved. library User Center Team
-                | <a href="javascript:;" onclick="contactUs();">Contact us & Report bug</a></p>
-            <p>Theme <a href="#" target="_blank">Icarus</a> is licensed under the MIT License.</p>
-            <p>2021-01-06 14:54 Processed in 0.00091s.</p>
+            <p>
+                ${.now}
+                | <#if user??>Authorized<#else>Unauthorized</#if>
+                <#if user?? && user.getAccessLevel() gte 100> | Administration Mode</#if>
+            </p>
+            <p>Copyright © 2021 Advanced Book Management System. All Rights Reserved.</p>
         </div>
     </div>
     <div class="modal fade" id="alert_modal" tabindex="-1" role="dialog" aria-labelledby="watitle" aria-hidden="true">
