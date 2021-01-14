@@ -32,6 +32,7 @@
                             <a class="dropdown-item" href="/user/personalize">个性化设置</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">常见问题疑难解答</a>
+                            <a class="dropdown-item" href="/public/openapi/index.html">外部 API 参考手册</a>
                         </div>
                     </li>
 

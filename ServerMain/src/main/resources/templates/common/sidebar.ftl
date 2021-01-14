@@ -2,15 +2,23 @@
 <div class="col-lg-3">
     <div class="card hidden-print d-none d-lg-block nav-side" role="complementary" >
         <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link" href="https://www.moecraft.net" target="_blank">主页</a></li>
-            <li class="nav-item"><a class="nav-link" href="/user/login"> 登录</a></li>
-            <li class="nav-item"><a class="nav-link" href="/user/register"> 注册</a></li>
-            <li class="nav-item"><a class="nav-link" href="/Home/Apply/applyInviteCode"> 申请邀请码</a></li>
-            <li class="nav-item"><a class="nav-link" href="/user/password_reset"> 忘记密码</a></li>
-            <li class="nav-item"><a class="nav-link" href="/Doc/Public/duoshuo">评论</a></li>
-            <li class="nav-item"><a class="nav-link" href="/Doc/Public/status">实时服务器状态</a></li>
-            <li class="nav-item"><a class="nav-link" href="/Doc/Public/play">了解 library</a></li>
-            <!--<li class="nav-item"><a class="nav-link" href="/Home/Mc/about">关于</a></li>-->    </ul>
+            <#if user??>
+                    <li class="nav-item"><a class="nav-link" href="/"> 首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/reader/book"> 图书列表</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/reader/book/search"> 检索图书</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/reader/book/borrow"> 我的借阅</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/personalize"> 个性化设置</a></li>
+
+                    <#if user.getAccessLevel() gte 100>
+                        <li class="nav-item"><a class="nav-link" href="/admin/book"> 图书管理</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/admin/user"> 用户管理</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/admin/setting"> 系统设置</a></li>
+                    </#if>
+                <#else>
+                    <li class="nav-item"><a class="nav-link" href="/user/login"> 个性化设置</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/register"> 注册</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/password/reset"> 忘记密码</a></li>
+            </#if>
     </div>
     <script type="text/javascript">
         $(".nav-link[href$='/Home/User/login']").addClass('active');

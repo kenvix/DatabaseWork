@@ -180,7 +180,7 @@ suspend fun PipelineContext<*, ApplicationCall>.respondError(code: HttpStatusCod
                 "description" to code.description,
                 "info" to StringEscapeUtils.escapeHtml4(info),
                 "trace" to trace,
-                "redirectUrl" to redirectURI?.appendQuery("msg=$info&code=${code.value}&description=${code.description}")
+                "redirectUrl" to redirectURI?.appendQuery("msg=$info&code=${code.value}&description=${code.description}")?.toString()
         )))
     } else {
         call.respond(code, CommonJsonResult(status = code.value, info = info,

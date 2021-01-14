@@ -93,7 +93,7 @@ object CheckUserToken : Middleware<User>(), Cached {
             }
         } catch (e: Exception) {
             markTokenInvalid(token)
-            throw InvalidAuthorizationException("Auth token is wrong", e)
+            throw InvalidAuthorizationException("Please login first", e)
         }
     }
 
