@@ -36,7 +36,7 @@
                         <tbody>
                         <#list books as book>
                             <tr>
-                                <td style="margin-left: 100px;">${book.getId()?long?c}</td>
+                                <td>${book.getId()?long?c}</td>
                                 <td>
                                     <a href="/reader/book/${book.getId()?long?c}">
                                     <span class="detail-text">

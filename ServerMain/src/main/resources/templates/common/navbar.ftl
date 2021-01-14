@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white navbar-main">
     <div class="container">
-        <a class="navbar-brand" href="#">${siteName}</a>
+        <a class="navbar-brand" href="/">${siteName}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -18,7 +18,7 @@
                             <a class="dropdown-item" href="/reader/book">图书列表</a>
                             <a class="dropdown-item" href="/reader/book/search">检索图书</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/reader/borrow">我的借阅</a>
+                            <a class="dropdown-item" href="/reader/book/borrow">我的借阅</a>
                         </div>
                     </li>
 

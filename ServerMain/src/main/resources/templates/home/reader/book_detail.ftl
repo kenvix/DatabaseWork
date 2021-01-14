@@ -64,5 +64,15 @@
             ${book.getDescription()}
         </div>
     </div>
+
+    <div class="card">
+        <div class="card-header">操作</div>
+        <div class="card-body">
+            <form action="/reader/book/borrow/borrow" method="post">
+                <input type="hidden" name="book_id" value="${book.getId()?long?c}">
+                <p><button type="submit" class="btn btn-outline-info btn-xs">借书</button></p>
+            </form>
+        </div>
+    </div>
     <!-- End of page code -->
 </@layout.layout>

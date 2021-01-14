@@ -118,7 +118,7 @@ object WebServer {
 
     internal suspend fun testMySQLConnection() = withContext(Dispatchers.IO) {
         val version = dslContext.resultQuery("SHOW VARIABLES LIKE \"version\";")
-            .also { it.execute() }.result[0].valuesRow()
+            .also { it.execute() }.result!![0].valuesRow()
         logger.info("Mysql Database connection test pass! $version")
     }
 

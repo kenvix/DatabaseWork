@@ -50,7 +50,7 @@ repositories {
     maven { url = uri("https://kotlin.bintray.com/kotlin-js-wrappers") }
 }
 
-systemProperties.setProperty("project.jooqVersion", "3.13.1")
+systemProperties.setProperty("project.jooqVersion", "3.14.4")
 systemProperties.setProperty("project.jooqPropFile", "jooq.properties")
 
 dependencies {
@@ -109,6 +109,7 @@ dependencies {
     implementation("commons-codec:commons-codec:1.15")
 
     // https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api
+    implementation("org.glassfish.jaxb:jaxb-runtime:2.3.2")
     implementation(group = "javax.persistence", name = "javax.persistence-api", version = "2.2")
     //添加jooq依赖
     implementation(group = "org.jooq", name = "jooq", version = System.getProperty("project.jooqVersion"))

@@ -21,8 +21,10 @@
     <option name="WORKING_DIRECTORY" value="file://ServerMain" />
     <envs>
       <env name="HttpPort" value="56447" />
-      <env name="DatabasePassword" value="123456" />
-      <env name="HttpHost" value="0.0.0.0" />
+      <env name="DatabasePassword" value="114514" />
+      <env name="HttpHost" value="127.0.0.1" />
+      <env name="DatabaseHost" value="localhost" />
+      <env name="DatabaseUser" value="book" />
     </envs>
     <method v="2">
       <option name="Make" enabled="true" />

@@ -6,7 +6,8 @@ import com.kenvix.bookmgr.model.mysql.BookBorrowExpiredModel
 import com.kenvix.bookmgr.model.mysql.BookBorrowModel
 import com.kenvix.bookmgr.model.mysql.SettingModel
 import com.kenvix.bookmgr.orm.Routines
-import com.kenvix.bookmgr.orm.tables.BookBorrowForAdmin
+import com.kenvix.bookmgr.orm.tables.pojos.BookBorrowForAdmin
+import com.kenvix.bookmgr.orm.tables.BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN
 import com.kenvix.utils.exception.BadRequestException
 import com.kenvix.utils.exception.CommonBusinessException
 import com.kenvix.web.utils.middleware
@@ -19,6 +20,7 @@ import io.ktor.locations.*
 import io.ktor.util.pipeline.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.net.URI
 import java.sql.Timestamp
 
 @OptIn(KtorExperimentalLocationsAPI::class)
@@ -31,15 +33,23 @@ internal object BookBorrowControllerUtils {
             val user = middleware(CheckUserToken)
             AppConstants.dslContext
                 .select(
-                    BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN.BOOK_ID,
-                    BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN.BOOK_TITLE,
-                    BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN.BORROWED_AT,
-                    BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN.EXPECTED_RETURNED_AT,
-                    BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN.ACTUAL_RETURNED_AT
+                    BOOK_BORROW_FOR_ADMIN.BOOK_ID,
+                    BOOK_BORROW_FOR_ADMIN.BOOK_TITLE,
+                    BOOK_BORROW_FOR_ADMIN.BOOK_AUTHOR_ID,
+                    BOOK_BORROW_FOR_ADMIN.BOOK_AUTHOR_NAME,
+                    BOOK_BORROW_FOR_ADMIN.BOOK_TYPE_ID,
+                    BOOK_BORROW_FOR_ADMIN.BOOK_TYPE_NAME,
+                    BOOK_BORROW_FOR_ADMIN.BOOK_PUBLISHER_ID,
+                    BOOK_BORROW_FOR_ADMIN.BOOK_PUBLISHER_NAME,
+                    BOOK_BORROW_FOR_ADMIN.RENEW_NUM,
+                    BOOK_BORROW_FOR_ADMIN.BORROWED_AT,
+                    BOOK_BORROW_FOR_ADMIN.BORROW_ID,
+                    BOOK_BORROW_FOR_ADMIN.EXPECTED_RETURNED_AT,
+                    BOOK_BORROW_FOR_ADMIN.ACTUAL_RETURNED_AT
                 )
-                .from(BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN)
-                .where(BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN.BORROWER_UID.eq(user.uid))
-                .orderBy(BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN.ACTUAL_RETURNED_AT.desc().nullsFirst())
+                .from(BOOK_BORROW_FOR_ADMIN)
+                .where(BOOK_BORROW_FOR_ADMIN.BORROWER_UID.eq(user.uid))
+                .orderBy(BOOK_BORROW_FOR_ADMIN.ACTUAL_RETURNED_AT.desc().nullsFirst())
                 .fetchInto(BookBorrowForAdmin::class.java)
         }
 
@@ -58,7 +68,7 @@ internal object BookBorrowControllerUtils {
         val returnAt = Timestamp(System.currentTimeMillis() + SettingModel.get<Long>("book_borrow_period_millis"))
         Routines.bookBorrow(AppConstants.jooqConfiguration, bookId, user.uid, returnAt)
 
-        respondSuccess("借书 #${bookId} 成功，下次还书时间为 $returnAt")
+        respondSuccess("借书 #${bookId} 成功，下次还书时间为 $returnAt", URI("/reader/book/borrow"))
     }
 
     internal suspend fun PipelineContext<Unit, ApplicationCall>.renewBookForCurrentUser(borrowId: Long): Unit = withContext(
@@ -71,7 +81,7 @@ internal object BookBorrowControllerUtils {
         BookBorrowModel.fetchUidById(borrowId).validateValue { user.uid == it }
         val returnAt = Routines.bookBorrowRenew(AppConstants.jooqConfiguration, borrowId)
 
-        respondSuccess("续期成功，下次还书时间为 $returnAt")
+        respondSuccess("续期成功，下次还书时间为 $returnAt", URI("/reader/book/borrow"))
     }
 
     internal suspend fun PipelineContext<Unit, ApplicationCall>.returnBookForCurrentUser(borrowId: Long): Unit = withContext(
@@ -98,7 +108,7 @@ internal object BookBorrowControllerUtils {
 
         kotlin.runCatching {
             Routines.bookBorrowReturn(AppConstants.jooqConfiguration, borrowId, requiredMoney)
-            respondSuccess("还书成功，扣款 ${requiredMoney.toYuanMoneyString()}")
+            respondSuccess("还书成功，扣款 ${requiredMoney.toYuanMoneyString()}", URI("/reader/book/borrow"))
         }.onFailure {
             throw CommonBusinessException(
                 it.message + " (本次还书需要 ${requiredMoney.toYuanMoneyString()}",

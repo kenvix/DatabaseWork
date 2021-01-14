@@ -70,4 +70,19 @@
             </form>
         </div>
     </div>
+
+    <#if isEditOtherProfile??>
+        <div class="card">
+            <div class="card-header">
+                危险操作
+            </div>
+
+            <div class="card-body" id="loginData">
+                <form action="/admin/user/delete" enctype="application/x-www-form-urlencoded" method="post" onsubmit="return confirm('是否确实要删除此用户？此操作不可逆，并且系统将不再追踪借书情况，也不会退还余额。通常情况下您可以对此用户封号');">
+                    <input type="hidden" name="uid" value="${userExtra.getUid()}">
+                    <button type="submit" class="btn btn-danger">删除用户</button>
+                </form>
+            </div>
+        </div>
+    </#if>
 </@layout.layout>
