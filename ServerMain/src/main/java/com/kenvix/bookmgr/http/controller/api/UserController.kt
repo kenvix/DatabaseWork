@@ -18,7 +18,7 @@ internal object UserController : ApiBaseController() {
             get<UserIDLocation> { getUserInfo(it) }
             post("/") { createUser() }
             put<UserIDLocation> { updateUserInfo(it) }
-            delete<UserIDLocation> { deleteUser(it) }
+            delete<UserIDLocation> { deleteUser(it.id) }
         }
     }
 }

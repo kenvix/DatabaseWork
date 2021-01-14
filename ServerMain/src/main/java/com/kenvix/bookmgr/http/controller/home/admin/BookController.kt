@@ -1,5 +1,6 @@
 package com.kenvix.bookmgr.http.controller.home.admin
 
+import com.kenvix.bookmgr.http.controller.home.reader.BookController.respondTemplate
 import com.kenvix.bookmgr.http.middleware.CheckCommonAdminToken
 import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBook
 import com.kenvix.bookmgr.http.utils.AdminBookControllerUtils.addBook
@@ -34,6 +35,13 @@ object BookController : AdminHomeBaseController() {
                     it["books"] = books
                     it["bookStatusMap"] = BookStatusModel.bookStatusMap
                     it["bookTotalCount"] = BookModel.getTableApproximateCount()
+                }
+            }
+
+            get("/search") {
+                middleware(CheckCommonAdminToken)
+                respondTemplate("../reader/book_search") {
+                    it["isAdminSearch"] = true
                 }
             }
 

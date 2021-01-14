@@ -12,10 +12,11 @@
             <p><button type="button" class="btn btn-outline-success btn-xs" onclick="window.history.go(-1);">返回上一页</button></p>
             <hr/>
             <p><span style="font-size: 1.1em; color: gray;">${code!0} ${description!"No description"}</span></p>
-
+            <#if isDebugMode?? && isDebugMode>
             <p>Additional stack trace information for developers</p>
             <pre>${trace!"No trace information"}</pre>
             <p><span style="font-size: 0.9em; color: gray;">To hide this part, please disable debug mode on Application EnvFile</span></p>
+            </#if>
         </div>
     </div>
     <!-- End of page code -->

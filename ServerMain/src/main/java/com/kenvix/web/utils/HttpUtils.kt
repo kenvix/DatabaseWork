@@ -180,6 +180,7 @@ suspend fun PipelineContext<*, ApplicationCall>.respondError(code: HttpStatusCod
                 "description" to code.description,
                 "info" to StringEscapeUtils.escapeHtml4(info),
                 "trace" to trace,
+                "isDebugMode" to ServerEnv.DebugMode,
                 "redirectUrl" to redirectURI?.appendQuery("msg=$info&code=${code.value}&description=${code.description}")?.toString()
         )))
     } else {

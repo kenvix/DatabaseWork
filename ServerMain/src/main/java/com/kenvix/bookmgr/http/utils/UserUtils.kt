@@ -129,9 +129,9 @@ internal object UserControllerUtils {
     /**
      * Delete user
      */
-    internal suspend fun PipelineContext<Unit, ApplicationCall>.deleteUser(userLocation: UserIDLocation) {
+    internal suspend fun PipelineContext<Unit, ApplicationCall>.deleteUser(userId: Long) {
         val callerUser = middleware(CheckSuperAdminToken)
-        UserModel.deleteById(userLocation.id)
+        UserModel.deleteById(userId)
         respondSuccess("删除用户成功", IDResultDTO(callerUser.uid), URI("/admin/user"))
     }
 
