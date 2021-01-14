@@ -28,11 +28,10 @@
                             设置和资料
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">账户资料</a>
-                            <a class="dropdown-item" href="#">个性化设置</a>
+                            <a class="dropdown-item" href="/user/profile">账户资料</a>
+                            <a class="dropdown-item" href="/user/personalize">个性化设置</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">常见问题疑难解答</a>
-                            <a class="dropdown-item" href="#">资料库&帮助</a>
                         </div>
                     </li>
 

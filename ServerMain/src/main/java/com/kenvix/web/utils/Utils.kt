@@ -251,7 +251,7 @@ inline fun <reified E: Enum<E>> E.next(): E {
 fun Int.toYuanMoneyString(): String {
     val yuan = this / 100
     val remain = this % 100
-    return "￥${yuan}.${remain}"
+    return String.format("￥%d.%02d", yuan, remain)
 }
 
 fun String.isNumeric() = NumberUtils.isParsable(this)
