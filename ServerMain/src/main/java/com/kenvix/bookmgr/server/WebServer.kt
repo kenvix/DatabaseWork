@@ -61,7 +61,7 @@ object WebServer {
 
     init {
         if(System.getProperty("hotReloadSupported")?.toBoolean() == true)
-            println("CREATED WEB SERVER INTANCE " + hashCode() + " / LOADER " + javaClass.classLoader)
+            println("CREATED WEB SERVER INSTANCE " + hashCode() + " / LOADER " + javaClass.classLoader)
     }
 
     suspend fun start() = withContext(Dispatchers.IO) {

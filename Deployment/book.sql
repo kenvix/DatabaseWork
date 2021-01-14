@@ -10,7 +10,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 14/01/2021 12:18:26
+ Date: 14/01/2021 18:50:10
 */
 
 SET NAMES utf8mb4;
@@ -69,10 +69,11 @@ CREATE TABLE `book`  (
 -- ----------------------------
 -- Records of book
 -- ----------------------------
-INSERT INTO `book` VALUES (1, 1, 4, '仲夏夜之梦', '《仲夏夜之梦》，是威廉·莎士比亚在约1590年－1596年间创作的浪漫喜剧。它描绘了以雅典大公忒修斯和希波吕忒婚礼为中心的一系列故事。包括四名​​雅典恋人和六个业余演员的冒险经历，而森林里的仙子们则在背后操作它们的命运。本戏剧是莎士比亚最流行的剧本之一，在全世界都有上演。', 1, '2021-01-02 16:46:04', 1000, 98, '978-0-230-02000-9', 5);
+INSERT INTO `book` VALUES (1, 1, 4, '仲夏夜之梦', '《仲夏夜之梦》，是威廉·莎士比亚在约1590年－1596年间创作的浪漫喜剧。它描绘了以雅典大公忒修斯和希波吕忒婚礼为中心的一系列故事。包括四名​​雅典恋人和六个业余演员的冒险经历，而森林里的仙子们则在背后操作它们的命运。本戏剧是莎士比亚最流行的剧本之一，在全世界都有上演。', 1, '2021-01-02 16:46:04', 1000, 100, '978-0-230-02000-9', 5);
 INSERT INTO `book` VALUES (2, 1, 5, '毛泽东选集', '《毛泽东选集》是1951年人民出版社出版的图书，作者是毛泽东。该书是毛泽东思想的重要载体，是毛泽东思想的集中展现，亦是对20世纪的中国影响最大的书籍之一。\r\n建国后出版的两个版本均由人民出版社负责。该书在建国前即有大量出版，1944年于邯郸创建的晋察冀日报社出版首版《毛泽东选集》。建国后共出版了五卷，编入的是毛泽东同志在新民主主义革命时期、社会主义革命和社会主义建设时期的主要著作。1991年7月1日，《毛泽东选集》一至四卷第二版出版发行。', 2, '2021-01-04 16:13:59', 20, 19, '9787010009254', 5);
 INSERT INTO `book` VALUES (3, 1, 4, '哈姆雷特', '《哈姆雷特（Hamlet）》是由英国剧作家威廉·莎士比亚创作于1599年至1602年间的一部悲剧作品。戏剧讲述了叔叔克劳狄斯谋害了哈姆雷特的父亲，篡取了王位，并娶了国王的遗孀乔特鲁德；哈姆雷特王子因此为父王向叔叔复仇。\r\n《哈姆雷特》是莎士比亚所有戏剧中篇幅最长的一部， [1]  也是莎士比亚最负盛名的剧本，具有深刻的悲剧意义。复杂的人物性格以及丰富完美的悲剧艺术手法，代表着整个西方文艺复兴时期文学的最高成就。同《麦克白》、《李尔王》和《奥赛罗》一起组成莎士比亚“四大悲剧”。', 1, '2021-01-04 16:15:26', 1, 1, '9570600934', 4);
 INSERT INTO `book` VALUES (4, 1, 6, '数据库系统概论（第5版）', '《数据库系统概论（第5版）“十二五”普通高等教育本科国家级规划教材》第1版于1983年出版，至今已修订至第5版。第5版被列入“十二五”普通高等教育本科国家级规划教材。相应课程于2004年被评为北京市精品课程，2005年被评为国家精品课程，2014年被批准为国家级精品资源共享课。\r\n\r\n《数据库系统概论（第5版）“十二五”普通高等教育本科国家级规划教材》系统全面地阐述了数据库系统的基础理论、基本技术和基本方法。全书分为4篇16章。第一篇基础篇，包括绪论、关系数据库、关系数据库标准语言SQL、数据库安全性和数据库完整性，共5章；第二篇设计与应用开发篇，包括关系数据理论、数据库设计和数据库编程，共3章；第三篇系统篇，包括关系查询处理和查询优化、数据库恢复技术、并发控制和数据库管理系统，共4章', 3, '2021-01-04 16:22:13', 50, 49, '9787040406641', 5);
+INSERT INTO `book` VALUES (5, 1, 9, '测试图书', '一本虚无的测试图书', 1, '2021-01-14 13:10:40', 10, 10, '1145141919810', 5);
 
 -- ----------------------------
 -- Table structure for book_author_map
@@ -92,9 +93,9 @@ CREATE TABLE `book_author_map`  (
 -- ----------------------------
 INSERT INTO `book_author_map` VALUES (1, 1);
 INSERT INTO `book_author_map` VALUES (2, 2);
-INSERT INTO `book_author_map` VALUES (3, 3);
-INSERT INTO `book_author_map` VALUES (3, 4);
-INSERT INTO `book_author_map` VALUES (1, 5);
+INSERT INTO `book_author_map` VALUES (4, 3);
+INSERT INTO `book_author_map` VALUES (4, 4);
+INSERT INTO `book_author_map` VALUES (5, 5);
 
 -- ----------------------------
 -- Table structure for book_borrow
@@ -119,10 +120,13 @@ CREATE TABLE `book_borrow`  (
 -- Records of book_borrow
 -- ----------------------------
 INSERT INTO `book_borrow` VALUES (1, 1, 1, '2021-01-14 11:07:21', '2021-02-13 11:57:44', '2021-01-14 11:59:14', 2);
-INSERT INTO `book_borrow` VALUES (3, 1, 1, '2021-01-14 11:50:09', '2021-02-13 11:59:49', NULL, 4);
+INSERT INTO `book_borrow` VALUES (3, 1, 1, '2021-01-14 11:50:09', '2021-02-13 11:59:49', '2021-01-14 13:03:15', 4);
 INSERT INTO `book_borrow` VALUES (4, 4, 1, '2021-01-14 11:50:16', '2021-02-13 11:50:17', '2021-01-14 11:59:55', 0);
 INSERT INTO `book_borrow` VALUES (5, 1, 1, '2021-01-14 12:04:25', '2021-02-13 12:04:25', '2021-01-14 12:12:13', 0);
 INSERT INTO `book_borrow` VALUES (6, 1, 1, '2021-01-14 12:04:29', '2021-02-13 12:04:30', '2021-01-14 12:15:24', 0);
+INSERT INTO `book_borrow` VALUES (7, 4, 1, '2019-01-14 12:31:47', '2020-08-13 12:31:48', '2021-01-14 12:36:42', 0);
+INSERT INTO `book_borrow` VALUES (8, 4, 1, '2020-01-14 12:31:51', '2020-08-13 12:31:48', '2021-01-14 17:27:27', 0);
+INSERT INTO `book_borrow` VALUES (9, 4, 1, '2021-01-14 12:31:53', '2021-02-13 12:31:53', '2021-01-14 13:14:19', 0);
 
 -- ----------------------------
 -- Table structure for book_status
@@ -200,6 +204,10 @@ CREATE TABLE `invoice`  (
 -- Records of invoice
 -- ----------------------------
 INSERT INTO `invoice` VALUES (1, 'Overdue penality', 1, 1, 0, '2021-01-14 12:15:24', 3, '2021-01-14 12:15:25', '2021-01-14 12:15:24', NULL, NULL);
+INSERT INTO `invoice` VALUES (2, 'Overdue penality', 1, 1, 5040, '2021-01-14 12:36:42', 3, '2021-01-14 12:36:43', '2021-01-14 12:36:42', NULL, NULL);
+INSERT INTO `invoice` VALUES (3, 'Overdue penality', 1, 1, 0, '2021-01-14 13:03:15', 3, '2021-01-14 13:03:16', '2021-01-14 13:03:15', NULL, NULL);
+INSERT INTO `invoice` VALUES (4, 'Overdue penality', 1, 1, 0, '2021-01-14 13:14:19', 3, '2021-01-14 13:14:20', '2021-01-14 13:14:19', NULL, NULL);
+INSERT INTO `invoice` VALUES (5, 'Overdue penality', 1, 1, 2310, '2021-01-14 17:27:27', 3, '2021-01-14 17:27:28', '2021-01-14 17:27:27', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for invoice_penalty
@@ -220,6 +228,10 @@ CREATE TABLE `invoice_penalty`  (
 -- Records of invoice_penalty
 -- ----------------------------
 INSERT INTO `invoice_penalty` VALUES (1, 1, 1);
+INSERT INTO `invoice_penalty` VALUES (2, 2, 4);
+INSERT INTO `invoice_penalty` VALUES (3, 3, 1);
+INSERT INTO `invoice_penalty` VALUES (4, 4, 4);
+INSERT INTO `invoice_penalty` VALUES (5, 5, 4);
 
 -- ----------------------------
 -- Table structure for invoice_status
@@ -355,6 +367,7 @@ INSERT INTO `setting` VALUES ('book_borrow_period_millis', '2592000000', '每次
 INSERT INTO `setting` VALUES ('book_expire_penalty_cents_a_day', '15', '超期罚款（每天，罚款单位为分）', 'Int');
 INSERT INTO `setting` VALUES ('default_user_pagination_num', '30', '默认单页分页数值', 'Int');
 INSERT INTO `setting` VALUES ('max_user_pagination_num', '150', '用户最大可设置单页分页数值', 'Int');
+INSERT INTO `setting` VALUES ('show_book_expire_prompt', 'true', '显示图书超期提示，这将增加系统开销', 'Bool');
 INSERT INTO `setting` VALUES ('site_name', '高级图书文献管理系统', '站点名称', 'String');
 INSERT INTO `setting` VALUES ('site_url', 'http://127.0.0.1:56447/', '站点地址', 'String');
 
@@ -407,6 +420,7 @@ CREATE TABLE `user`  (
 INSERT INTO `user` VALUES (0, '0', 'example@example.com', '[系统]', '', 0, '2000-01-13 11:57:14', 'localhost', 'localhost');
 INSERT INTO `user` VALUES (1, '114514', 'kenvix@qq.com', 'Kenvix', '$2a$10$SgMu/4Xofj5/0WP3g/ahBuwnsdhA2sVdoiIXXnIbok2I24ub3WLTW', 127, '2021-01-02 12:04:44', 'localhost', 'localhost4');
 INSERT INTO `user` VALUES (2, '1707004799', 'test@qq.com', '李田所', '$2a$10$zUYGIIRZNSmJ1vq61gG5BOOwm9q3SO6sBFhEwQLRv3dGiZ0iD0B2y', 10, '2021-01-13 12:05:47', '223.5.5.5', '223.5.5.5');
+INSERT INTO `user` VALUES (5, '1507004712', 'lihua@qq.com', '李华', '$2a$10$gkzvnR2ikRlP1CZo2K4nhuRB3xBO1iTX2AHAnt2RFpNOIj2gDdM5u', 10, '2021-01-14 15:32:27', 'localhost4', 'localhost4');
 
 -- ----------------------------
 -- Table structure for user_access_level
@@ -446,8 +460,9 @@ CREATE TABLE `user_extra`  (
 -- ----------------------------
 -- Records of user_extra
 -- ----------------------------
-INSERT INTO `user_extra` VALUES (1, 13058968745, 114514, 11515, 2018, '测试学院', '这个好！');
+INSERT INTO `user_extra` VALUES (1, 13058968745, 4997690, 11515, 2018, '测试学院', '这个好！');
 INSERT INTO `user_extra` VALUES (2, 1305896570, 0, 515115, 2012, '测试学院', '这个坏');
+INSERT INTO `user_extra` VALUES (5, NULL, 0, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- View structure for book_author
@@ -628,7 +643,7 @@ BEGIN
 
     select user_extra.money into user_money from user_extra where user_extra.uid = borrower_uid for update;
     if user_money < required_money then
-        call raise_error('Your money is not enough, please charge your account first.');
+        call raise_error('Your money is not enough, please charge your account first.', 402);
     end if;
 
     select NOW() into now;
@@ -767,6 +782,8 @@ BEGIN
     INSERT INTO book.user(serial_id, email, real_name, password, access_level, created_at, ip_creation, ip_login)
     VALUES (v_serial_id, v_email, v_real_name, v_password, v_access_level, NOW(),v_ip_creation, v_ip_creation);
 		SELECT LAST_INSERT_ID() INTO insert_id;
+		
+		INSERT INTO book.user_extra(uid) VALUES (insert_id);
     COMMIT WORK;
 END
 ;;
