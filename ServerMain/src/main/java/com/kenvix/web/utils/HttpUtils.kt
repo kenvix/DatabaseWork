@@ -164,7 +164,7 @@ suspend fun PipelineContext<*, ApplicationCall>.respondError(code: HttpStatusCod
 
     if (exception != null) {
         if (ServerEnv.DebugMode) {
-            info = "${exception.javaClass.simpleName}: ${exception.message}"
+            info = "${exception.message}"
             trace = exception.getStringStackTrace()
         } else {
             if (code.value in 400..499 || code.value != 501)
