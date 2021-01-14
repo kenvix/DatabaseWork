@@ -184,12 +184,7 @@ fun Application.module() {
         exception<NotImplementedError> { respondError(HttpStatusCode.NotImplemented, it) }
 
         exception<DataAccessException> {
-            if (it.cause != null && it.cause is SQLException && (it.cause as SQLException?)?.sqlState == "45233") {
-                handleSQLException(it.cause as SQLException)
-            } else {
-                com.kenvix.web.utils.error("MySQL Database failed!", it, WebServerBasicRoutes.logger)
-                respondError(HttpStatusCode.InternalServerError, it)
-            }
+            handleSQLException(it)
         }
 
         exception<SQLException> { handleSQLException(it) }
@@ -213,12 +208,12 @@ fun Application.module() {
 }
 
 suspend fun PipelineContext<*, ApplicationCall>.handleSQLException(exception: Throwable) {
-    val it = if (exception is DataAccessException && exception.cause != null && exception.cause is SQLException) exception.cause!! else exception
+    val it = if (exception.cause != null && exception.cause is SQLException) exception.cause!! else exception
 
-    if (it is SQLException && (it.cause as SQLException?)?.sqlState == "45000") {
+    if (it is SQLException && it.sqlState == "45000") {
         respondError(HttpStatusCode.NotAcceptable, it)
     } else {
-        com.kenvix.web.utils.error("MySQL Database failed!", it, WebServerBasicRoutes.logger)
-        respondError(HttpStatusCode.InternalServerError, it)
+        com.kenvix.web.utils.error("MySQL Database failed!", exception, WebServerBasicRoutes.logger)
+        respondError(HttpStatusCode.InternalServerError, exception)
     }
 }
