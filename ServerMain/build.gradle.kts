@@ -13,7 +13,7 @@ plugins {
     idea
     kotlin("jvm") version "1.4.21"
     id("de.fuerstenau.buildconfig") version "1.1.8"
-    id("com.github.johnrengelman.shadow") version "5.2.0"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
     //id("org.beryx.jlink") version "2.17.2"
     id("nu.studer.jooq") version "4.1"
     id("java-library")
@@ -221,7 +221,7 @@ apply(from = "enableJooq.gradle")
 
 tasks {
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "11"
+        kotlinOptions.jvmTarget = "14"
         kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
         kotlinOptions.freeCompilerArgs += "-Xinline-classes"
     }
