@@ -45,10 +45,10 @@
                                 <td>
                                     ${item.getEmail()!"无"}
                                     <br/>
-                                    ${item.getPhone()!0?long?c}
+                                    <#if item.getPhone()??>${item.getPhone()?long?c}<#else>未知</#if>
                                 </td>
                                 <td>
-                                    ${item.getStartYear()!0?short?c}
+                                    <#if item.getStartYear()??>${item.getStartYear()?short?c}<#else>未知</#if>
                                     <br/>
                                     ${item.getDepartment()!"无"}
                                 </td>

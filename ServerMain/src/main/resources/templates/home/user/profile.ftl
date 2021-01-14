@@ -33,22 +33,22 @@
 
                 <div class="form-group">
                     <label for="user-phone">手机号</label>
-                    <input type="number" class="form-control" name="phone" id="user-phone" value="${userExtra.getPhone()?long?c!0}">
+                    <input type="number" class="form-control" name="phone" id="user-phone" value="<#if userExtra.getPhone()??>${userExtra.getPhone()?long?c}</#if>">
                 </div>
 
                 <div class="form-group">
                     <label for="user-card_serial_id">卡片序列号</label>
-                    <input type="number" class="form-control" name="card_serial_id" id="user-card_serial_id" value="${userExtra.getCardSerialId()?long?c!0}">
+                    <input type="number" class="form-control" name="card_serial_id" id="user-card_serial_id" value="<#if userExtra.getCardSerialId()??>${userExtra.getCardSerialId()?long?c}</#if>">
                 </div>
 
                 <div class="form-group">
                     <label for="user-start_year">入学年份</label>
-                    <input type="number" class="form-control" name="start_year" id="user-start_year" value="${userExtra.getStartYear()?short?c!0}">
+                    <input type="number" class="form-control" name="start_year" id="user-start_year" value="<#if userExtra.getStartYear()??>${userExtra.getStartYear()?short?c}</#if>">
                 </div>
 
                 <div class="form-group">
                     <label for="user-department">所在部门或学院</label>
-                    <input type="text" class="form-control" name="department" id="user-department" value="${userExtra.getDepartment()!""}" required="required">
+                    <input type="text" class="form-control" name="department" id="user-department" value="<#if userExtra.getDepartment()??>${userExtra.getDepartment()!""}</#if>">
                 </div>
 
                 <div class="form-group">

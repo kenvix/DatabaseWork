@@ -3,51 +3,39 @@
     <!-- Begin Page code -->
 
             <div class="card">
-                <div class="card-header">创建 library 账户</div>
+                <div class="card-header">注册 ${siteName}</div>
                 <div class="card-body" id="aboutInfo">
-                    <p>
-                        你当前还没有library账户，请先创建一个
-                    </p>
+                    <p>您必须先注册一个账户才能使用本系统</p>
                     <p>用户名称最短为 3 位，最长为 20 位，只能包含英文字母、数字或下划线，不能有其他的特殊符号</p>
-                    <p>备用密码仅用于紧急情况，不是用户密码，登录系统应使用用户中心登录密码</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">创建/修改系统账户</div>
-                <div class="card-body" id="aboutData">
-                    <form ajax="true"  class="clearfix"id="register-form" action="/user/login/action" method="post" enctype="application/x-www-form-urlencoded">
-                        <div class="alert alert-info ajax-info" role="alert">
-                            <div class="ajax-info-text"></div>
-                        </div>
+                    <form onsubmit="if ($('#user-password_confirm').val() != $('#user-password').val()) { alert('两次输入的密码不一致，请重新输入'); return false; } else { return true; }" class="clearfix" id="register-form" action="/user/register/action" method="post" enctype="application/x-www-form-urlencoded">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="name" required="" maxlength="20" placeholder="用户名称">
+                            <label for="user-username">学号</label>
+                            <input type="text" class="form-control" name="username" id="user-username">
                         </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" name="pw" required=""
-                                   placeholder="备用密码. 仅用于紧急情况, 登录系统使用用户中心登录密码">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control  ajax-code-input" name="code" placeholder="输入右图的验证码，看不清可以点击图片更换"
-                                   required="" maxlength="5">
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-auto">
-                                <input type="submit" class="btn btn-success" style="margin-top: 10px;" value="立即创建">
-                            </div>
-                            <div class="col ml-auto pl-0 text-right">
-                                <img src="${public}/img/genVerifyCode.gif" id="changePwdVC" onclick="this.src = this.src;" title="点击更换验证码"
-                                     width="220" height="62" class="img-thumbnail ajax-code-img">
-                            </div>
-                        </div>
-                        <input type="hidden" name="MOERCEXTREDG"
-                               value="3a8fa4e50bd8a0208fbb777893d9727e_c4f689d67d1c0850de6a37bd46956973" />
-                    </form>
-                    <p>用户名称不能带有中文，只能包含英文字母、数字或下划线，不能有其他的特殊符号。</p>
-                    <p>创建账户后即可进入系统，用户名为你的用户中心<b>邮箱</b>，密码为你的用户中心登录密码</p>
-                    <p><b>禁止使用下列名称</b>：null [sponge] op administrator operator system server notch buildcraft [buildcraft]
-                        console caller admin library HookEvent TickRate ClientAA AntiAim</p>
-                </div>
-            </div>
 
+                        <div class="form-group">
+                            <label for="user-real_name">真实姓名</label>
+                            <input type="text" class="form-control" name="real_name" id="user-real_name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="user-email">电子邮箱</label>
+                            <input type="email" class="form-control" name="email" id="user-email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="user-password">密码</label>
+                            <input type="password" class="form-control" name="password" id="user-password" placeholder="您的密码将会使用 BCrypt 算法进行高强度不可逆加密，您无需担心密码泄露">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="user-password_confirm">确认密码</label>
+                            <input type="password" class="form-control" name="password_confirm" id="user-password_confirm" placeholder="请再输一次密码">
+                        </div>
+
+                        <p><input type="submit" class="btn btn-success" value="立即注册" id="submitBtn"></p>
+                    </form>
+                </div>
+            </div>
     <!-- End of page code -->
 </@layout.layout>

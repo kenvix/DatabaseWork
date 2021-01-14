@@ -99,7 +99,7 @@ internal object UserControllerUtils {
             it.length in 0..60 && !it.contains(illegalUserNameRegex)
         }.trim()
 
-        val realName = postParameters.getOrFail<String>("realName").validateValue {
+        val realName = postParameters.getOrFail<String>("real_name").validateValue {
             it.length in 0..30 && !it.contains(illegalUserNameRegex)
         }.trim()
 
@@ -123,7 +123,7 @@ internal object UserControllerUtils {
         )
 
         val user = UserModel.fetchOneByUid(uid)
-        respondSuccess("注册成功", user.toUserDTO(CheckUserToken.generateToken(user)), URI("/"))
+        respondSuccess("注册成功，请使用邮箱 $email 登录", user.toUserDTO(CheckUserToken.generateToken(user)), URI("/user/login"))
     }
 
     /**
@@ -173,32 +173,32 @@ internal object UserControllerUtils {
             postParameters["phone"].ifNotNull { phone = it.toLong() }
 
             if (isAdmin || SettingModel.get<Boolean>("allow_edit_card_serial_id")) {
-                postParameters["card_serial_id"].ifNotNull { cardSerialId = it.toLong() }
+                postParameters["card_serial_id"].ifNotNullOrBlank { cardSerialId = it.toLong() }
             }
 
             if (isAdmin || SettingModel.get<Boolean>("allow_edit_department")) {
-                postParameters["start_year"].ifNotNull { startYear = it.toShort() }
-                postParameters["department"].ifNotNull { department = it }
+                postParameters["start_year"].ifNotNullOrBlank { startYear = it.toShort() }
+                postParameters["department"].ifNotNullOrBlank { department = it }
             }
 
             if (isAdmin) {
-                postParameters["money"].ifNotNull {
+                postParameters["money"].ifNotNullOrBlank {
                     money = it.toInt()
                 }
             }
         }
 
         val user = UserModel.fetchOneByUid(uid).apply {
-            postParameters["email"].ifNotNull { email = it.validateEmail() }
-            postParameters["password"].ifNotNull {
+            postParameters["email"].ifNotNullOrBlank { email = it.validateEmail() }
+            postParameters["password"].ifNotNullOrBlank {
                 password = it.toPasswordHash()
             }
             if (isAdmin || SettingModel.get<Boolean>("allow_edit_real_name")) {
-                postParameters["real_name"].ifNotNull { realName = it }
+                postParameters["real_name"].ifNotNullOrBlank { realName = it }
             }
 
             if (isAdmin || SettingModel.get<Boolean>("allow_edit_serial_id")) {
-                postParameters["serial_id"].ifNotNull { serialId = it }
+                postParameters["serial_id"].ifNotNullOrBlank { serialId = it }
             }
         }
 
