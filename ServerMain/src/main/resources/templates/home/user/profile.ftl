@@ -16,6 +16,10 @@
             <p>权限：#${userExtra.getAccessLevel()} : ${userExtra.getAccessLevelDescription()}</p>
 
             <form action="" onsubmit="if ($('#user-password_confirm').val() != $('#user-password').val()) { alert('两次输入的密码不一致，请重新输入'); return false; } else { return true; }" method="post" enctype="application/x-www-form-urlencoded">
+                <#if isEditOtherProfile??>
+                    <input type="hidden" name="admin_edit" value="1">
+                </#if>
+
                 <div class="form-group">
                     <label for="user-email">电子邮箱</label>
                     <input type="email" class="form-control" name="email" id="user-email" value="${userExtra.getEmail()!""}" required="required">

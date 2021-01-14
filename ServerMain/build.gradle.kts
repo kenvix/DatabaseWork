@@ -32,12 +32,12 @@ val fullPackagePath = fullPackageName.replace('.', '/')
 val isReleaseBuild = System.getProperty("isReleaseBuild") != null
 val systemProperties: java.util.Properties = System.getProperties()
 val libDirName = "libs"
-val mainClass = "${fullPackageName}.Main"
+val appMainClass = "${fullPackageName}.Main"
 
 
-//application {
-//    mainClassName = mainClass.get()
-//}
+application {
+    mainClassName = appMainClass
+}
 
 repositories {
     mavenLocal()
@@ -189,7 +189,7 @@ buildConfig {
     buildConfigField("String", "BUILD_JDK",        System.getProperty("java.version"))
     buildConfigField("String", "BUILD_OS",         System.getProperty("os.name"))
     buildConfigField("String", "LIBRARY_DIR_NAME", libDirName)
-    buildConfigField("String", "MAIN_CLASS_NAME",  mainClass)
+    buildConfigField("String", "MAIN_CLASS_NAME",  appMainClass)
     buildConfigField("boolean","IS_RELEASE_BUILD", isReleaseBuild.toString())
 
     val jooqFile = project.file(System.getProperty("project.jooqPropFile"))
@@ -214,14 +214,14 @@ systemProperties.setProperty("project.archivesBaseName", archivesBaseName)
 systemProperties.setProperty("project.mainSrcDir", mainSrcDir)
 systemProperties.setProperty("project.testSrcDir", testSrcDir)
 systemProperties.setProperty("project.generatedSrcDir", generatedSrcDir)
-systemProperties.setProperty("project.mainClassName", mainClass)
+systemProperties.setProperty("project.mainClassName", appMainClass)
 
 apply(from = "enableJooq.gradle")
 //apply(from = "jlink.gradle")
 
 tasks {
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "14"
+        kotlinOptions.jvmTarget = "11"
         kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
         kotlinOptions.freeCompilerArgs += "-Xinline-classes"
     }
@@ -259,7 +259,7 @@ tasks {
                     mapOf(
                             "Implementation-Title" to project.name,
                             "Implementation-Version" to project.version,
-                            "Main-Class" to mainClass,
+                            "Main-Class" to appMainClass,
                             "Class-Path" to configurations.runtimeClasspath.files.joinToString(" ") { "$libDirName/${it.name}" }
                     )
             )

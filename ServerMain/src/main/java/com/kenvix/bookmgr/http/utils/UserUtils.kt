@@ -159,7 +159,7 @@ internal object UserControllerUtils {
         val postParameters: Parameters = call.receiveParameters()
 
         val callerUser = middleware(CheckUserToken)
-        val isAdmin = if (userLocation != null && userLocation.id != callerUser.uid) {
+        val isAdmin = if (userLocation != null && (userLocation.id != callerUser.uid || postParameters["admin_edit"] != null)) {
             middleware(CheckSuperAdminToken)
             true
         } else {
@@ -208,7 +208,7 @@ internal object UserControllerUtils {
             CheckUserToken.invalidateAll()
         }
 
-        if (callerUser.uid == uid)
+        if (!isAdmin)
             respondSuccess("更新个人资料成功", URI("/user/profile"))
         else
             respondSuccess("更新用户 #$uid 的资料成功", URI("/admin/user/edit/$uid"))

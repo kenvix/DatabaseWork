@@ -1,7 +1,9 @@
 package com.kenvix.bookmgr.http.controller.home
 
+import com.kenvix.bookmgr.AppConstants
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
 import com.kenvix.bookmgr.model.mysql.*
+import com.kenvix.bookmgr.orm.Routines
 import com.kenvix.web.utils.middleware
 import com.kenvix.web.utils.toYuanMoneyString
 import io.ktor.application.*
@@ -23,6 +25,11 @@ object IndexController : HomeBaseController() {
                     it["bookTotalCount"] = BookModel.getTableApproximateCount()
                     it["userTotalCount"] = UserModel.getTableApproximateCount()
                     it["bookBorrowTotalCount"] = BookBorrowModel.getTableApproximateCount()
+
+                    if (SettingModel.get<Boolean>("show_book_expire_prompt")
+                        && Routines.bookBorrowerHasExpired(AppConstants.jooqConfiguration, user.uid) == true) {
+                        it["hasBookExpired"] = true
+                    }
                 }
             }
         }
