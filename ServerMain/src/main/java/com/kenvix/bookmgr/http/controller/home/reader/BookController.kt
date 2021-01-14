@@ -15,6 +15,7 @@ import com.kenvix.bookmgr.model.mysql.BookModel
 import com.kenvix.bookmgr.model.mysql.BookStatusModel
 import com.kenvix.bookmgr.model.mysql.SettingModel
 import com.kenvix.web.utils.middleware
+import com.kenvix.web.utils.toYuanMoneyString
 import io.ktor.application.*
 import io.ktor.locations.*
 import io.ktor.request.*
@@ -54,10 +55,12 @@ object BookController : HomeBaseController() {
                         it["books"] = books
                         it["booksCount"] = books.size
                         it["maxRenewCount"] = SettingModel.get<Int>("book_borrow_max_renew_num")
+                        it["maxBorrowCount"] = SettingModel.get<Int>("book_borrow_max_borrow_num")
                         it["isBorrowList"] = true
                         if (SettingModel.get<Boolean>("allow_user_return_book_online"))
                             it["isOnlineReturnAllowed"] = true
-
+                        it["bookExpirePenaltyString"] = SettingModel.get<Int>("book_expire_penalty_cents_a_day").toYuanMoneyString()
+                        it["bookExpirePenalty"] = SettingModel.get<Int>("book_expire_penalty_cents_a_day")
                         it["bookStatusMap"] = BookStatusModel.bookStatusMap
                         it["bookTotalCount"] = BookModel.getTableApproximateCount()
                     }

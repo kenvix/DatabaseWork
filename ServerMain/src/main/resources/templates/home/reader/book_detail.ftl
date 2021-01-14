@@ -70,7 +70,12 @@
         <div class="card-body">
             <form action="/reader/book/borrow/borrow" method="post">
                 <input type="hidden" name="book_id" value="${book.getId()?long?c}">
-                <p><button type="submit" class="btn btn-outline-info btn-xs">借书</button></p>
+                <p>
+                    <button type="submit" class="btn btn-outline-info btn-xs">借书</button>
+                    <#if user.getAccessLevel() gte 100>
+                        <button type="button" onclick="window.location='/admin/book/edit/${book.getId()?long?c}'" class="btn btn-outline-primary btn-xs">编辑</button>
+                    </#if>
+                </p>
             </form>
         </div>
     </div>

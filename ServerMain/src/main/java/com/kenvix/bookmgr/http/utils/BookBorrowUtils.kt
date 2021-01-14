@@ -111,7 +111,7 @@ internal object BookBorrowControllerUtils {
             respondSuccess("还书成功，扣款 ${requiredMoney.toYuanMoneyString()}", URI("/reader/book/borrow"))
         }.onFailure {
             throw CommonBusinessException(
-                it.message + " (本次还书需要 ${requiredMoney.toYuanMoneyString()}",
+                it.message + " (本次还书需要 ${requiredMoney.toYuanMoneyString()}）",
                 HttpStatusCode.NotAcceptable.value
             )
         }

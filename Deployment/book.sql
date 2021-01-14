@@ -10,7 +10,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 13/01/2021 19:00:10
+ Date: 14/01/2021 12:18:26
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `author`  (
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '作者简述',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_author_name`(`name`) USING BTREE COMMENT '作者通用名称索引'
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '作者表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '作者表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of author
@@ -53,6 +53,7 @@ CREATE TABLE `book`  (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '条目创建时间',
   `num_total` int NOT NULL DEFAULT 1 COMMENT '书籍总数',
   `num_available` int NOT NULL COMMENT '可用书籍数',
+  `isbn` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '国际标准书号 (International Standard Book Number)',
   `status` tinyint NOT NULL COMMENT '书籍状态',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_creator_uid`(`creator_uid`) USING BTREE,
@@ -63,15 +64,15 @@ CREATE TABLE `book`  (
   CONSTRAINT `fk_book_type_id` FOREIGN KEY (`type_id`) REFERENCES `book_type` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_creator_uid` FOREIGN KEY (`creator_uid`) REFERENCES `user` (`uid`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_publisher_id` FOREIGN KEY (`publisher_id`) REFERENCES `publisher` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '书籍表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '书籍表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of book
 -- ----------------------------
-INSERT INTO `book` VALUES (1, 1, 4, '仲夏夜之梦', '《仲夏夜之梦》，是威廉·莎士比亚在约1590年－1596年间创作的浪漫喜剧。它描绘了以雅典大公忒修斯和希波吕忒婚礼为中心的一系列故事。包括四名​​雅典恋人和六个业余演员的冒险经历，而森林里的仙子们则在背后操作它们的命运。本戏剧是莎士比亚最流行的剧本之一，在全世界都有上演。', 1, '2021-01-02 16:46:04', 1000, 100, 5);
-INSERT INTO `book` VALUES (2, 1, 5, '毛泽东选集', '《毛泽东选集》是1951年人民出版社出版的图书，作者是毛泽东。该书是毛泽东思想的重要载体，是毛泽东思想的集中展现，亦是对20世纪的中国影响最大的书籍之一。\r\n建国后出版的两个版本均由人民出版社负责。该书在建国前即有大量出版，1944年于邯郸创建的晋察冀日报社出版首版《毛泽东选集》。建国后共出版了五卷，编入的是毛泽东同志在新民主主义革命时期、社会主义革命和社会主义建设时期的主要著作。1991年7月1日，《毛泽东选集》一至四卷第二版出版发行。', 2, '2021-01-04 16:13:59', 20, 20, 5);
-INSERT INTO `book` VALUES (3, 1, 4, '哈姆雷特', '《哈姆雷特（Hamlet）》是由英国剧作家威廉·莎士比亚创作于1599年至1602年间的一部悲剧作品。戏剧讲述了叔叔克劳狄斯谋害了哈姆雷特的父亲，篡取了王位，并娶了国王的遗孀乔特鲁德；哈姆雷特王子因此为父王向叔叔复仇。\r\n《哈姆雷特》是莎士比亚所有戏剧中篇幅最长的一部， [1]  也是莎士比亚最负盛名的剧本，具有深刻的悲剧意义。复杂的人物性格以及丰富完美的悲剧艺术手法，代表着整个西方文艺复兴时期文学的最高成就。同《麦克白》、《李尔王》和《奥赛罗》一起组成莎士比亚“四大悲剧”。', 1, '2021-01-04 16:15:26', 1, 1, 4);
-INSERT INTO `book` VALUES (4, 1, 6, '数据库系统概论（第5版', '《数据库系统概论（第5版）“十二五”普通高等教育本科国家级规划教材》第1版于1983年出版，至今已修订至第5版。第5版被列入“十二五”普通高等教育本科国家级规划教材。相应课程于2004年被评为北京市精品课程，2005年被评为国家精品课程，2014年被批准为国家级精品资源共享课。\r\n\r\n《数据库系统概论（第5版）“十二五”普通高等教育本科国家级规划教材》系统全面地阐述了数据库系统的基础理论、基本技术和基本方法。全书分为4篇16章。第一篇基础篇，包括绪论、关系数据库、关系数据库标准语言SQL、数据库安全性和数据库完整性，共5章；第二篇设计与应用开发篇，包括关系数据理论、数据库设计和数据库编程，共3章；第三篇系统篇，包括关系查询处理和查询优化、数据库恢复技术、并发控制和数据库管理系统，共4章', 3, '2021-01-04 16:22:13', 50, 50, 5);
+INSERT INTO `book` VALUES (1, 1, 4, '仲夏夜之梦', '《仲夏夜之梦》，是威廉·莎士比亚在约1590年－1596年间创作的浪漫喜剧。它描绘了以雅典大公忒修斯和希波吕忒婚礼为中心的一系列故事。包括四名​​雅典恋人和六个业余演员的冒险经历，而森林里的仙子们则在背后操作它们的命运。本戏剧是莎士比亚最流行的剧本之一，在全世界都有上演。', 1, '2021-01-02 16:46:04', 1000, 98, '978-0-230-02000-9', 5);
+INSERT INTO `book` VALUES (2, 1, 5, '毛泽东选集', '《毛泽东选集》是1951年人民出版社出版的图书，作者是毛泽东。该书是毛泽东思想的重要载体，是毛泽东思想的集中展现，亦是对20世纪的中国影响最大的书籍之一。\r\n建国后出版的两个版本均由人民出版社负责。该书在建国前即有大量出版，1944年于邯郸创建的晋察冀日报社出版首版《毛泽东选集》。建国后共出版了五卷，编入的是毛泽东同志在新民主主义革命时期、社会主义革命和社会主义建设时期的主要著作。1991年7月1日，《毛泽东选集》一至四卷第二版出版发行。', 2, '2021-01-04 16:13:59', 20, 19, '9787010009254', 5);
+INSERT INTO `book` VALUES (3, 1, 4, '哈姆雷特', '《哈姆雷特（Hamlet）》是由英国剧作家威廉·莎士比亚创作于1599年至1602年间的一部悲剧作品。戏剧讲述了叔叔克劳狄斯谋害了哈姆雷特的父亲，篡取了王位，并娶了国王的遗孀乔特鲁德；哈姆雷特王子因此为父王向叔叔复仇。\r\n《哈姆雷特》是莎士比亚所有戏剧中篇幅最长的一部， [1]  也是莎士比亚最负盛名的剧本，具有深刻的悲剧意义。复杂的人物性格以及丰富完美的悲剧艺术手法，代表着整个西方文艺复兴时期文学的最高成就。同《麦克白》、《李尔王》和《奥赛罗》一起组成莎士比亚“四大悲剧”。', 1, '2021-01-04 16:15:26', 1, 1, '9570600934', 4);
+INSERT INTO `book` VALUES (4, 1, 6, '数据库系统概论（第5版）', '《数据库系统概论（第5版）“十二五”普通高等教育本科国家级规划教材》第1版于1983年出版，至今已修订至第5版。第5版被列入“十二五”普通高等教育本科国家级规划教材。相应课程于2004年被评为北京市精品课程，2005年被评为国家精品课程，2014年被批准为国家级精品资源共享课。\r\n\r\n《数据库系统概论（第5版）“十二五”普通高等教育本科国家级规划教材》系统全面地阐述了数据库系统的基础理论、基本技术和基本方法。全书分为4篇16章。第一篇基础篇，包括绪论、关系数据库、关系数据库标准语言SQL、数据库安全性和数据库完整性，共5章；第二篇设计与应用开发篇，包括关系数据理论、数据库设计和数据库编程，共3章；第三篇系统篇，包括关系查询处理和查询优化、数据库恢复技术、并发控制和数据库管理系统，共4章', 3, '2021-01-04 16:22:13', 50, 49, '9787040406641', 5);
 
 -- ----------------------------
 -- Table structure for book_author_map
@@ -100,7 +101,7 @@ INSERT INTO `book_author_map` VALUES (1, 5);
 -- ----------------------------
 DROP TABLE IF EXISTS `book_borrow`;
 CREATE TABLE `book_borrow`  (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `book_id` bigint NOT NULL COMMENT '书籍ID',
   `borrower_uid` bigint NOT NULL COMMENT '借书人UID',
   `borrowed_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '借书日期',
@@ -112,11 +113,16 @@ CREATE TABLE `book_borrow`  (
   INDEX `fk_book_id`(`book_id`) USING BTREE,
   CONSTRAINT `fk_book_id` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_borrower_uid` FOREIGN KEY (`borrower_uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '借书表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '借书表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of book_borrow
 -- ----------------------------
+INSERT INTO `book_borrow` VALUES (1, 1, 1, '2021-01-14 11:07:21', '2021-02-13 11:57:44', '2021-01-14 11:59:14', 2);
+INSERT INTO `book_borrow` VALUES (3, 1, 1, '2021-01-14 11:50:09', '2021-02-13 11:59:49', NULL, 4);
+INSERT INTO `book_borrow` VALUES (4, 4, 1, '2021-01-14 11:50:16', '2021-02-13 11:50:17', '2021-01-14 11:59:55', 0);
+INSERT INTO `book_borrow` VALUES (5, 1, 1, '2021-01-14 12:04:25', '2021-02-13 12:04:25', '2021-01-14 12:12:13', 0);
+INSERT INTO `book_borrow` VALUES (6, 1, 1, '2021-01-14 12:04:29', '2021-02-13 12:04:30', '2021-01-14 12:15:24', 0);
 
 -- ----------------------------
 -- Table structure for book_status
@@ -149,7 +155,7 @@ CREATE TABLE `book_type`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_book_type_parent_id`(`parent_id`) USING BTREE,
   CONSTRAINT `fk_book_type_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `book_type` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '图书类目' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '图书类目' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of book_type
@@ -188,11 +194,12 @@ CREATE TABLE `invoice`  (
   CONSTRAINT `fk_invocie_status` FOREIGN KEY (`status`) REFERENCES `invoice_status` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_owner_uid` FOREIGN KEY (`owner_uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_type` FOREIGN KEY (`type`) REFERENCES `invoice_type` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '账单，包括罚款' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '账单，包括罚款' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of invoice
 -- ----------------------------
+INSERT INTO `invoice` VALUES (1, 'Overdue penality', 1, 1, 0, '2021-01-14 12:15:24', 3, '2021-01-14 12:15:25', '2021-01-14 12:15:24', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for invoice_penalty
@@ -207,11 +214,12 @@ CREATE TABLE `invoice_penalty`  (
   INDEX `fk_invoice_id_invoice_penalty`(`invoice_id`) USING BTREE,
   CONSTRAINT `fk_book_id_invoice_penalty` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_invoice_id_invoice_penalty` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '罚款型订单扩展信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '罚款型订单扩展信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of invoice_penalty
 -- ----------------------------
+INSERT INTO `invoice_penalty` VALUES (1, 1, 1);
 
 -- ----------------------------
 -- Table structure for invoice_status
@@ -258,8 +266,8 @@ CREATE TABLE `log_card_access`  (
   `is_success` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否刷卡成功',
   `time` timestamp NOT NULL COMMENT '刷卡时间',
   `machine_id` int NOT NULL DEFAULT 0 COMMENT '刷卡机器编号',
-  PRIMARY KEY (`id`) USING SE_SPECIFIC
-) ENGINE = ARCHIVE CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '刷卡日志（不可修改和删除）' ROW_FORMAT = Compressed;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '刷卡日志（不可修改和删除）' ROW_FORMAT = Fixed;
 
 -- ----------------------------
 -- Records of log_card_access
@@ -278,7 +286,7 @@ CREATE TABLE `log_system`  (
   `exception` varchar(20) CHARACTER SET ascii COLLATE ascii_general_ci NULL DEFAULT NULL COMMENT '日志异常类型（简化名）',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_log_system_type`(`exception`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of log_system
@@ -295,8 +303,8 @@ CREATE TABLE `log_user_login`  (
   `time` timestamp NOT NULL COMMENT '登录时间',
   `ip` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '登录IP',
   `useragent` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '用户代理',
-  PRIMARY KEY (`id`) USING SE_SPECIFIC
-) ENGINE = ARCHIVE CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户登录日志（不可修改和删除）' ROW_FORMAT = Compressed;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户登录日志（不可修改和删除）' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of log_user_login
@@ -312,7 +320,7 @@ CREATE TABLE `publisher`  (
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '出版社简介',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_name`(`name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '出版社' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '出版社' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of publisher
@@ -340,6 +348,7 @@ INSERT INTO `setting` VALUES ('allow_edit_card_serial_id', 'true', '允许用户
 INSERT INTO `setting` VALUES ('allow_edit_department', 'true', '允许用户自行修改部门和入职年份', 'Bool');
 INSERT INTO `setting` VALUES ('allow_edit_real_name', 'true', '允许用户自行修改真实姓名', 'Bool');
 INSERT INTO `setting` VALUES ('allow_edit_serial_id', 'true', '允许用户自行修改学号', 'Bool');
+INSERT INTO `setting` VALUES ('allow_user_return_book_online', 'true', '允许用户直接在系统上在线标记还书', 'Bool');
 INSERT INTO `setting` VALUES ('book_borrow_max_borrow_num', '10', '最多允许同时借书数', 'Int');
 INSERT INTO `setting` VALUES ('book_borrow_max_renew_num', '7', '借书最大续期次数', 'Int');
 INSERT INTO `setting` VALUES ('book_borrow_period_millis', '2592000000', '每次借书/续期时长（单位：毫秒）', 'Long');
@@ -390,7 +399,7 @@ CREATE TABLE `user`  (
   UNIQUE INDEX `unique_serial_id`(`serial_id`) USING BTREE,
   INDEX `fk_access_level`(`access_level`) USING BTREE,
   CONSTRAINT `fk_access_level` FOREIGN KEY (`access_level`) REFERENCES `user_access_level` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户基本信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户基本信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
@@ -450,19 +459,19 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_author` AS select `
 -- View structure for book_borrow_expired
 -- ----------------------------
 DROP VIEW IF EXISTS `book_borrow_expired`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_borrow_expired` AS select `book_borrow`.`book_id` AS `book_id`,`book_borrow`.`borrower_uid` AS `borrower_uid`,`book_borrow`.`borrowed_at` AS `borrowed_at`,`book_borrow`.`expected_returned_at` AS `expected_returned_at`,`book`.`title` AS `book_title`,`user`.`email` AS `borrower_email`,`user`.`real_name` AS `borrower_real_name`,`user`.`serial_id` AS `borrower_serial_id` from ((`book_borrow` join `book` on((`book_borrow`.`book_id` = `book`.`id`))) join `user` on((`book_borrow`.`borrower_uid` = `user`.`uid`))) where ((`book_borrow`.`actual_returned_at` is null) and (`book_borrow`.`expected_returned_at` >= now()));
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_borrow_expired` AS select `book_borrow`.`book_id` AS `book_id`,`book_borrow`.`borrower_uid` AS `borrower_uid`,`book_borrow`.`borrowed_at` AS `borrowed_at`,`book_borrow`.`expected_returned_at` AS `expected_returned_at`,`book`.`title` AS `book_title`,`user`.`email` AS `borrower_email`,`user`.`real_name` AS `borrower_real_name`,`user`.`serial_id` AS `borrower_serial_id` from ((`book_borrow` join `book` on((`book_borrow`.`book_id` = `book`.`id`))) join `user` on((`book_borrow`.`borrower_uid` = `user`.`uid`))) where ((`book_borrow`.`actual_returned_at` is null) and (`book_borrow`.`expected_returned_at` <= now()));
 
 -- ----------------------------
 -- View structure for book_borrow_for_admin
 -- ----------------------------
 DROP VIEW IF EXISTS `book_borrow_for_admin`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_borrow_for_admin` AS select `book_borrow`.`book_id` AS `book_id`,`book`.`title` AS `book_title`,`book_borrow`.`borrower_uid` AS `borrower_uid`,`book_borrow`.`borrowed_at` AS `borrowed_at`,`book_borrow`.`expected_returned_at` AS `expected_returned_at`,`book_borrow`.`actual_returned_at` AS `actual_returned_at`,`user`.`real_name` AS `borrower_real_name`,`user`.`serial_id` AS `borrower_serial_id`,`book_borrow`.`renew_num` AS `renew_num` from ((`book` join `book_borrow` on((`book`.`id` = `book_borrow`.`book_id`))) join `user` on((`book_borrow`.`borrower_uid` = `user`.`uid`)));
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_borrow_for_admin` AS select `book_borrow`.`id` AS `borrow_id`,`book`.`id` AS `book_id`,`book`.`title` AS `book_title`,`book`.`publisher_id` AS `book_publisher_id`,`book`.`created_at` AS `book_created_at`,`book`.`num_total` AS `book_num_total`,`book`.`num_available` AS `book_num_available`,`book`.`status` AS `book_status`,`publisher`.`name` AS `book_publisher_name`,`book_author_map`.`author_id` AS `book_author_id`,group_concat(`author`.`name` separator ', ') AS `book_author_name`,`book`.`type_id` AS `book_type_id`,`book_type`.`name` AS `book_type_name`,`book_status`.`description` AS `book_status_description`,`book_borrow`.`borrower_uid` AS `borrower_uid`,`book_borrow`.`borrowed_at` AS `borrowed_at`,`book_borrow`.`expected_returned_at` AS `expected_returned_at`,`book_borrow`.`actual_returned_at` AS `actual_returned_at`,`book_borrow`.`renew_num` AS `renew_num`,`user`.`real_name` AS `borrower_real_name`,`user`.`email` AS `borrower_email`,`user`.`serial_id` AS `borrower_serial_id` from (((((((`book_borrow` join `book` on((`book`.`id` = `book_borrow`.`book_id`))) join `publisher` on((`book`.`publisher_id` = `publisher`.`id`))) left join `book_author_map` on((`book_author_map`.`book_id` = `book`.`id`))) left join `author` on((`book_author_map`.`author_id` = `author`.`id`))) join `book_type` on((`book`.`type_id` = `book_type`.`id`))) join `book_status` on((`book`.`status` = `book_status`.`id`))) join `user` on((`book_borrow`.`borrower_uid` = `user`.`uid`))) group by `book_borrow`.`id`;
 
 -- ----------------------------
 -- View structure for book_for_user
 -- ----------------------------
 DROP VIEW IF EXISTS `book_for_user`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_for_user` AS select `book`.`id` AS `id`,`book`.`title` AS `title`,`book`.`description` AS `description`,`book`.`publisher_id` AS `publisher_id`,`book`.`created_at` AS `created_at`,`book`.`num_total` AS `num_total`,`book`.`num_available` AS `num_available`,`book`.`status` AS `status`,`publisher`.`name` AS `publisher_name`,`book_author_map`.`author_id` AS `author_id`,group_concat(`author`.`name` separator ', ') AS `author_name`,group_concat(`author`.`fullname` separator ', ') AS `author_fullname`,group_concat(`author`.`country` separator ', ') AS `author_country`,`book`.`creator_uid` AS `creator_uid`,`book`.`type_id` AS `type_id`,`book_type`.`name` AS `type_name`,`book_status`.`description` AS `status_description` from (((((`book` join `publisher` on((`book`.`publisher_id` = `publisher`.`id`))) left join `book_author_map` on((`book_author_map`.`book_id` = `book`.`id`))) left join `author` on((`book_author_map`.`author_id` = `author`.`id`))) join `book_type` on((`book`.`type_id` = `book_type`.`id`))) join `book_status` on((`book`.`status` = `book_status`.`id`))) group by `book`.`id`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `book_for_user` AS select `book`.`id` AS `id`,`book`.`title` AS `title`,`book`.`description` AS `description`,`book`.`publisher_id` AS `publisher_id`,`book`.`created_at` AS `created_at`,`book`.`num_total` AS `num_total`,`book`.`num_available` AS `num_available`,`book`.`status` AS `status`,`publisher`.`name` AS `publisher_name`,`book_author_map`.`author_id` AS `author_id`,group_concat(`author`.`name` separator ', ') AS `author_name`,group_concat(`author`.`fullname` separator ', ') AS `author_fullname`,group_concat(`author`.`country` separator ', ') AS `author_country`,`book`.`creator_uid` AS `creator_uid`,`book`.`type_id` AS `type_id`,`book_type`.`name` AS `type_name`,`book_status`.`description` AS `status_description`,`book`.`isbn` AS `isbn` from (((((`book` join `publisher` on((`book`.`publisher_id` = `publisher`.`id`))) left join `book_author_map` on((`book_author_map`.`book_id` = `book`.`id`))) left join `author` on((`book_author_map`.`author_id` = `author`.`id`))) join `book_type` on((`book`.`type_id` = `book_type`.`id`))) join `book_status` on((`book`.`status` = `book_status`.`id`))) group by `book`.`id`;
 
 -- ----------------------------
 -- View structure for invoice_for_user
@@ -515,9 +524,9 @@ BEGIN
     DECLARE user_access_level tinyint;
 
     START TRANSACTION;
-    SELECT user_access_level INTO user_access_level FROM `user` WHERE uid = borrower_uid_v LOCK IN SHARE MODE;
+    SELECT access_level INTO user_access_level FROM `user` WHERE uid = borrower_uid_v LOCK IN SHARE MODE;
     IF (user_access_level IS NULL OR user_access_level <= 10) THEN
-        CALL raise_error('Access denied', 403);
+        CALL raise_error('Access denied for you! Your access level is too low', 403);
     END IF;
 
     SELECT num_available, `status` INTO remain_book_num, book_status FROM book WHERE book.id = book_id_v FOR UPDATE;
@@ -525,7 +534,7 @@ BEGIN
         CALL raise_error('This book cannot be borrowed because there is no stock', 3001);
     END IF;
 
-    INSERT INTO book_borrow(book_id, borrower_uid, borrowed_at, expected_returned_at) VALUES (borrower_uid_v, book_id_v, NOW(), expected_returned_at_v);
+    INSERT INTO book_borrow(book_id, borrower_uid, borrowed_at, expected_returned_at) VALUES (book_id_v,borrower_uid_v,  NOW(), expected_returned_at_v);
     SELECT LAST_INSERT_ID() INTO insert_id;
     SET remain_book_num = remain_book_num - 1;
     UPDATE book SET num_available = remain_book_num WHERE id = `book_id_v`;
@@ -558,38 +567,41 @@ DROP PROCEDURE IF EXISTS `book_borrow_renew`;
 delimiter ;;
 CREATE PROCEDURE `book_borrow_renew`(IN borrow_id bigint, OUT next_expected_return timestamp)
 BEGIN
-	#Routine body goes here...
+    #Routine body goes here...
     DECLARE book_id bigint;
-	DECLARE borrower_uid bigint;
-	DECLARE expected_returned_at TIMESTAMP;
-	DECLARE book_borrow_period_millis BIGINT;
-	DECLARE renew_num SMALLINT;
-	DECLARE max_renew_num SMALLINT;
-	
-	START TRANSACTION;
-	
-	SELECT book_borrow.borrower_uid, book_borrow.book_id, book_borrow.expected_returned_at, renew_num
-	INTO borrower_uid, book_id, expected_returned_at, renew_num
-	FROM book_borrow
-	WHERE book_borrow.id = borrow_id AND book_borrow.actual_returned_at IS NULL AND book_borrow.expected_returned_at <= NOW()
-	FOR UPDATE;
-	
-	IF (borrower_uid IS NULL OR (expected_borrower_uid IS NOT NULL AND borrower_uid != expected_borrower_uid) OR expected_returned_at IS NULL) THEN
-		CALL raise_error('No such book found, or book has been expired or returned', 404);
-	END IF;
-	
-	SELECT `value` INTO max_renew_num FROM setting WHERE `key` = 'book_borrow_max_renew_num';
-	
-	IF (renew_num >= max_renew_num) THEN
-		CALL raise_error('You have reached max renew num.', 403);
-	END IF;
-	
-	SELECT get_setting('book_borrow_period_millis') INTO book_borrow_period_millis;
-	SELECT FROM_UNIXTIME(book_borrow_period_millis / 1000 + UNIX_TIMESTAMP()) INTO expected_returned_at;
-	UPDATE book_borrow SET renew_num = renew_num + 1, expected_returned_at = expected_returned_at WHERE id = borrow_id;
-	
-	SELECT expected_returned_at INTO next_expected_return;
-	COMMIT WORK;
+    DECLARE borrower_uid bigint;
+    DECLARE expected_returned_at TIMESTAMP;
+    DECLARE book_borrow_period_millis BIGINT;
+    DECLARE renew_num SMALLINT;
+    DECLARE max_renew_num SMALLINT;
+
+    START TRANSACTION;
+
+    SELECT book_borrow.borrower_uid, book_borrow.book_id, book_borrow.expected_returned_at, book_borrow.renew_num
+    INTO borrower_uid, book_id, expected_returned_at, renew_num
+    FROM book_borrow
+    WHERE book_borrow.id = borrow_id AND book_borrow.actual_returned_at IS NULL AND book_borrow.expected_returned_at >= NOW()
+        FOR UPDATE;
+
+    IF (borrower_uid IS NULL OR expected_returned_at IS NULL) THEN
+        CALL raise_error('No such book found, or book has been expired or returned', 404);
+    END IF;
+
+    SELECT `value` INTO max_renew_num FROM setting WHERE `key` = 'book_borrow_max_renew_num';
+
+    IF (renew_num >= max_renew_num) THEN
+        CALL raise_error('You have reached max renew num.', 403);
+    END IF;
+
+    SELECT get_setting('book_borrow_period_millis') INTO book_borrow_period_millis;
+    SELECT FROM_UNIXTIME(book_borrow_period_millis / 1000 + UNIX_TIMESTAMP()) INTO expected_returned_at;
+    
+    UPDATE book_borrow
+    SET book_borrow.renew_num = renew_num + 1, book_borrow.expected_returned_at = expected_returned_at
+    WHERE book_borrow.id = borrow_id;
+
+    SELECT expected_returned_at INTO next_expected_return;
+    COMMIT WORK;
 END
 ;;
 delimiter ;
@@ -609,22 +621,29 @@ BEGIN
 
     start transaction;
 
-    select borrower_uid, book_id into borrower_uid, book_id from book_borrow where book_borrow.id = borrow_id for update;
-    select money into user_money from user_extra where user_extra.uid = borrower_uid for update;
+    select book_borrow.borrower_uid, book_borrow.book_id
+    into borrower_uid, book_id
+    from book_borrow
+    where book_borrow.id = borrow_id for update;
+
+    select user_extra.money into user_money from user_extra where user_extra.uid = borrower_uid for update;
     if user_money < required_money then
         call raise_error('Your money is not enough, please charge your account first.');
     end if;
 
     select NOW() into now;
-    update book set num_available = num_available + 1 where book.id = book_id;
-    update book_borrow set actual_returned_at = now where book_borrow.id = borrow_id;
-    update user_extra set money = money - required_money where user_extra.uid = borrower_uid;
 
-    insert into invoice(name, type, owner_uid, should_pay, created_at, status, expire_at, paid_at)
-    values('Overdue penality', 1, borrower_uid, required_money, now, now + 1, now);
+    if required_money >= 0 then
+        insert into invoice(name, type, owner_uid, should_pay, created_at, status, expire_at, paid_at)
+        values('Overdue penality', 1, borrower_uid, required_money, now, 3, now + 1, now);
 
-    insert into invoice_penalty(invoice_id, book_id)
-    values(get_last_insert_id(), book_id);
+        insert into invoice_penalty(invoice_id, book_id)
+        values(get_last_insert_id(), book_id);
+    end if;
+
+    update book set book.num_available = num_available + 1 where book.id = book_id;
+    update book_borrow set book_borrow.actual_returned_at = now where book_borrow.id = borrow_id;
+    update user_extra set user_extra.money = money - required_money where user_extra.uid = borrower_uid;
 
     commit work;
 END

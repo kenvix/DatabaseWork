@@ -17,12 +17,17 @@
         </div>
         <td class="panel panel-primary">
 
-            <p style="margin-top: 20px;margin-left: 20px;margin-right: 20px;">
-                您正在查看您的借书列表。目前您已经借了 ${booksCount} 本书，您最多可以续借 ${maxRenewCount} 次。
+            <div style="margin-top: 20px;margin-left: 20px;margin-right: 20px;">
+                <p>您正在查看您的借书列表。目前您总共借过 ${booksCount} 本书，您最多可以同时借 ${maxBorrowCount} 本书，续借 ${maxRenewCount} 次。</p>
                 <#if !isOnlineReturnAllowed??>
-                    系统管理员不允许您直接还书，请联系图书管理员进行还书。
+                    <p>系统管理员不允许您直接还书，请联系图书管理员进行还书。</p>
                 </#if>
-            </p>
+                <p>
+                    <#if bookExpirePenalty gt 0>
+                    超期罚款 ${bookExpirePenaltyString} / 天，
+                    </#if>
+                    每次续期时间<b>不会</b>累积（始终以当前时间起算），请您在图书到期前续期。</p>
+            </div>
             <div class="panel-body">
                 <div>
                     <table id="Table1" class="admintable03 table table-condensed table-bordered table-hover table-striped">
@@ -72,19 +77,26 @@
                                         已还书，还书时间为：${book.getActualReturnedAt()}
                                     <#else >
                                         未还
+                                        <#if .now gte book.getExpectedReturnedAt()>
+                                            ，<span style="color: red; font-weight: bold">已超期</span>
+                                        </#if>
                                     </#if>
                                 </td>
                                 <td class="text-center">
-                                    <form action="/reader/book/borrow/renew" method="post">
-                                        <input type="hidden" name="borrow_id" value="${book.getBorrowId()!0?long?c}">
-                                        <p><button type="submit" class="btn btn-outline-info btn-xs">续</button></p>
-                                    </form>
-
-                                    <#if isOnlineReturnAllowed??>
-                                        <form action="/reader/book/borrow/return" method="post">
+                                    <#if book.getActualReturnedAt()??>
+                                        无
+                                    <#else>
+                                        <form action="/reader/book/borrow/renew" method="post">
                                             <input type="hidden" name="borrow_id" value="${book.getBorrowId()!0?long?c}">
-                                            <p><button type="submit" class="btn btn-outline-success btn-xs">还</button></p>
+                                            <p><button type="submit"  <#if book.getRenewNum() gte maxRenewCount>disabled</#if> class="btn btn-outline-info btn-xs">续</button></p>
                                         </form>
+
+                                        <#if isOnlineReturnAllowed??>
+                                            <form action="/reader/book/borrow/return" method="post">
+                                                <input type="hidden" name="borrow_id" value="${book.getBorrowId()!0?long?c}">
+                                                <p><button type="submit"  class="btn btn-outline-success btn-xs">还</button></p>
+                                            </form>
+                                        </#if>
                                     </#if>
                                 </td>
                             </tr>
