@@ -43,14 +43,14 @@ object BookBorrowForAdminModel : BaseModel {
     fun getAll() = dsl
         .select()
         .from(BOOK_BORROW_FOR_ADMIN)
-        .orderBy(BOOK_BORROW_FOR_ADMIN.EXPECTED_RETURNED_AT.asc())
+        .orderBy(BOOK_BORROW_FOR_ADMIN.ACTUAL_RETURNED_AT.asc().nullsFirst())
         .fetchInto(BookBorrowForAdmin::class.java)
 
     fun getAllExpired() = dsl
         .select()
         .from(BOOK_BORROW_FOR_ADMIN)
         .where(BOOK_BORROW_FOR_ADMIN.EXPECTED_RETURNED_AT.lessThan(Timestamp(System.currentTimeMillis())).and(BOOK_BORROW_FOR_ADMIN.ACTUAL_RETURNED_AT.isNull))
-        .orderBy(BOOK_BORROW_FOR_ADMIN.EXPECTED_RETURNED_AT.asc())
+        .orderBy(BOOK_BORROW_FOR_ADMIN.ACTUAL_RETURNED_AT.asc().nullsFirst())
         .fetchInto(BookBorrowForAdmin::class.java)
 }
 

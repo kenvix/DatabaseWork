@@ -44,11 +44,14 @@
                         <thead>
                         <tr>
                             <th width="1%">#</th>
-                            <th width="15%">书目</th>
+                            <#if isAdmin??>
+                                <th width="8%">借书人</th>
+                            </#if>
+                            <th width="13%">书目</th>
                             <th width="10%">作者</th>
                             <th width="10%">出版社</th>
-                            <th width="15%">借书时间</th>
-                            <th width="15%">限还时间</th>
+                            <th width="13%">借书时间</th>
+                            <th width="13%">限还时间</th>
                             <th width="15%">状态</th>
                             <th class="text-center" width="8%">操作</th>
                         </tr>
@@ -57,6 +60,11 @@
                         <#list books as book>
                             <tr>
                                 <td>${book.getBorrowId()!0?long?c}</td>
+                                <#if isAdmin??>
+                                    <td>#${book.getBorrowerUid()!0?long?c}
+                                        <br/>${book.getBorrowerSerialId()!0?long?c}
+                                        <br/>${book.getBorrowerRealName()!"?"}</td>
+                                </#if>
                                 <td>
                                     <a href="/reader/book/${book.getBookId()?long?c}">
                                     <span class="detail-text">
