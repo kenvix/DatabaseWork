@@ -3,7 +3,7 @@
     <!-- Begin Page code -->
 
         <div class="card">
-            <div class="card-header">登录 Library 用户中心</div>
+            <div class="card-header">登录 ${siteName}</div>
             <div class="card-body" id="loginData">
                 <form id="login-form" action="/user/login/action" method="post" enctype="application/x-www-form-urlencoded">
                     <div class="alert alert-info ajax-info" role="alert">
