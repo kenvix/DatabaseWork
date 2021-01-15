@@ -54,7 +54,8 @@ systemProperties.setProperty("project.jooqVersion", "3.14.4")
 systemProperties.setProperty("project.jooqPropFile", "jooq.properties")
 
 dependencies {
-    //implementation("javax.annotation:javax.annotation-api:1.3.2")
+    // Some of machines need this?
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("io.ktor:ktor-server-cio:$ktorVersion")
