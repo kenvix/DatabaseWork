@@ -13,14 +13,24 @@
 
     <div class="card">
         <div class="card-header">
-            我的借书列表
+            <#if isAdminBorrowExpired??>
+                管理超期图书
+                <#elseif isAdminAllBorrow??>
+                管理借书
+                <#else>
+                我的借书列表
+            </#if>
         </div>
         <td class="panel panel-primary">
 
             <div style="margin-top: 20px;margin-left: 20px;margin-right: 20px;">
-                <p>您正在查看您的借书列表。目前您总共借过 ${booksCount} 本书，您最多可以同时借 ${maxBorrowCount} 本书，续借 ${maxRenewCount} 次。</p>
-                <#if !isOnlineReturnAllowed??>
-                    <p>系统管理员不允许您直接还书，请联系图书管理员进行还书。</p>
+                <#if isAdmin??>
+                    <p>管理借书。</p>
+                    <#else>
+                        <p>您正在查看您的借书列表。目前您总共借过 ${booksCount} 本书，您最多可以同时借 ${maxBorrowCount} 本书，续借 ${maxRenewCount} 次。</p>
+                        <#if !isOnlineReturnAllowed??>
+                            <p>系统管理员不允许您直接还书，请联系图书管理员进行还书。</p>
+                        </#if>
                 </#if>
                 <p>
                     <#if bookExpirePenalty gt 0>
@@ -87,12 +97,18 @@
                                         无
                                     <#else>
                                         <form action="/reader/book/borrow/renew" method="post">
+                                            <#if isAdmin??>
+                                                <input type="hidden" name="is_admin" value="1">
+                                            </#if>
                                             <input type="hidden" name="borrow_id" value="${book.getBorrowId()!0?long?c}">
                                             <p><button type="submit"  <#if book.getRenewNum() gte maxRenewCount>disabled</#if> class="btn btn-outline-info btn-xs">续</button></p>
                                         </form>
 
                                         <#if isOnlineReturnAllowed??>
                                             <form action="/reader/book/borrow/return" method="post">
+                                                <#if isAdmin??>
+                                                    <input type="hidden" name="is_admin" value="1">
+                                                </#if>
                                                 <input type="hidden" name="borrow_id" value="${book.getBorrowId()!0?long?c}">
                                                 <p><button type="submit"  class="btn btn-outline-success btn-xs">还</button></p>
                                             </form>

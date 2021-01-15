@@ -15,7 +15,7 @@
                         <li class="nav-item"><a class="nav-link" href="/admin/setting"> 系统设置</a></li>
                     </#if>
                 <#else>
-                    <li class="nav-item"><a class="nav-link" href="/user/login"> 个性化设置</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/login"> 登录</a></li>
                     <li class="nav-item"><a class="nav-link" href="/user/register"> 注册</a></li>
                     <li class="nav-item"><a class="nav-link" href="/user/password/reset"> 忘记密码</a></li>
             </#if>

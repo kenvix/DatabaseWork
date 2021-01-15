@@ -1,3 +1,4 @@
+
 package com.kenvix.bookmgr.http.controller.home.admin
 
 import com.kenvix.bookmgr.http.controller.home.reader.BookController.respondTemplate
@@ -6,22 +7,23 @@ import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBook
 import com.kenvix.bookmgr.http.utils.AdminBookControllerUtils.addBook
 import com.kenvix.bookmgr.http.utils.AdminBookControllerUtils.updateBook
 import com.kenvix.bookmgr.http.utils.AdminBookControllerUtils.deleteBook
+import com.kenvix.bookmgr.http.utils.BookBorrowControllerUtils.fillBookFrontVars
 import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBookAdmin
 import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBooksForAdmin
 import com.kenvix.bookmgr.http.utils.BookControllerUtils.getBooksForUser
 import com.kenvix.bookmgr.http.utils.BookIDLocation
-import com.kenvix.bookmgr.model.mysql.BookModel
-import com.kenvix.bookmgr.model.mysql.BookStatusModel
-import com.kenvix.bookmgr.model.mysql.BookTypeModel
-import com.kenvix.bookmgr.model.mysql.PublisherModel
+import com.kenvix.bookmgr.model.mysql.*
+import com.kenvix.bookmgr.orm.tables.pojos.BookBorrowExpired
 import com.kenvix.web.utils.assertNotNull
 import com.kenvix.web.utils.middleware
+import com.kenvix.web.utils.toYuanMoneyString
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.locations.*
 import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.routing.get
+import org.jetbrains.annotations.NotNull
 
 object BookController : AdminHomeBaseController() {
     @KtorExperimentalLocationsAPI
@@ -84,6 +86,28 @@ object BookController : AdminHomeBaseController() {
                 middleware(CheckCommonAdminToken)
                 val params: Parameters = call.receiveParameters()
                 deleteBook(params["book_id"].assertNotNull().toLong())
+            }
+
+            route("/borrow") {
+                get("/") {
+                    middleware(CheckCommonAdminToken)
+                    val books = BookBorrowForAdminModel.getAll()
+                    respondTemplate("../reader/book_borrow_list") {
+                        it["isAdmin"] = true
+                        it["isAdminAllBorrow"] = true
+                        fillBookFrontVars(it, books)
+                    }
+                }
+
+                get("/expired") {
+                    middleware(CheckCommonAdminToken)
+                    val books = BookBorrowForAdminModel.getAllExpired()
+                    respondTemplate("../reader/book_borrow_list") {
+                        it["isAdmin"] = true
+                        it["isAdminBorrowExpired"] = true
+                        fillBookFrontVars(it, books)
+                    }
+                }
             }
         }
     }

@@ -1,8 +1,10 @@
+
 package com.kenvix.bookmgr.http.controller.home.reader
 
 import com.kenvix.bookmgr.http.controller.home.HomeBaseController
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
 import com.kenvix.bookmgr.http.middleware.Paginate
+import com.kenvix.bookmgr.http.utils.BookBorrowControllerUtils
 import com.kenvix.bookmgr.http.utils.BookBorrowControllerUtils.borrowBookForCurrentUser
 import com.kenvix.bookmgr.http.utils.BookBorrowControllerUtils.getAllBookBorrowsForCurrentUser
 import com.kenvix.bookmgr.http.utils.BookBorrowControllerUtils.renewBookForCurrentUser
@@ -53,16 +55,7 @@ object BookController : HomeBaseController() {
                     val books = getAllBookBorrowsForCurrentUser()
                     respondTemplate("book_borrow_list") {
                         it["books"] = books
-                        it["booksCount"] = books.size
-                        it["maxRenewCount"] = SettingModel.get<Int>("book_borrow_max_renew_num")
-                        it["maxBorrowCount"] = SettingModel.get<Int>("book_borrow_max_borrow_num")
-                        it["isBorrowList"] = true
-                        if (SettingModel.get<Boolean>("allow_user_return_book_online"))
-                            it["isOnlineReturnAllowed"] = true
-                        it["bookExpirePenaltyString"] = SettingModel.get<Int>("book_expire_penalty_cents_a_day").toYuanMoneyString()
-                        it["bookExpirePenalty"] = SettingModel.get<Int>("book_expire_penalty_cents_a_day")
-                        it["bookStatusMap"] = BookStatusModel.bookStatusMap
-                        it["bookTotalCount"] = BookModel.getTableApproximateCount()
+                        BookBorrowControllerUtils.fillBookFrontVars(it, books)
                     }
                 }
 
@@ -74,14 +67,16 @@ object BookController : HomeBaseController() {
 
                 // 续期，即“修改借书”
                 post("/renew") {
-                    val id = call.receiveParameters().getOrFail("borrow_id").toLong()
-                    renewBookForCurrentUser(id)
+                    val params = call.receiveParameters()
+                    val id = params.getOrFail("borrow_id").toLong()
+                    renewBookForCurrentUser(id, !params["is_admin"].isNullOrBlank())
                 }
 
                 // 还书，即“删除借书”
                 post("/return") {
-                    val id = call.receiveParameters().getOrFail("borrow_id").toLong()
-                    returnBookForCurrentUser(id)
+                    val params = call.receiveParameters()
+                    val id = params.getOrFail("borrow_id").toLong()
+                    returnBookForCurrentUser(id, !params["is_admin"].isNullOrBlank())
                 }
             }
 

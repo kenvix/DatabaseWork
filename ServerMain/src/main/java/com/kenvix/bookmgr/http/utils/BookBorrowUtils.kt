@@ -1,13 +1,13 @@
 package com.kenvix.bookmgr.http.utils
 
 import com.kenvix.bookmgr.AppConstants
+import com.kenvix.bookmgr.http.middleware.CheckCommonAdminToken
 import com.kenvix.bookmgr.http.middleware.CheckUserToken
-import com.kenvix.bookmgr.model.mysql.BookBorrowExpiredModel
-import com.kenvix.bookmgr.model.mysql.BookBorrowModel
-import com.kenvix.bookmgr.model.mysql.SettingModel
+import com.kenvix.bookmgr.model.mysql.*
 import com.kenvix.bookmgr.orm.Routines
 import com.kenvix.bookmgr.orm.tables.pojos.BookBorrowForAdmin
 import com.kenvix.bookmgr.orm.tables.BookBorrowForAdmin.BOOK_BORROW_FOR_ADMIN
+import com.kenvix.bookmgr.orm.tables.pojos.BookBorrowExpired
 import com.kenvix.utils.exception.BadRequestException
 import com.kenvix.utils.exception.CommonBusinessException
 import com.kenvix.web.utils.middleware
@@ -27,7 +27,25 @@ import java.sql.Timestamp
 @Location("/{id}")
 class BorrowIDLocation(val id: Long)
 
+
 internal object BookBorrowControllerUtils {
+    internal fun fillBookFrontVars(
+        it: MutableMap<String, Any?>,
+        books: List<BookBorrowForAdmin>
+    ) {
+        it["books"] = books
+        it["booksCount"] = books.size
+        it["maxRenewCount"] = SettingModel.get<Int>("book_borrow_max_renew_num")
+        it["maxBorrowCount"] = SettingModel.get<Int>("book_borrow_max_borrow_num")
+        it["isBorrowList"] = true
+        if (SettingModel.get<Boolean>("allow_user_return_book_online"))
+            it["isOnlineReturnAllowed"] = true
+        it["bookExpirePenaltyString"] = SettingModel.get<Int>("book_expire_penalty_cents_a_day").toYuanMoneyString()
+        it["bookExpirePenalty"] = SettingModel.get<Int>("book_expire_penalty_cents_a_day")
+        it["bookStatusMap"] = BookStatusModel.bookStatusMap
+        it["bookTotalCount"] = BookModel.getTableApproximateCount()
+    }
+
     internal suspend fun PipelineContext<Unit, ApplicationCall>.getAllBookBorrowsForCurrentUser() =
         withContext(Dispatchers.IO) {
             val user = middleware(CheckUserToken)
@@ -71,27 +89,37 @@ internal object BookBorrowControllerUtils {
         respondSuccess("借书 #${bookId} 成功，下次还书时间为 $returnAt", URI("/reader/book/borrow"))
     }
 
-    internal suspend fun PipelineContext<Unit, ApplicationCall>.renewBookForCurrentUser(borrowId: Long): Unit = withContext(
+    internal suspend fun PipelineContext<Unit, ApplicationCall>.renewBookForCurrentUser(borrowId: Long, isAdmin: Boolean = false): Unit = withContext(
         Dispatchers.IO
     ) {
-        val user = middleware(CheckUserToken)
-        if (BookBorrowExpiredModel.hasExpiredBook(user.uid))
-            throw CommonBusinessException("你有超期图书，请先还清所有超期图书再续期", HttpStatusCode.NotAcceptable.value)
+        if (isAdmin) {
+            middleware(CheckCommonAdminToken)
+            val returnAt = Routines.bookBorrowRenew(AppConstants.jooqConfiguration, borrowId)
+            respondSuccess("续期成功，下次还书时间为 $returnAt", URI("/admin/book/borrow"))
+        } else {
+            val user = middleware(CheckUserToken)
+            if (BookBorrowExpiredModel.hasExpiredBook(user.uid))
+                throw CommonBusinessException("你有超期图书，请先还清所有超期图书再续期", HttpStatusCode.NotAcceptable.value)
 
-        BookBorrowModel.fetchUidById(borrowId).validateValue { user.uid == it }
-        val returnAt = Routines.bookBorrowRenew(AppConstants.jooqConfiguration, borrowId)
+            BookBorrowModel.fetchUidById(borrowId).validateValue { user.uid == it }
+            val returnAt = Routines.bookBorrowRenew(AppConstants.jooqConfiguration, borrowId)
 
-        respondSuccess("续期成功，下次还书时间为 $returnAt", URI("/reader/book/borrow"))
+            respondSuccess("续期成功，下次还书时间为 $returnAt", URI("/reader/book/borrow"))
+        }
     }
 
-    internal suspend fun PipelineContext<Unit, ApplicationCall>.returnBookForCurrentUser(borrowId: Long): Unit = withContext(
+    internal suspend fun PipelineContext<Unit, ApplicationCall>.returnBookForCurrentUser(borrowId: Long, isAdmin: Boolean = false): Unit = withContext(
         Dispatchers.IO
     ) {
         val user = middleware(CheckUserToken)
         val bookBorrow = BookBorrowModel.fetchOneById(borrowId)
 
-        if (bookBorrow.borrowerUid != user.uid || bookBorrow.actualReturnedAt != null)
-            throw BadRequestException("该借书不属于你或者已经还书了")
+        if (isAdmin) {
+            middleware(CheckCommonAdminToken)
+        } else {
+            if (bookBorrow.borrowerUid != user.uid || bookBorrow.actualReturnedAt != null)
+                throw BadRequestException("该借书不属于你或者已经还书了")
+        }
 
         // 超期
         val currentTime: Long = System.currentTimeMillis()
@@ -108,7 +136,9 @@ internal object BookBorrowControllerUtils {
 
         kotlin.runCatching {
             Routines.bookBorrowReturn(AppConstants.jooqConfiguration, borrowId, requiredMoney)
-            respondSuccess("还书成功，扣款 ${requiredMoney.toYuanMoneyString()}", URI("/reader/book/borrow"))
+            respondSuccess("还书成功，扣款 ${requiredMoney.toYuanMoneyString()}", URI(
+                if (isAdmin) "/admin/book/borrow" else "/reader/book/borrow"
+            ))
         }.onFailure {
             throw CommonBusinessException(
                 it.cause?.message ?: it.message + " (本次还书需要 ${requiredMoney.toYuanMoneyString()}）",
