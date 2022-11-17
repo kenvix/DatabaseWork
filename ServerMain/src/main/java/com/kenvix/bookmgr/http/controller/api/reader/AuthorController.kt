@@ -9,6 +9,7 @@ import com.kenvix.bookmgr.http.utils.AuthorControllerUtils.updateAuthor
 import com.kenvix.bookmgr.http.utils.AuthorIDLocation
 import com.kenvix.web.utils.respondJson
 import io.ktor.locations.*
+import io.ktor.locations.put
 import io.ktor.routing.*
 
 @KtorExperimentalLocationsAPI

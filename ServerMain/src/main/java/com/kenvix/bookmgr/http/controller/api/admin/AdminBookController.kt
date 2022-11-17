@@ -24,6 +24,8 @@ import io.ktor.locations.*
 import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.util.pipeline.*
+import io.ktor.locations.put
+import io.ktor.locations.patch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.URI

@@ -23,6 +23,8 @@ import io.ktor.locations.*
 import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.routing.get
+import io.ktor.locations.put
+import io.ktor.locations.post
 import org.jetbrains.annotations.NotNull
 
 object BookController : AdminHomeBaseController() {

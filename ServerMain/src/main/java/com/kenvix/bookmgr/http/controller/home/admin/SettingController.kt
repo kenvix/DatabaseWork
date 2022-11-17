@@ -45,7 +45,7 @@ object SettingController : AdminHomeBaseController() {
                     }
                 }
 
-                respondSuccess("修改设置成功", URI("/admin/setting"))
+                respondSuccess("修改设置成功", URI("/admin/setting/"))
             }
         }
     }

@@ -15,10 +15,10 @@
                             读者工具
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/reader/book">图书列表</a>
+                            <a class="dropdown-item" href="/reader/book/">图书列表</a>
                             <a class="dropdown-item" href="/reader/book/search">检索图书</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/reader/book/borrow">我的借阅</a>
+                            <a class="dropdown-item" href="/reader/book/borrow/">我的借阅</a>
                         </div>
                     </li>
 
@@ -43,15 +43,15 @@
                                 管理工具
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/admin/book">图书管理</a>
+                                <a class="dropdown-item" href="/admin/book/">图书管理</a>
                                 <a class="dropdown-item" href="/admin/book/search">检索图书</a>
                                 <a class="dropdown-item" href="/admin/book/add">添加新图书</a>
-                                <a class="dropdown-item" href="/admin/book/borrow">借书管理</a>
+                                <a class="dropdown-item" href="/admin/book/borrow/">借书管理</a>
                                 <a class="dropdown-item" href="/admin/book/borrow/expired">超期图书管理</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/admin/user">用户管理</a>
+                                <a class="dropdown-item" href="/admin/user/">用户管理</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/admin/setting">系统设置</a>
+                                <a class="dropdown-item" href="/admin/setting/">系统设置</a>
                             </div>
                         </li>
                     </#if>

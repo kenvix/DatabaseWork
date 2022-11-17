@@ -9,6 +9,8 @@ import com.kenvix.bookmgr.http.utils.BookIDLocation
 import com.kenvix.bookmgr.http.utils.BorrowIDLocation
 import com.kenvix.web.utils.respondJson
 import io.ktor.locations.*
+import io.ktor.locations.post
+import io.ktor.locations.patch
 import io.ktor.routing.*
 
 @OptIn(KtorExperimentalLocationsAPI::class)

@@ -11,6 +11,8 @@ import io.ktor.application.*
 import io.ktor.locations.*
 import io.ktor.request.*
 import io.ktor.routing.*
+import io.ktor.locations.put
+
 
 @KtorExperimentalLocationsAPI
 object PublisherController : ApiBaseController() {

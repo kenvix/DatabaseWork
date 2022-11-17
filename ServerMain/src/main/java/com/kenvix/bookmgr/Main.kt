@@ -1,4 +1,5 @@
 @file:JvmName("Main")
+
 package com.kenvix.bookmgr
 
 import com.kenvix.web.utils.ConsoleCommands
@@ -22,28 +23,55 @@ object Main : CoroutineScope {
         ExceptionHandler.registerGlobalExceptionHandler()
         registerCommands()
         registerShutdownHandler()
+        parseCoreCommand(args) {
+            launch(Dispatchers.IO) {
+                runCatching {
+                    logger.info("Starting web server ...")
+                    WebServer.start()
+                }.onFailure { showErrorAndExit(it, 2, "WebService initialized failed") }
+            }
 
-        launch(Dispatchers.IO) {
-            runCatching {
-                logger.info("Starting web server ...")
-                WebServer.start()
-            }.onFailure { showErrorAndExit(it, 2, "WebService initialized failed") }
+            beginReadSystemConsole()
         }
+    }
 
-        beginReadSystemConsole()
+    private fun parseCoreCommand(args: Array<String>, defaultAction: () -> Unit) {
+        if (args.isEmpty()) {
+            defaultAction()
+        } else {
+            when (args[0].lowercase()) {
+                "dumpenv" -> {
+                    logger.info("Dumping configurable environment variables ...")
+                    ServerEnv.save()
+                }
+
+                "help" -> {
+                    println("dumpenv - Dump configurable environment variables")
+                    println("run - Run the application server")
+                    println("help - Print this help")
+                }
+
+                "run" -> defaultAction()
+            }
+        }
     }
 
     @JvmOverloads
     fun showErrorAndExit(throwable: Throwable, exitCode: Int = 1, extraMessage: String? = null) {
         showErrorAndExit(
-                message = extraMessage ?: throwable.localizedMessage,
-                exitCode = exitCode,
-                throwable = throwable
+            message = extraMessage ?: throwable.localizedMessage,
+            exitCode = exitCode,
+            throwable = throwable
         )
     }
 
     @JvmOverloads
-    fun showErrorAndExit(message: String, exitCode: Int = 1, throwable: Throwable? = null, simpleMessage: Boolean = false) {
+    fun showErrorAndExit(
+        message: String,
+        exitCode: Int = 1,
+        throwable: Throwable? = null,
+        simpleMessage: Boolean = false
+    ) {
         val title = "Application Critical Error! Code #$exitCode"
         logger.error(title)
 
@@ -51,10 +79,12 @@ object Main : CoroutineScope {
             throwable == null -> {
                 logger.error(message)
             }
+
             simpleMessage -> {
                 logger.error(message)
                 logger.error(throwable.localizedMessage)
             }
+
             else -> {
                 logger.error(message, throwable)
             }
@@ -92,7 +122,7 @@ object Main : CoroutineScope {
     }
 
     private fun registerShutdownHandler() {
-        Runtime.getRuntime().addShutdownHook(Thread ({
+        Runtime.getRuntime().addShutdownHook(Thread({
             logger.info("Preparing for shutdown ... ( enter 'halt' to discard all unsaved data and force quit )")
             AppConstants.shutdownHandler.forEach {
                 kotlin.runCatching { it(Unit) }.onFailure { e -> logger.warn("Shutdown handler failed", e) }
@@ -108,7 +138,7 @@ object Main : CoroutineScope {
 
                 if (input?.isNotBlank() == true) {
                     launch {
-                        runCatching {  ConsoleCommands.invoke(input) }.onFailure {
+                        runCatching { ConsoleCommands.invoke(input) }.onFailure {
                             error("Command failed", it, logger)
                         }
                     }

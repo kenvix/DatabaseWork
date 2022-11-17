@@ -4,15 +4,15 @@
         <ul class="nav flex-column">
             <#if user??>
                     <li class="nav-item"><a class="nav-link" href="/"> 首页</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/reader/book"> 图书列表</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/reader/book/"> 图书列表</a></li>
                     <li class="nav-item"><a class="nav-link" href="/reader/book/search"> 检索图书</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/reader/book/borrow"> 我的借阅</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/reader/book/borrow/"> 我的借阅</a></li>
                     <li class="nav-item"><a class="nav-link" href="/user/personalize"> 个性化设置</a></li>
 
                     <#if user.getAccessLevel() gte 100>
-                        <li class="nav-item"><a class="nav-link" href="/admin/book"> 图书管理</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/admin/user"> 用户管理</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/admin/setting"> 系统设置</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/admin/book/"> 图书管理</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/admin/user/"> 用户管理</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/admin/setting/"> 系统设置</a></li>
                     </#if>
                 <#else>
                     <li class="nav-item"><a class="nav-link" href="/user/login"> 登录</a></li>
